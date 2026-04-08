@@ -4,9 +4,11 @@ import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth }  from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
+import OnboardingScreen from '../screens/onboarding/OnboardingScreen';
 import LoginScreen         from '../screens/auth/LoginScreen';
 import RegisterScreen      from '../screens/auth/RegisterScreen';
 import PinSetupScreen      from '../screens/auth/PinSetupScreen';
@@ -23,9 +25,14 @@ const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   const { user, loading, pinVerified } = useAuth();
+  const [onboardingDone, setOnboardingDone] = React.useState(null);
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('onboarding_done').then(v => setOnboardingDone(!!v));
+  }, []);
   const { theme } = useTheme();
 
-  if (loading) {
+  if (loading || onboardingDone === null) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: theme.bg }}>
         <ActivityIndicator size="large" color={theme.accent} />
@@ -36,7 +43,11 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!user ? (
+        {!onboardingDone ? (
+          <Stack.Screen name="Onboarding" children={() =>
+            <OnboardingScreen onDone={() => setOnboardingDone(true)} />
+          } />
+        ) : !user ? (
           // ── Auth ─────────────────────────────────────────────────────
           <>
             <Stack.Screen name="Login"      component={LoginScreen} />

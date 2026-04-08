@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
-  KeyboardAvoidingView, Platform, TextInput,
+  KeyboardAvoidingView, Platform, TextInput, Image,
 } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -12,10 +12,10 @@ import { FontSize, Spacing } from '../../constants/theme';
 export default function LoginScreen({ navigation }) {
   const { login }   = useAuth();
   const { theme }   = useTheme();
-  const { t }       = useLang();
+  const { t } = useLang();
   const [email,   setEmail]   = useState('');
   const [pin,     setPin]     = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loading,  setLoading]  = useState(false);
   const [error,   setError]   = useState('');
 
   const s = makeStyles(theme);
@@ -43,8 +43,12 @@ export default function LoginScreen({ navigation }) {
 
           {/* Header */}
           <View style={s.header}>
-            <View style={s.logoBox}>
-              <Text style={s.logoIcon}>🌿</Text>
+            <View style={s.logoWrap}>
+              <Image
+                source={require('../../../assets/images/recover_logo.jpg')}
+                style={s.logo}
+                resizeMode="cover"
+              />
             </View>
             <Text style={s.title}>{t.appName}</Text>
             <Text style={s.subtitle}>{t.tagline}</Text>
@@ -101,8 +105,8 @@ const makeStyles = (t) => StyleSheet.create({
   bg:       { flex: 1, backgroundColor: t.bg },
   scroll:   { flexGrow: 1, paddingHorizontal: 30, paddingTop: 70, paddingBottom: 50, alignItems: 'center' },
   header:   { alignItems: 'center', marginBottom: 40, width: '100%' },
-  logoBox:  { width: 100, height: 100, borderRadius: 28, backgroundColor: t.accent, justifyContent: 'center', alignItems: 'center', marginBottom: 16, shadowColor: t.accent, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.3, shadowRadius: 16, elevation: 8 },
-  logoIcon: { fontSize: 46 },
+  logoWrap: { width: 130, height: 130, borderRadius: 65, overflow: 'hidden', marginBottom: 8, alignSelf: 'center' },
+  logo:     { width: 130, height: 130 },
   title:    { color: t.text, fontSize: 26, fontWeight: '700', marginTop: 4, letterSpacing: 0.5 },
   subtitle: { color: t.textMuted, fontSize: FontSize.xs, letterSpacing: 2, marginTop: 4 },
   error:    { color: t.error, fontSize: FontSize.sm, marginBottom: Spacing.md, width: '100%' },

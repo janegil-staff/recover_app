@@ -38,8 +38,11 @@ async function clearSession() {
 // ── authApi — shape matches FocusApp usage ────────────────────────────────
 export const authApi = {
   // Returns { token, refreshToken, user }
-  register: async ({ email, password, name, language, age }) => {
-    const data = await request('POST', '/api/auth/register', { email, password, name: name ?? email.split('@')[0], language: language ?? 'no' });
+  register: async ({ email, password, name, language, age, gender }) => {
+    if (!email) throw new Error('Email is required');
+    const payload = { email, password, name: name ?? email.split('@')[0], language: language ?? 'en', age: age ?? 0, gender: gender ?? 'other' };
+    console.log('[API] register payload:', payload);
+    const data = await request('POST', '/api/auth/register', payload);
     await saveTokens(data);
     return data.user;
   },
@@ -75,6 +78,12 @@ export const patientApi = {
   addRecord: (record) => request('POST', '/api/patient/records', record),
   deleteRecord: (date) =>
     request('DELETE', `/api/patient/records/${date}`),
+
+  // Medications
+  getMedications:    ()     => request('GET',    '/api/patient/medications?active=true'),
+  addMedication:     (data) => request('POST',   '/api/patient/medications', data),
+  deleteMedication:  (id)   => request('DELETE', `/api/patient/medications/${id}`),
+  saveMedBulk:       (ids)  => request('PATCH',  '/api/patient/medications/bulk', { medications: ids }),
   updateQuestionnaire: (key, data) =>
     request('PATCH', '/api/patient/questionnaire', { key, data }),
 };

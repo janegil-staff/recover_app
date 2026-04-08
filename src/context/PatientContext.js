@@ -54,11 +54,38 @@ export function LogsProvider({ children }) {
 
   const getLogForDate = (date) => logs.find((l) => l.date === date) ?? null;
 
+  // Sobriety streak — consecutive days with substances=[] or frequency='none'
+  const sobrietyStreak = (() => {
+    if (!logs.length) return 0;
+    const sorted = [...logs].sort((a, b) => b.date.localeCompare(a.date));
+    let streak = 0;
+    let prev   = null;
+    for (const log of sorted) {
+      const clean = (!log.substances || log.substances.length === 0) && log.frequency === 'none';
+      if (!clean) break;
+      if (prev) {
+        const d1 = new Date(prev);
+        const d2 = new Date(log.date);
+        const diff = (d1 - d2) / (1000 * 60 * 60 * 24);
+        if (diff > 1) break;
+      }
+      streak++;
+      prev = log.date;
+    }
+    return streak;
+  })();
+
+  const saveQuestionnaire = async (key, answers) => {
+    await patientApi.updateQuestionnaire(key, answers);
+    await fetchLogs();
+  };
+
   return (
     <LogsContext.Provider value={{
       logs, summary, loading,
       fetchLogs, fetchSummary,
       saveLog, deleteLog, getLogForDate,
+      sobrietyStreak, saveQuestionnaire,
     }}>
       {children}
     </LogsContext.Provider>

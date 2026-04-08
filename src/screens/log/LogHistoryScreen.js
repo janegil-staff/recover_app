@@ -373,10 +373,207 @@ function DiaryView({ logs, navigation, t, theme }) {
   );
 }
 
+
+// ── Stats tab — weight chart + sobriety streak ────────────────────────────────
+function StatsTab({ logs, sobrietyStreak, theme, t }) {
+  const PRIMARY = theme?.accent ?? '#1a7f6e';
+  const NAVY    = '#1a2928';
+  const MUTED   = '#8aaba8';
+
+  // Weight data — last 30 logs that have weight
+  const weightData = logs
+    .filter(l => l.weight != null && l.weight > 0)
+    .slice(0, 30)
+    .reverse();
+
+  // Craving averages by week
+  const avgCravings = logs.length
+    ? (logs.reduce((s, l) => s + (l.cravings ?? 0), 0) / logs.length).toFixed(1)
+    : '—';
+  const avgMood = logs.length
+    ? (logs.reduce((s, l) => s + (l.mood ?? 0), 0) / logs.length).toFixed(1)
+    : '—';
+
+  const maxWeight = weightData.length ? Math.max(...weightData.map(l => l.weight)) : 100;
+  const minWeight = weightData.length ? Math.min(...weightData.map(l => l.weight)) : 0;
+  const chartH    = 140;
+  const chartW    = 280;
+
+  const CRAVING_COLORS = ['#22C55E','#7AABDB','#FBBF24','#FB923C','#EF4444','#991B1B'];
+
+  return (
+    <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+
+      {/* ── Sobriety streak ──────────────────────────────────────── */}
+      <View style={[st.card, { backgroundColor: PRIMARY }]}>
+        <Text style={[st.cardLabel, { color: 'rgba(255,255,255,0.8)' }]}>
+          Rusfrie dager på rad
+        </Text>
+        <Text style={st.streakNumber}>{sobrietyStreak}</Text>
+        <Text style={[st.cardLabel, { color: 'rgba(255,255,255,0.8)', marginTop: 4 }]}>
+          {sobrietyStreak === 0
+            ? 'Logg en rusfri dag for å starte streaken'
+            : sobrietyStreak === 1
+              ? '🌱 Bra start!'
+              : sobrietyStreak < 7
+                ? '💪 Fortsett så!'
+                : sobrietyStreak < 30
+                  ? '🔥 Fantastisk fremgang!'
+                  : '🏆 Utrolig bragd!'}
+        </Text>
+      </View>
+
+      {/* ── Summary stats ────────────────────────────────────────── */}
+      <View style={[st.card, { backgroundColor: '#fff' }]}>
+        <Text style={[st.sectionTitle, { color: NAVY }]}>30-dagers oversikt</Text>
+        <View style={st.statRow}>
+          <View style={st.statItem}>
+            <Text style={[st.statValue, { color: PRIMARY }]}>{logs.length}</Text>
+            <Text style={[st.statLabel, { color: MUTED }]}>{t.daysLogged ?? 'Dager logget'}</Text>
+          </View>
+          <View style={[st.statDivider, { backgroundColor: '#e8eef5' }]} />
+          <View style={st.statItem}>
+            <Text style={[st.statValue, { color: CRAVING_COLORS[Math.round(parseFloat(avgCravings)) || 0] }]}>
+              {avgCravings}
+            </Text>
+            <Text style={[st.statLabel, { color: MUTED }]}>{t.avgCravings ?? 'Gj.snitt sug'}</Text>
+          </View>
+          <View style={[st.statDivider, { backgroundColor: '#e8eef5' }]} />
+          <View style={st.statItem}>
+            <Text style={[st.statValue, { color: PRIMARY }]}>{avgMood}</Text>
+            <Text style={[st.statLabel, { color: MUTED }]}>{t.avgMood ?? 'Gj.snitt humør'}</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* ── Weight chart ─────────────────────────────────────────── */}
+      <View style={[st.card, { backgroundColor: '#fff' }]}>
+        <Text style={[st.sectionTitle, { color: NAVY }]}>Vektutvikling</Text>
+        {weightData.length < 2 ? (
+          <Text style={[st.emptyText, { color: MUTED }]}>
+            Logg vekt i dagboken for å se grafen (trenger minst 2 målinger)
+          </Text>
+        ) : (
+          <View style={{ alignItems: 'center', marginTop: 8 }}>
+            {/* Simple SVG-free line chart using Views */}
+            <View style={{ width: chartW, height: chartH, position: 'relative' }}>
+              {/* Y axis labels */}
+              {[maxWeight, (maxWeight + minWeight) / 2, minWeight].map((v, i) => (
+                <Text key={i} style={{
+                  position: 'absolute', left: 0, top: i * (chartH / 2) - 8,
+                  fontSize: 10, color: MUTED, width: 36, textAlign: 'right',
+                }}>
+                  {v.toFixed(0)}
+                </Text>
+              ))}
+              {/* Chart area */}
+              <View style={{ position: 'absolute', left: 42, right: 0, top: 0, bottom: 0 }}>
+                {/* Grid lines */}
+                {[0, 0.5, 1].map((p, i) => (
+                  <View key={i} style={{
+                    position: 'absolute', left: 0, right: 0,
+                    top: p * chartH, height: 1, backgroundColor: '#e8eef5',
+                  }} />
+                ))}
+                {/* Data points + connecting lines */}
+                {weightData.map((log, i) => {
+                  const x = (i / (weightData.length - 1)) * (chartW - 42);
+                  const y = chartH - ((log.weight - minWeight) / (maxWeight - minWeight + 0.01)) * chartH;
+                  return (
+                    <View key={log.date}>
+                      <View style={{
+                        position: 'absolute', left: x - 5, top: y - 5,
+                        width: 10, height: 10, borderRadius: 5,
+                        backgroundColor: PRIMARY, borderWidth: 2, borderColor: '#fff',
+                      }} />
+                      {i < weightData.length - 1 && (() => {
+                        const nx = ((i + 1) / (weightData.length - 1)) * (chartW - 42);
+                        const ny = chartH - ((weightData[i + 1].weight - minWeight) / (maxWeight - minWeight + 0.01)) * chartH;
+                        const dx = nx - x;
+                        const dy = ny - y;
+                        const len = Math.sqrt(dx * dx + dy * dy);
+                        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                        return (
+                          <View style={{
+                            position: 'absolute',
+                            left: x, top: y,
+                            width: len, height: 2,
+                            backgroundColor: PRIMARY + '80',
+                            transformOrigin: '0 0',
+                            transform: [{ rotate: `${angle}deg` }],
+                          }} />
+                        );
+                      })()}
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+            {/* Latest weight */}
+            <Text style={{ color: MUTED, fontSize: 12, marginTop: 8 }}>
+              Siste: {weightData[weightData.length - 1]?.weight} kg
+              {weightData.length > 1 && (() => {
+                const diff = weightData[weightData.length - 1].weight - weightData[0].weight;
+                return ` (${diff > 0 ? '+' : ''}${diff.toFixed(1)} kg)`;
+              })()}
+            </Text>
+          </View>
+        )}
+      </View>
+
+      {/* ── Substance frequency ───────────────────────────────────── */}
+      <View style={[st.card, { backgroundColor: '#fff' }]}>
+        <Text style={[st.sectionTitle, { color: NAVY }]}>Hyppigste stoffer</Text>
+        {(() => {
+          const counts = {};
+          logs.forEach(l => (l.substances ?? []).forEach(s => { counts[s] = (counts[s] ?? 0) + 1; }));
+          const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+          if (!sorted.length) return (
+            <Text style={[st.emptyText, { color: MUTED }]}>Ingen stoffer registrert ennå</Text>
+          );
+          const max = sorted[0][1];
+          return sorted.map(([sub, count]) => (
+            <View key={sub} style={{ marginBottom: 10 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+                <Text style={{ color: NAVY, fontSize: 13, fontWeight: '500' }}>
+                  {t[sub] ?? sub}
+                </Text>
+                <Text style={{ color: MUTED, fontSize: 12 }}>{count}x</Text>
+              </View>
+              <View style={{ height: 8, backgroundColor: '#e8eef5', borderRadius: 4, overflow: 'hidden' }}>
+                <View style={{
+                  height: '100%', borderRadius: 4, backgroundColor: PRIMARY,
+                  width: `${(count / max) * 100}%`,
+                }} />
+              </View>
+            </View>
+          ));
+        })()}
+      </View>
+
+    </ScrollView>
+  );
+}
+
+const st = StyleSheet.create({
+  card:        { borderRadius: 14, padding: 16, marginBottom: 12,
+                 shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 8,
+                 shadowOffset: { width: 0, height: 2 }, elevation: 2 },
+  sectionTitle:{ fontSize: 14, fontWeight: '700', marginBottom: 12 },
+  cardLabel:   { fontSize: 13, fontWeight: '600', textAlign: 'center' },
+  streakNumber:{ fontSize: 72, fontWeight: '900', color: '#fff', textAlign: 'center', lineHeight: 80 },
+  statRow:     { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
+  statItem:    { alignItems: 'center', flex: 1 },
+  statValue:   { fontSize: 22, fontWeight: '800' },
+  statLabel:   { fontSize: 11, marginTop: 2, textAlign: 'center' },
+  statDivider: { width: 1, height: 40 },
+  emptyText:   { fontSize: 13, textAlign: 'center', paddingVertical: 20 },
+});
+
 // ── Main screen ───────────────────────────────────────────────────────────────
 export default function LogHistoryScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = useState(route?.params?.initialTab ?? 'calendar');
-  const { logs, loading, fetchLogs } = useLogs();
+  const { logs, loading, fetchLogs, sobrietyStreak } = useLogs();
   const { theme }  = useTheme();
   const { t }      = useLang();
   const insets     = useSafeAreaInsets();
@@ -399,9 +596,9 @@ export default function LogHistoryScreen({ navigation, route }) {
 
       {/* Tab buttons */}
       <View style={s.tabBar}>
-        {['calendar','diary'].map(tab => {
+        {['calendar','diary','stats'].map(tab => {
           const isActive = activeTab === tab;
-          const label    = tab === 'calendar' ? (t.calendar ?? 'Kalender') : (t.diary ?? 'Dagbok');
+          const label    = tab === 'calendar' ? (t.calendar ?? 'Kalender') : tab === 'diary' ? (t.diary ?? 'Dagbok') : 'Stats';
           return (
             <TouchableOpacity key={tab}
               style={[s.tab, isActive && { borderColor: PRIMARY, overflow: 'hidden', paddingVertical: 0 }]}
@@ -429,6 +626,9 @@ export default function LogHistoryScreen({ navigation, route }) {
 
       {activeTab === 'diary' && (
         <DiaryView logs={logs} navigation={navigation} t={t} theme={theme} />
+      )}
+      {activeTab === 'stats' && (
+        <StatsTab logs={logs} sobrietyStreak={sobrietyStreak} theme={theme} t={t} />
       )}
     </View>
   );
