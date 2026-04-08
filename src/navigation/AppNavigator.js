@@ -16,7 +16,8 @@ import HomeScreen          from '../screens/home/HomeScreen';
 import LogEntryScreen      from '../screens/log/LogEntryScreen';
 import LogHistoryScreen    from '../screens/log/LogHistoryScreen';
 import ProfileScreen       from '../screens/profile/ProfileScreen';
-import QuestionnaireScreen from '../screens/questionnaire/QuestionnaireScreen';
+import QuestionnaireScreen  from '../screens/questionnaire/QuestionnaireScreen';
+import MedicationsScreen    from '../screens/medications/MedicationsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,9 +56,11 @@ export default function AppNavigator() {
           <>
             <Stack.Screen name="Home"          component={HomeScreen} />
             <Stack.Screen name="Log"           component={LogEntryScreen} />
+            <Stack.Screen name="LogEntry"      component={LogEntryScreen} />
             <Stack.Screen name="History"       component={LogHistoryScreen} />
             <Stack.Screen name="Profile"       component={ProfileScreen} />
             <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
+            <Stack.Screen name="Medications"    component={MedicationsScreen} />
           </>
         )}
       </Stack.Navigator>

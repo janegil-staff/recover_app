@@ -1,60 +1,71 @@
 // src/context/PatientContext.js
+// Named "LogsContext" shape to match FocusApp pattern — useLogs() hook
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { patientApi } from '../services/api';
 
-const PatientContext = createContext(null);
+const LogsContext = createContext(null);
 
-export function PatientProvider({ children }) {
-  const [patient, setPatient] = useState(null);
+export function LogsProvider({ children }) {
+  const [logs,    setLogs]    = useState([]);
+  const [summary, setSummary] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState(null);
 
-  const fetchPatient = useCallback(async () => {
+  const fetchLogs = useCallback(async () => {
     setLoading(true);
     try {
       const data = await patientApi.get();
-      setPatient(data ?? null);
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
+      // Sort descending (newest first)
+      const records = (data?.records ?? []).slice().sort((a, b) => b.date.localeCompare(a.date));
+      setLogs(records);
+      // Build summary from records
+      const count = records.length;
+      if (count > 0) {
+        const avgCravings  = records.reduce((s, r) => s + (r.cravings  ?? 0), 0) / count;
+        const avgMood      = records.reduce((s, r) => s + (r.mood      ?? 0), 0) / count;
+        const avgWellbeing = records.reduce((s, r) => s + (r.wellbeing ?? 0), 0) / count;
+        setSummary({ count, averages: { cravings: avgCravings, mood: avgMood, wellbeing: avgWellbeing } });
+      } else {
+        setSummary({ count: 0, averages: {} });
+      }
+    } catch (_) {}
+    setLoading(false);
   }, []);
 
-  const saveRecord = async (record) => {
-    const saved = await patientApi.addRecord(record);
-    await fetchPatient(); // refresh
+  // alias for FocusApp compatibility
+  const fetchSummary = useCallback(async () => { await fetchLogs(); }, [fetchLogs]);
+
+  const saveLog = async (log) => {
+    const saved = await patientApi.addRecord(log);
+    setLogs((prev) => {
+      const idx = prev.findIndex((l) => l.date === log.date);
+      const updated = saved ?? log;
+      if (idx >= 0) {
+        const next = [...prev]; next[idx] = updated; return next;
+      }
+      return [updated, ...prev].sort((a, b) => b.date.localeCompare(a.date));
+    });
     return saved;
   };
 
-  const saveQuestionnaire = async (key, data) => {
-    await patientApi.updateQuestionnaire(key, data);
-    await fetchPatient();
+  const deleteLog = async (date) => {
+    await patientApi.deleteRecord(date);
+    setLogs((prev) => prev.filter((l) => l.date !== date));
   };
 
-  const updateProfile = async (data) => {
-    await patientApi.updateProfile(data);
-    await fetchPatient();
-  };
-
-  const getRecordForDate = (date) =>
-    (patient?.records ?? []).find((r) => r.date === date) ?? null;
-
-  const lastRecord = patient?.records?.slice(-1)[0] ?? null;
+  const getLogForDate = (date) => logs.find((l) => l.date === date) ?? null;
 
   return (
-    <PatientContext.Provider value={{
-      patient, loading, error,
-      fetchPatient, saveRecord, saveQuestionnaire, updateProfile,
-      getRecordForDate, lastRecord,
+    <LogsContext.Provider value={{
+      logs, summary, loading,
+      fetchLogs, fetchSummary,
+      saveLog, deleteLog, getLogForDate,
     }}>
       {children}
-    </PatientContext.Provider>
+    </LogsContext.Provider>
   );
 }
 
-export function usePatient() {
-  const ctx = useContext(PatientContext);
-  if (!ctx) throw new Error('usePatient must be within PatientProvider');
-  return ctx;
-}
+export const useLogs = () => useContext(LogsContext);
+
+// keep old name working too
+export { LogsProvider as PatientProvider };

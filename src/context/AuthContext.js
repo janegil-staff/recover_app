@@ -1,7 +1,6 @@
 // src/context/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authApi } from '../services/api';
 
 const AuthContext = createContext(null);
@@ -12,18 +11,16 @@ export function AuthProvider({ children }) {
   const [pinVerified, setPinVerified] = useState(false);
   const [isNewUser,   setIsNewUser]   = useState(false);
 
-  // Restore session on mount — same pattern as FocusApp
   useEffect(() => {
     authApi.getMe()
-      .then((u)  => setUser(u ?? null))
-      .catch(()  => setUser(null))
+      .then((u) => setUser(u ?? null))
+      .catch(() => setUser(null))
       .finally(() => setLoading(false));
   }, []);
 
   const login = async (email, pin) => {
     const storedPin   = await SecureStore.getItemAsync('userPin');
     const storedEmail = await SecureStore.getItemAsync('userEmail');
-
     const cleanEntered = email.trim().toLowerCase();
     const cleanStored  = (storedEmail ?? '').trim().toLowerCase();
 
@@ -32,16 +29,13 @@ export function AuthProvider({ children }) {
       if (cleanStored && cleanEntered !== cleanStored) {
         throw new Error('Email does not match');
       }
-      // Try existing token first
       const u = await authApi.getMe();
       if (u) { setPinVerified(true); setUser(u); return u; }
-      // Token expired — re-auth
       const fresh = await authApi.login({ email: cleanEntered, password: pin });
       await SecureStore.setItemAsync('userEmail', cleanEntered);
       setPinVerified(true); setUser(fresh); return fresh;
     }
 
-    // First login on this device
     const u = await authApi.login({ email: cleanEntered, password: pin });
     await SecureStore.setItemAsync('userPin',   pin);
     await SecureStore.setItemAsync('userEmail', cleanEntered);
@@ -54,6 +48,12 @@ export function AuthProvider({ children }) {
     await SecureStore.setItemAsync('userEmail', cleanEmail);
     await SecureStore.setItemAsync('userPin',   data.password);
     setIsNewUser(true); setPinVerified(true); setUser(u); return u;
+  };
+
+  const savePin = async (pin) => {
+    await SecureStore.setItemAsync('userPin', pin);
+    const email = user?.email ?? await SecureStore.getItemAsync('userEmail');
+    if (email) await SecureStore.setItemAsync('userEmail', email.trim().toLowerCase());
   };
 
   const updateUser = (data) =>
@@ -75,7 +75,7 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider value={{
       user, loading, pinVerified, isNewUser,
       setPinVerified, setIsNewUser, updateUser,
-      login, register, logout, logoutAndClearPin,
+      login, register, logout, logoutAndClearPin, savePin,
     }}>
       {children}
     </AuthContext.Provider>

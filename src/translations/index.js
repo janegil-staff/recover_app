@@ -90,6 +90,56 @@ const en = {
   memory_issues:    'Memory issues',
   irritability:     'Irritability',
   depression:       'Depression',
+  myData:           'Mina data',
+  myMedications:    'Mediciner',
+  myDiary:          'Min dagbok',
+  shareData:        'Dela data',
+  editLog:          'Rediger logg',
+  deleteLog:        'Slett logg',
+  deleteLogConfirm: 'Er du sikker på at du vil slette denne registreringen?',
+  delete:           'Slett',
+  calendar:         'Kalender',
+  diary:            'Dagbok',
+  monthSummary:     'Månedsoversikt',
+  missing:          'Mangler',
+  cravingBreakdown: 'Sug-oversikt',
+  scoreNone:        'Ingen sug',
+  scoreLow:         'Lavt',
+  scoreModerate:    'Moderat',
+  scoreHigh:        'Høyt',
+  scoreVeryHigh:    'Veldig høyt',
+  scoreSevere:      'Kraftig sug',
+  months:           ['Jan','Feb','Mar','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Des'],
+  weekdays:         ['Man','Tir','Ons','Tor','Fre','Lør','Søn'],
+  myData:           'Mine data',
+  myMedications:    'Medisiner',
+  myDiary:          'Min dagbog',
+  shareData:        'Del data',
+  myData:           'Meine Daten',
+  myMedications:    'Medikamente',
+  myDiary:          'Mein Tagebuch',
+  shareData:        'Daten teilen',
+  editLog:          'Edit Log',
+  deleteLog:        'Delete Log',
+  deleteLogConfirm: 'Are you sure you want to delete this entry?',
+  delete:           'Delete',
+  calendar:         'Calendar',
+  diary:            'Diary',
+  monthSummary:     'Month Summary',
+  missing:          'Missing',
+  cravingBreakdown: 'Craving Breakdown',
+  scoreNone:        'No cravings',
+  scoreLow:         'Low',
+  scoreModerate:    'Moderate',
+  scoreHigh:        'High',
+  scoreVeryHigh:    'Very high',
+  scoreSevere:      'Severe',
+  months:           ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  weekdays:         ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+  myData:           'My Data',
+  myMedications:    'Medications',
+  myDiary:          'My Diary',
+  shareData:        'Share Data',
 };
 
 const no = {
@@ -182,6 +232,10 @@ const no = {
   memory_issues:    'Hukommelsesproblemer',
   irritability:     'Irritabilitet',
   depression:       'Depresjon',
+  myData:           'Mine data',
+  myMedications:    'Medisiner',
+  myDiary:          'Min dagbok',
+  shareData:        'Del data',
 };
 
 const de = {
@@ -274,6 +328,10 @@ const de = {
   memory_issues:    'Gedächtnisprobleme',
   irritability:     'Reizbarkeit',
   depression:       'Depression',
+  myData:           'Meine Daten',
+  myMedications:    'Medikamente',
+  myDiary:          'Mein Tagebuch',
+  shareData:        'Daten teilen',
 };
 
 const da = {
@@ -366,6 +424,14 @@ const da = {
   memory_issues:    'Hukommelsesproblemer',
   irritability:     'Irritabilitet',
   depression:       'Depression',
+  myData:           'Mina data',
+  myMedications:    'Mediciner',
+  myDiary:          'Min dagbok',
+  shareData:        'Dela data',
+  myData:           'Mine data',
+  myMedications:    'Medicin',
+  myDiary:          'Min dagbog',
+  shareData:        'Del data',
 };
 
 const sv = {
@@ -458,6 +524,10 @@ const sv = {
   memory_issues:    'Minnesproblem',
   irritability:     'Irritabilitet',
   depression:       'Depression',
+  myData:           'Mina data',
+  myMedications:    'Mediciner',
+  myDiary:          'Min dagbok',
+  shareData:        'Dela data',
 };
 
 const fi = {
@@ -550,6 +620,10 @@ const fi = {
   memory_issues:    'Muistiongelmat',
   irritability:     'Ärtyneisyys',
   depression:       'Masennus',
+  myData:           'Tietoni',
+  myMedications:    'Lääkkeet',
+  myDiary:          'Päiväkirjani',
+  shareData:        'Jaa tiedot',
 };
 
 const fr = {
@@ -642,6 +716,10 @@ const fr = {
   memory_issues:    'Problèmes de mémoire',
   irritability:     'Irritabilité',
   depression:       'Dépression',
+  myData:           'Mes données',
+  myMedications:    'Médicaments',
+  myDiary:          'Mon journal',
+  shareData:        'Partager les données',
 };
 
 const es = {
@@ -734,6 +812,10 @@ const es = {
   memory_issues:    'Problemas de memoria',
   irritability:     'Irritabilidad',
   depression:       'Depresión',
+  myData:           'Mis datos',
+  myMedications:    'Medicamentos',
+  myDiary:          'Mi diario',
+  shareData:        'Compartir datos',
 };
 
 const it = {
@@ -826,6 +908,10 @@ const it = {
   memory_issues:    'Problemi di memoria',
   irritability:     'Irritabilità',
   depression:       'Depressione',
+  myData:           'I miei dati',
+  myMedications:    'Farmaci',
+  myDiary:          'Il mio diario',
+  shareData:        'Condividi dati',
 };
 
 const nl = {
@@ -918,6 +1004,10 @@ const nl = {
   memory_issues:    'Geheugenproblemen',
   irritability:     'Prikkelbaarheid',
   depression:       'Depressie',
+  myData:           'Mijn gegevens',
+  myMedications:    'Medicijnen',
+  myDiary:          'Mijn dagboek',
+  shareData:        'Gegevens delen',
 };
 
 const pl = {
@@ -1010,6 +1100,10 @@ const pl = {
   memory_issues:    'Problemy z pamięcią',
   irritability:     'Drażliwość',
   depression:       'Depresja',
+  myData:           'Moje dane',
+  myMedications:    'Leki',
+  myDiary:          'Mój dziennik',
+  shareData:        'Udostępnij dane',
 };
 
 const pt = {
@@ -1102,6 +1196,10 @@ const pt = {
   memory_issues:    'Problemas de memória',
   irritability:     'Irritabilidade',
   depression:       'Depressão',
+  myData:           'Meus dados',
+  myMedications:    'Medicamentos',
+  myDiary:          'Meu diário',
+  shareData:        'Compartilhar dados',
 };
 
 const map = { en, no, de, da, sv, fi, fr, es, it, nl, pl, pt };
