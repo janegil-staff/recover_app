@@ -2,7 +2,7 @@
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:5050';
 
 async function getToken() {
   return SecureStore.getItemAsync('token');
@@ -40,7 +40,7 @@ export const authApi = {
   // Returns { token, refreshToken, user }
   register: async ({ email, password, name, language, age, gender }) => {
     if (!email) throw new Error('Email is required');
-    const payload = { email, password, name: name ?? email.split('@')[0], language: language ?? 'en', age: age ?? 0, gender: gender ?? 'other' };
+    const payload = { email, password, name: name ?? (email?.split('@')[0] ?? ''), language: language ?? 'en', age: age ?? 0, gender: gender ?? 'other' };
     console.log('[API] register payload:', payload);
     const data = await request('POST', '/api/auth/register', payload);
     await saveTokens(data);

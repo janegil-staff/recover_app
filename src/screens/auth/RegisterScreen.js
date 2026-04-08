@@ -140,7 +140,7 @@ export default function RegisterScreen({ navigation, route }) {
     setLoading(true); setError('');
     try {
       await register({
-        name:     email.split('@')[0],
+        name:     email?.split('@')[0] ?? '',
         email:    email.trim().toLowerCase(),
         password: pin,
         language,

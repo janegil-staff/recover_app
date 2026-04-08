@@ -15,7 +15,7 @@ export function LogsProvider({ children }) {
     try {
       const data = await patientApi.get();
       // Sort descending (newest first)
-      const records = (data?.records ?? []).slice().sort((a, b) => b.date.localeCompare(a.date));
+      const records = (data?.records ?? []).filter(r => r?.date).slice().sort((a, b) => b.date.localeCompare(a.date));
       setLogs(records);
       // Build summary from records
       const count = records.length;
@@ -42,7 +42,7 @@ export function LogsProvider({ children }) {
       if (idx >= 0) {
         const next = [...prev]; next[idx] = updated; return next;
       }
-      return [updated, ...prev].sort((a, b) => b.date.localeCompare(a.date));
+      return [updated, ...prev].filter(r => r?.date).sort((a, b) => b.date.localeCompare(a.date));
     });
     return saved;
   };
@@ -57,7 +57,7 @@ export function LogsProvider({ children }) {
   // Sobriety streak — consecutive days with substances=[] or frequency='none'
   const sobrietyStreak = (() => {
     if (!logs.length) return 0;
-    const sorted = [...logs].sort((a, b) => b.date.localeCompare(a.date));
+    const sorted = [...logs].filter(l => l?.date).sort((a, b) => b.date.localeCompare(a.date));
     let streak = 0;
     let prev   = null;
     for (const log of sorted) {

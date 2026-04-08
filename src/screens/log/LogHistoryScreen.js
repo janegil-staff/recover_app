@@ -341,6 +341,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                         {t[log.frequency] ?? log.frequency}
                       </Text>
                     )}
+                    {log.medicationsTaken?.length > 0 && (
+                      <Text style={{ color: '#444', fontSize: 13, marginBottom: 2 }}>
+                        <Text style={{ fontWeight: '700' }}>{t.myMedications}: </Text>
+                        {log.medicationsTaken.map(m => m.dosage ? `${m.name} ${m.dosage}` : m.name).join(', ')}
+                      </Text>
+                    )}
                     {log.note?.trim() && (
                       <Text style={{ color: '#444', fontSize: 13 }} numberOfLines={2}>
                         <Text style={{ fontWeight: '700' }}>{t.note}: </Text>{log.note}

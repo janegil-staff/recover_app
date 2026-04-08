@@ -18,40 +18,40 @@ const SLIDES = [
     bg:       '#1a7f6e',
     accent:   '#f4a261',
     dark:     true,
-    title:    'Velkommen til Recover',
-    subtitle: 'Din daglige følgesvenn på veien mot bedring. La oss hjelpe deg å ta kontroll.',
+    title:    'Welcome to Recover',
+    subtitle: 'Your daily companion on the road to recovery. Let us help you take control.',
   },
   {
     image:    require('../../../assets/images/onboarding_1.jpg'),
     bg:       '#f0f9f7',
     accent:   '#1a7f6e',
     dark:     false,
-    title:    'Daglig registrering',
-    subtitle: 'Logg stoffer, sug, humør og velvære. Bygg innsikt i mønstrene dine over tid.',
+    title:    'Daily Logging',
+    subtitle: 'Log substances, cravings, mood and wellbeing. Build insight into your patterns over time.',
   },
   {
     image:    require('../../../assets/images/onboarding_2.jpg'),
     bg:       '#fff8f0',
     accent:   '#f4a261',
     dark:     false,
-    title:    'Følg fremgangen din',
-    subtitle: 'Se rusfrie dager på rad, vektutvikling og gjennomsnittlige skårer — alt på ett sted.',
+    title:    'Track Your Progress',
+    subtitle: 'See sober days in a row, weight development and average scores — all in one place.',
   },
   {
     image:    require('../../../assets/images/onboarding_3.jpg'),
     bg:       '#f5f0ff',
     accent:   '#7C3AED',
     dark:     false,
-    title:    'Kartlegg helsa di',
-    subtitle: 'Validerte skjemaer gir deg og behandleren et klart bilde av din psykiske helse.',
+    title:    'Monitor Your Health',
+    subtitle: 'Validated questionnaires give you and your doctor a clear picture of your mental health.',
   },
   {
     image:    require('../../../assets/images/onboarding_4.jpg'),
     bg:       '#f0f7ff',
     accent:   '#1a7f6e',
     dark:     false,
-    title:    'Del med legen din',
-    subtitle: 'Del en tilgangskode med behandleren din. Dataene dine er krypterte og private.',
+    title:    'Share With Your Doctor',
+    subtitle: 'Share an access code with your doctor. Your data is encrypted and private.',
   },
 ];
 
@@ -97,7 +97,7 @@ export default function OnboardingScreen({ onDone }) {
           style={[s.skip, { top: insets.top + 12 }]}
           onPress={handleSkip}
         >
-          <Text style={[s.skipText, { color: slide.accent }]}>Hopp over</Text>
+          <Text style={[s.skipText, { color: slide.accent }]}>Skip</Text>
         </TouchableOpacity>
       )}
 
@@ -155,7 +155,7 @@ export default function OnboardingScreen({ onDone }) {
           activeOpacity={0.85}
         >
           <Text style={s.btnText}>
-            {isLast ? 'KOM I GANG' : 'NESTE'}
+            {isLast ? 'GET STARTED' : 'NEXT'}
           </Text>
         </TouchableOpacity>
       </View>
