@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// App.js
+import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider }   from './src/context/ThemeContext';
+import { AuthProvider }    from './src/context/AuthContext';
+import { LangProvider }    from './src/context/LangContext';
+import { PatientProvider } from './src/context/PatientContext';
+import { AdviceProvider }  from './src/context/AdviceContext';
+import AppNavigator        from './src/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <LangProvider>
+            <PatientProvider>
+              <AdviceProvider>
+                <AppNavigator />
+              </AdviceProvider>
+            </PatientProvider>
+          </LangProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
