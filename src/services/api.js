@@ -2,7 +2,7 @@
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:5050';
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000';
 
 async function getToken() {
   return SecureStore.getItemAsync('token');
@@ -73,7 +73,8 @@ export const authApi = {
 
 // ── patientApi ────────────────────────────────────────────────────────────
 export const patientApi = {
-  get: () => request('GET', '/api/patient'),
+  get:           ()     => request('GET',   '/api/patient'),
+  updateProfile: (data) => request('PATCH', '/api/patient/profile', data),
   updateProfile: (data) => request('PATCH', '/api/patient/profile', data),
   addRecord: (record) => request('POST', '/api/patient/records', record),
   deleteRecord: (date) =>

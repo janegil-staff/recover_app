@@ -19,6 +19,8 @@ import LogEntryScreen      from '../screens/log/LogEntryScreen';
 import LogHistoryScreen    from '../screens/log/LogHistoryScreen';
 import ProfileScreen       from '../screens/profile/ProfileScreen';
 import QuestionnaireScreen  from '../screens/questionnaire/QuestionnaireScreen';
+import PersonalSettingsScreen from '../screens/settings/PersonalSettingsScreen';
+import LanguageScreen          from '../screens/settings/LanguageScreen';
 import MedicationsScreen    from '../screens/medications/MedicationsScreen';
 
 const Stack = createNativeStackNavigator();
@@ -71,7 +73,9 @@ export default function AppNavigator() {
             <Stack.Screen name="History"       component={LogHistoryScreen} />
             <Stack.Screen name="Profile"       component={ProfileScreen} />
             <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
-            <Stack.Screen name="Medications"    component={MedicationsScreen} />
+            <Stack.Screen name="Medications"       component={MedicationsScreen} />
+            <Stack.Screen name="PersonalSettings"  component={PersonalSettingsScreen} />
+            <Stack.Screen name="Language"           component={LanguageScreen} />
           </>
         )}
       </Stack.Navigator>

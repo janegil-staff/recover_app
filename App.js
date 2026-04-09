@@ -1,12 +1,12 @@
 // App.js
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThemeProvider }  from './src/context/ThemeContext';
-import { AuthProvider }   from './src/context/AuthContext';
-import { LangProvider }   from './src/context/LangContext';
-import { LogsProvider }   from './src/context/PatientContext';
-import { AdviceProvider } from './src/context/AdviceContext';
 import AppNavigator       from './src/navigation/AppNavigator';
+import { ThemeProvider } from './src/context/ThemeContext';
+import { AuthProvider } from './src/context/AuthContext';
+import { LangProvider } from './src/context/LangContext';
+import { LogsProvider } from './src/context/PatientContext';
+import { AdviceProvider } from './src/context/AdviceContext';
 
 export default function App() {
   return (
