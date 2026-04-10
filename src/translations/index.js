@@ -1,6 +1,7 @@
 // src/translations/index.js
 
 const en = {
+  heightCm:          'Height (cm)',
   // Onboarding
   onboarding1Title:    'Welcome to Recover',
   onboarding1Subtitle: 'Your daily companion on the road to recovery. Let us help you take control.',
@@ -313,6 +314,7 @@ const en = {
 };
 
 const no = {
+  heightCm:          'Høyde (cm)',
   onboarding1Title: 'Velkommen til Recover',
   onboarding1Subtitle: 'Din daglige følgesvenn på veien mot bedring. La oss hjelpe deg å ta kontroll.',
   onboarding2Title: 'Daglig registrering',
@@ -566,6 +568,7 @@ const no = {
 };
 
 const de = {
+  heightCm:          'Größe (cm)',
   onboarding1Title: 'Willkommen bei Recover',
   onboarding1Subtitle: 'Dein täglicher Begleiter auf dem Weg zur Genesung. Lass uns dir helfen, die Kontrolle zu übernehmen.',
   onboarding2Title: 'Tägliches Logging',
@@ -676,6 +679,7 @@ const de = {
 };
 
 const da = {
+  heightCm:          'Højde (cm)',
   onboarding1Title: 'Velkommen til Recover',
   onboarding1Subtitle: 'Din daglige ledsager på vejen mod bedring. Lad os hjælpe dig med at tage kontrol.',
   onboarding2Title: 'Daglig registrering',
@@ -790,6 +794,7 @@ const da = {
 };
 
 const sv = {
+  heightCm:          'Längd (cm)',
   onboarding1Title: 'Välkommen till Recover',
   onboarding1Subtitle: 'Din dagliga följeslagare på vägen mot tillfrisknande. Låt oss hjälpa dig ta kontroll.',
   onboarding2Title: 'Daglig loggning',
@@ -960,6 +965,7 @@ substancesSubtitle:  'Välj alla substanser du använt idag',
 };
 
 const fi = {
+  heightCm:          'Pituus (cm)',
   onboarding1Title: 'Tervetuloa Recoveriin',
   onboarding1Subtitle: 'Päivittäinen kumppanisi toipumisen tiellä. Anna meidän auttaa sinua ottamaan hallinta.',
   onboarding2Title: 'Päivittäinen kirjaaminen',
@@ -1070,6 +1076,7 @@ const fi = {
 };
 
 const fr = {
+  heightCm:          'Taille (cm)',
   onboarding1Title: 'Bienvenue sur Recover',
   onboarding1Subtitle: 'Votre compagnon quotidien sur la route de la guérison. Laissez-nous vous aider à reprendre le contrôle.',
   onboarding2Title: 'Journal quotidien',
@@ -1180,6 +1187,7 @@ const fr = {
 };
 
 const es = {
+  heightCm:          'Altura (cm)',
   onboarding1Title: 'Bienvenido a Recover',
   onboarding1Subtitle: 'Tu compañero diario en el camino hacia la recuperación. Déjanos ayudarte a tomar el control.',
   onboarding2Title: 'Registro diario',
@@ -1290,6 +1298,7 @@ const es = {
 };
 
 const it = {
+  heightCm:          'Altezza (cm)',
   onboarding1Title: 'Benvenuto su Recover',
   onboarding1Subtitle: 'Il tuo compagno quotidiano nel percorso di guarigione. Lasciaci aiutarti a riprendere il controllo.',
   onboarding2Title: 'Registro quotidiano',
@@ -1400,6 +1409,7 @@ const it = {
 };
 
 const nl = {
+  heightCm:          'Lengte (cm)',
   onboarding1Title: 'Welkom bij Recover',
   onboarding1Subtitle: 'Jouw dagelijkse metgezel op de weg naar herstel. Laat ons je helpen de controle terug te nemen.',
   onboarding2Title: 'Dagelijkse registratie',
@@ -1510,6 +1520,7 @@ const nl = {
 };
 
 const pl = {
+  heightCm:          'Wzrost (cm)',
   onboarding1Title: 'Witaj w Recover',
   onboarding1Subtitle: 'Twój codzienny towarzysz w drodze do zdrowienia. Pozwól nam pomóc Ci odzyskać kontrolę.',
   onboarding2Title: 'Codzienne logowanie',
@@ -1620,6 +1631,7 @@ const pl = {
 };
 
 const pt = {
+  heightCm:          'Altura (cm)',
   onboarding1Title: 'Bem-vindo ao Recover',
   onboarding1Subtitle: 'O seu companheiro diário no caminho para a recuperação. Deixe-nos ajudá-lo a retomar o controlo.',
   onboarding2Title: 'Registo diário',

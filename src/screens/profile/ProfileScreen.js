@@ -74,8 +74,9 @@ export default function ProfileScreen({ navigation }) {
   const { t }      = useLang();
   const insets     = useSafeAreaInsets();
 
-  const [gender, setGender] = useState(user?.gender ?? 'undefined');
-  const [ageVal, setAgeVal] = useState(String(user?.age ?? ''));
+  const [gender,    setGender]    = useState(user?.gender ?? 'undefined');
+  const [ageVal,    setAgeVal]    = useState(String(user?.age ?? ''));
+  const [heightVal, setHeightVal] = useState(String(user?.height ?? ''));
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export default function ProfileScreen({ navigation }) {
       if (data) {
         setGender(data.gender ?? 'undefined');
         setAgeVal(String(data.age ?? ''));
+        setHeightVal(String(data.height ?? ''));
       }
     }).catch(() => {});
   }, []);
@@ -119,10 +121,11 @@ export default function ProfileScreen({ navigation }) {
     setSaving(true);
     try {
       await patientApi.updateProfile({
-        ...(ageVal ? { age: parseInt(ageVal, 10) } : {}),
+        ...(ageVal    ? { age:    parseInt(ageVal,    10) } : {}),
+        ...(heightVal ? { height: parseInt(heightVal, 10) } : {}),
         gender,
       });
-      updateUser({ age: parseInt(ageVal, 10), gender });
+      updateUser({ age: parseInt(ageVal, 10), height: parseInt(heightVal, 10), gender });
       Alert.alert(t.saved, t.profileUpdated);
     } catch {
       Alert.alert('Error', 'Could not save changes.');
@@ -134,9 +137,9 @@ export default function ProfileScreen({ navigation }) {
   const handleBack = () => {
     if (isDirty) {
       Alert.alert(t.saveChanges, t.unsavedChanges, [
+        { text: t.cancel,  style: 'cancel' },
         { text: t.discard, style: 'destructive', onPress: () => navigation.goBack() },
         { text: t.save,    style: 'default',     onPress: async () => { await saveChanges(); navigation.goBack(); } },
-        { text: t.cancel,  style: 'cancel' },
       ]);
     } else {
       navigation.goBack();
@@ -171,7 +174,7 @@ export default function ProfileScreen({ navigation }) {
           <Text style={s.headerBack}>‹</Text>
         </TouchableOpacity>
         <Text style={s.headerTitle}>{t.settings}</Text>
-        <TouchableOpacity style={s.headerBtn} onPress={handleLogout}>
+        <TouchableOpacity style={s.headerBtnRight} onPress={handleLogout}>
           <LogoutIcon color="#fff" size={22} />
         </TouchableOpacity>
       </View>
@@ -210,6 +213,19 @@ export default function ProfileScreen({ navigation }) {
               style={s.fieldInput}
               value={ageVal}
               onChangeText={v => setAgeVal(v.replace(/[^0-9]/g, ''))}
+              keyboardType="number-pad"
+              placeholder="—"
+              placeholderTextColor={theme.textMuted}
+              selectionColor={theme.accent}
+            />
+          </View>
+          <View style={s.fieldLine} />
+          <View style={s.fieldWrap}>
+            <Text style={s.fieldLabel}>{t.heightCm ?? 'Height (cm)'}</Text>
+            <TextInput
+              style={s.fieldInput}
+              value={heightVal}
+              onChangeText={v => setHeightVal(v.replace(/[^0-9]/g, ''))}
               keyboardType="number-pad"
               placeholder="—"
               placeholderTextColor={theme.textMuted}
@@ -273,7 +289,8 @@ export default function ProfileScreen({ navigation }) {
 const makeStyles = (t, insets) => StyleSheet.create({
   root:       { flex: 1, backgroundColor: t.bgSecondary ?? '#F0F4F8' },
   header:     { flexDirection: 'row', alignItems: 'center', paddingHorizontal: Spacing.lg, paddingBottom: Spacing.lg },
-  headerBtn:  { width: 40, alignItems: 'flex-end' },
+  headerBtn:  { width: 40 },
+  headerBtnRight: { width: 40, alignItems: 'flex-end' },
   headerBack: { color: '#fff', fontSize: 28, lineHeight: 34 },
   headerTitle:{ flex: 1, color: '#fff', fontSize: FontSize.lg, fontWeight: '600', textAlign: 'center' },
   divider:    { height: Spacing.md, backgroundColor: t.bgSecondary ?? '#F0F4F8' },

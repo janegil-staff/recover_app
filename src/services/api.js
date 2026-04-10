@@ -38,9 +38,9 @@ async function clearSession() {
 // ── authApi — shape matches FocusApp usage ────────────────────────────────
 export const authApi = {
   // Returns { token, refreshToken, user }
-  register: async ({ email, password, name, language, age, gender }) => {
+  register: async ({ email, password, name, language, age, gender, height }) => {
     if (!email) throw new Error('Email is required');
-    const payload = { email, password, name: name ?? (email?.split('@')[0] ?? ''), language: language ?? 'en', age: age ?? 0, gender: gender ?? 'other' };
+    const payload = { email, password, name: name ?? (email?.split('@')[0] ?? ''), language: language ?? 'en', age: age ?? 0, gender: gender ?? 'other', height: height ?? 0 };
     console.log('[API] register payload:', payload);
     const data = await request('POST', '/api/auth/register', payload);
     await saveTokens(data);

@@ -96,6 +96,7 @@ export default function RegisterScreen({ navigation, route }) {
   const [gender,       setGender]       = useState('female');
   const [language,     setLanguage]     = useState('en');
   const [age,          setAge]          = useState('');
+  const [height,       setHeight]       = useState('');
   const [email,        setEmail]        = useState('');
   const [emailConfirm, setEmailConfirm] = useState('');
   const [pin,          setPin]          = useState('');
@@ -110,6 +111,7 @@ export default function RegisterScreen({ navigation, route }) {
     const p = route?.params ?? {};
     if (p.pin)          setPin(p.pin);
     if (p.age)          setAge(p.age);
+    if (p.height !== undefined) setHeight(String(p.height));
     if (p.email)        setEmail(p.email);
     if (p.emailConfirm) setEmailConfirm(p.emailConfirm);
     if (p.gender)       setGender(p.gender);
@@ -124,12 +126,14 @@ export default function RegisterScreen({ navigation, route }) {
   const goToPinSetup = () => {
     navigation.navigate('PinSetup', {
       returnTo:     'Register',
-      returnParams: { age, email, emailConfirm, gender, language, tncAccepted, infoAccepted },
+      returnParams: { age, height, email, emailConfirm, gender, language, tncAccepted, infoAccepted },
     });
   };
 
   const submit = async () => {
-    if (!age.trim())   { setError(`${t.age} er påkrevd`); return; }
+    console.log('[REGISTER] height state:', height);
+    if (!age.trim())    { setError(`${t.age} ${t.isRequired ?? 'is required'}`); return; }
+    if (!height.trim()) { setError(`${t.heightCm ?? 'Height'} ${t.isRequired ?? 'is required'}`); return; }
     if (!email.trim()) { setError(`${t.email} er påkrevd`); return; }
     if (email.trim().toLowerCase() !== emailConfirm.trim().toLowerCase()) {
       setError('E-postadressene stemmer ikke'); return;
@@ -144,7 +148,8 @@ export default function RegisterScreen({ navigation, route }) {
         email:    email.trim().toLowerCase(),
         password: pin,
         language,
-        age:      parseInt(age, 10) || undefined,
+        age:      parseInt(age, 10)    || undefined,
+        height:   parseInt(height, 10)  || 0,
         gender,
       });
     } catch (e) {
@@ -195,6 +200,9 @@ export default function RegisterScreen({ navigation, route }) {
 
             <Field label={`${t.age}*`}         value={age}
               onChangeText={v => setAge(v.replace(/[^0-9]/g, ''))}
+              keyboardType="number-pad" theme={theme} />
+            <Field label={t.heightCm ?? 'Height (cm)'}  value={height}
+              onChangeText={v => setHeight(v.replace(/[^0-9]/g, ''))}
               keyboardType="number-pad" theme={theme} />
             <Field label={`${t.email}*`}        value={email}
               onChangeText={setEmail} keyboardType="email-address" theme={theme} />

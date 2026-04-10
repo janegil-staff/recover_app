@@ -180,7 +180,7 @@ export default function HomeScreen({ navigation }) {
 
   const menuItems = [
     { labelKey: 'myData',        screen: 'History' },
-    { labelKey: 'myDiary',       screen: 'Log' },
+    { labelKey: 'myDiary',       screen: 'LogEntry' },
     { labelKey: 'shareData',     screen: 'Profile' },
     { labelKey: 'myMedications', screen: 'Medications' },
   ];

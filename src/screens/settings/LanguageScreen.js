@@ -39,8 +39,6 @@ export default function LanguageScreen({ navigation }) {
     setSaving(true);
     try {
       // Save to backend via auth profile update
-      const { authApi } = require('../../services/api');
-      // Update user language in DB
       await patientApi.updateProfile({ language: code });
       updateUser({ ...user, language: code });
     } catch {
