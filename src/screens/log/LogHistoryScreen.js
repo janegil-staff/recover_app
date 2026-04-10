@@ -211,6 +211,88 @@ const cal = StyleSheet.create({
 });
 
 // ── Diary month view ──────────────────────────────────────────────────────────
+
+// ── Month Summary View ────────────────────────────────────────────────────────
+function MonthSummaryView({ logs, t, theme }) {
+  const PRIMARY = theme?.accent ?? '#1a7f6e';
+  const months  = t.months ?? ['Jan','Feb','Mar','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Des'];
+
+  const grouped = {};
+  logs.forEach(log => {
+    const key = log.date.slice(0, 7);
+    if (!grouped[key]) grouped[key] = [];
+    grouped[key].push(log);
+  });
+
+  const sections = Object.keys(grouped).sort((a,b) => b.localeCompare(a)).map(key => {
+    const [y, m] = key.split('-').map(Number);
+    const ml     = grouped[key];
+    const scores = ml.map(l => avgScore(l)).filter(s => s != null);
+    const avg    = scores.length ? Math.round(scores.reduce((a,b) => a+b, 0) / scores.length) : null;
+    const allSubstances = [...new Set(ml.flatMap(l => l.substances ?? []))];
+    return { key, year: y, month: m - 1, logs: ml, avg, substances: allSubstances };
+  });
+
+  if (!sections.length) return (
+    <View style={{ alignItems: 'center', paddingTop: 60 }}>
+      <Text style={{ color: theme.textMuted, fontSize: FontSize.md }}>{t.noRecords}</Text>
+    </View>
+  );
+
+  return (
+    <FlatList
+      data={sections}
+      keyExtractor={item => item.key}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 12, paddingBottom: 40 }}
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item }) => {
+        const color = item.avg != null ? scoreColor(item.avg) : '#94a3b8';
+        return (
+          <View style={{
+            backgroundColor: theme.bg ?? '#fff',
+            borderRadius: 12, marginBottom: 12, padding: 16,
+            borderLeftWidth: 4, borderLeftColor: color,
+            shadowColor: '#000', shadowOpacity: 0.06,
+            shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, elevation: 2,
+          }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <Text style={{ color: theme.text, fontSize: FontSize.md, fontWeight: '700' }}>
+                {(months[item.month] ?? '').toUpperCase()} {item.year}
+              </Text>
+              <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
+                <Text style={{ color: theme.textMuted, fontSize: FontSize.sm }}>
+                  {item.logs.length} {t.registrations ?? 'entries'}
+                </Text>
+                {item.avg != null && (
+                  <View style={{
+                    width: 32, height: 32, borderRadius: 16,
+                    backgroundColor: color + '22', borderWidth: 1.5, borderColor: color,
+                    justifyContent: 'center', alignItems: 'center',
+                  }}>
+                    <Text style={{ color, fontSize: 13, fontWeight: '700' }}>{item.avg}</Text>
+                  </View>
+                )}
+              </View>
+            </View>
+            {item.substances.length > 0 && (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 4 }}>
+                {item.substances.map(s => (
+                  <View key={s} style={{
+                    paddingHorizontal: 10, paddingVertical: 3, borderRadius: 20,
+                    backgroundColor: PRIMARY + '18', borderWidth: 1, borderColor: PRIMARY + '44',
+                  }}>
+                    <Text style={{ color: PRIMARY, fontSize: FontSize.xs, fontWeight: '500' }}>{s}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
+          </View>
+        );
+      }}
+    />
+  );
+}
+
 function DiaryView({ logs, navigation, t, theme }) {
   const PRIMARY = theme?.accent ?? '#1a7f6e';
   const NAVY    = '#1a2928';
@@ -579,6 +661,7 @@ const st = StyleSheet.create({
 // ── Main screen ───────────────────────────────────────────────────────────────
 export default function LogHistoryScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = useState(route?.params?.initialTab ?? 'calendar');
+  const [diaryView, setDiaryView]   = useState('day');
   const { logs, loading, fetchLogs, sobrietyStreak } = useLogs();
   const { theme }  = useTheme();
   const { t }      = useLang();
@@ -602,9 +685,9 @@ export default function LogHistoryScreen({ navigation, route }) {
 
       {/* Tab buttons */}
       <View style={s.tabBar}>
-        {['calendar','diary','stats'].map(tab => {
+        {['calendar','diary'].map(tab => {
           const isActive = activeTab === tab;
-          const label    = tab === 'calendar' ? (t.calendar ?? 'Kalender') : tab === 'diary' ? (t.diary ?? 'Dagbok') : 'Stats';
+          const label    = tab === 'calendar' ? (t.calendar ?? 'Kalender') : (t.diary ?? 'Dagbok');
           return (
             <TouchableOpacity key={tab}
               style={[s.tab, isActive && { borderColor: PRIMARY, overflow: 'hidden', paddingVertical: 0 }]}
@@ -631,11 +714,44 @@ export default function LogHistoryScreen({ navigation, route }) {
       )}
 
       {activeTab === 'diary' && (
-        <DiaryView logs={logs} navigation={navigation} t={t} theme={theme} />
+        <View style={{ flex: 1 }}>
+          {/* Day / Month segmented control */}
+          <View style={{
+            flexDirection: 'row', paddingHorizontal: 4, paddingVertical: 4,
+            backgroundColor: '#dde8f0', borderRadius: 10,
+            marginHorizontal: 16, marginVertical: 10,
+          }}>
+            {['day', 'month'].map(v => {
+              const active = diaryView === v;
+              const label  = v === 'day' ? (t.dailyView ?? 'Daily') : (t.monthlyView ?? 'Monthly');
+              return (
+                <TouchableOpacity key={v}
+                  onPress={() => setDiaryView(v)}
+                  activeOpacity={0.8}
+                  style={{
+                    flex: 1, paddingVertical: 10, borderRadius: 8, alignItems: 'center',
+                    backgroundColor: active ? '#fff' : '#dde8f0',
+                    ...(active ? {
+                      shadowColor: '#000', shadowOpacity: 0.08,
+                      shadowRadius: 4, shadowOffset: { width: 0, height: 1 },
+                      elevation: 2,
+                    } : {}),
+                  }}>
+                  <Text style={{
+                    fontSize: FontSize.sm, fontWeight: active ? '600' : '500',
+                    color: active ? '#4a6a8a' : '#6b8aaa',
+                  }}>{label}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          {diaryView === 'day'
+            ? <DiaryView logs={logs} navigation={navigation} t={t} theme={theme} />
+            : <MonthSummaryView logs={logs} t={t} theme={theme} />
+          }
+        </View>
       )}
-      {activeTab === 'stats' && (
-        <StatsTab logs={logs} sobrietyStreak={sobrietyStreak} theme={theme} t={t} />
-      )}
+
     </View>
   );
 }

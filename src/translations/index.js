@@ -1,6 +1,8 @@
 // src/translations/index.js
 
 const en = {
+  dailyView:         'Daily',
+  monthlyView:       'Monthly',
   heightCm:          'Height (cm)',
   // Onboarding
   onboarding1Title:    'Welcome to Recover',
@@ -314,6 +316,8 @@ const en = {
 };
 
 const no = {
+  dailyView:         'Daglig',
+  monthlyView:       'Månedlig',
   heightCm:          'Høyde (cm)',
   onboarding1Title: 'Velkommen til Recover',
   onboarding1Subtitle: 'Din daglige følgesvenn på veien mot bedring. La oss hjelpe deg å ta kontroll.',
@@ -568,6 +572,8 @@ const no = {
 };
 
 const de = {
+  dailyView:         'Täglich',
+  monthlyView:       'Monatlich',
   heightCm:          'Größe (cm)',
   onboarding1Title: 'Willkommen bei Recover',
   onboarding1Subtitle: 'Dein täglicher Begleiter auf dem Weg zur Genesung. Lass uns dir helfen, die Kontrolle zu übernehmen.',
@@ -679,6 +685,8 @@ const de = {
 };
 
 const da = {
+  dailyView:         'Daglig',
+  monthlyView:       'Månedlig',
   heightCm:          'Højde (cm)',
   onboarding1Title: 'Velkommen til Recover',
   onboarding1Subtitle: 'Din daglige ledsager på vejen mod bedring. Lad os hjælpe dig med at tage kontrol.',
@@ -794,6 +802,8 @@ const da = {
 };
 
 const sv = {
+  dailyView:         'Daglig',
+  monthlyView:       'Månadsvis',
   heightCm:          'Längd (cm)',
   onboarding1Title: 'Välkommen till Recover',
   onboarding1Subtitle: 'Din dagliga följeslagare på vägen mot tillfrisknande. Låt oss hjälpa dig ta kontroll.',
@@ -965,6 +975,8 @@ substancesSubtitle:  'Välj alla substanser du använt idag',
 };
 
 const fi = {
+  dailyView:         'Päivittäinen',
+  monthlyView:       'Kuukausittainen',
   heightCm:          'Pituus (cm)',
   onboarding1Title: 'Tervetuloa Recoveriin',
   onboarding1Subtitle: 'Päivittäinen kumppanisi toipumisen tiellä. Anna meidän auttaa sinua ottamaan hallinta.',
@@ -1076,6 +1088,8 @@ const fi = {
 };
 
 const fr = {
+  dailyView:         'Quotidien',
+  monthlyView:       'Mensuel',
   heightCm:          'Taille (cm)',
   onboarding1Title: 'Bienvenue sur Recover',
   onboarding1Subtitle: 'Votre compagnon quotidien sur la route de la guérison. Laissez-nous vous aider à reprendre le contrôle.',
@@ -1187,6 +1201,8 @@ const fr = {
 };
 
 const es = {
+  dailyView:         'Diario',
+  monthlyView:       'Mensual',
   heightCm:          'Altura (cm)',
   onboarding1Title: 'Bienvenido a Recover',
   onboarding1Subtitle: 'Tu compañero diario en el camino hacia la recuperación. Déjanos ayudarte a tomar el control.',
@@ -1298,6 +1314,8 @@ const es = {
 };
 
 const it = {
+  dailyView:         'Giornaliero',
+  monthlyView:       'Mensile',
   heightCm:          'Altezza (cm)',
   onboarding1Title: 'Benvenuto su Recover',
   onboarding1Subtitle: 'Il tuo compagno quotidiano nel percorso di guarigione. Lasciaci aiutarti a riprendere il controllo.',
@@ -1409,6 +1427,8 @@ const it = {
 };
 
 const nl = {
+  dailyView:         'Dagelijks',
+  monthlyView:       'Maandelijks',
   heightCm:          'Lengte (cm)',
   onboarding1Title: 'Welkom bij Recover',
   onboarding1Subtitle: 'Jouw dagelijkse metgezel op de weg naar herstel. Laat ons je helpen de controle terug te nemen.',
@@ -1520,6 +1540,8 @@ const nl = {
 };
 
 const pl = {
+  dailyView:         'Dzienny',
+  monthlyView:       'Miesięczny',
   heightCm:          'Wzrost (cm)',
   onboarding1Title: 'Witaj w Recover',
   onboarding1Subtitle: 'Twój codzienny towarzysz w drodze do zdrowienia. Pozwól nam pomóc Ci odzyskać kontrolę.',
@@ -1631,6 +1653,8 @@ const pl = {
 };
 
 const pt = {
+  dailyView:         'Diário',
+  monthlyView:       'Mensal',
   heightCm:          'Altura (cm)',
   onboarding1Title: 'Bem-vindo ao Recover',
   onboarding1Subtitle: 'O seu companheiro diário no caminho para a recuperação. Deixe-nos ajudá-lo a retomar o controlo.',

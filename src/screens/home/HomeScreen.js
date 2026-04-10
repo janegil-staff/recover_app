@@ -141,7 +141,7 @@ function WaveBackground({ color }) {
 }
 
 const STAT_ICONS = [IconCalendarCheck, IconCraving, IconMood, IconWellbeing, IconSubstance];
-const GRID_ICONS = [IconMyData, IconMyDiary, IconShareData, IconMedications];
+const GRID_ICONS = [IconMyDiary, IconMyData, IconShareData, IconMedications];
 
 export default function HomeScreen({ navigation }) {
   const { user }    = useAuth();
@@ -179,8 +179,8 @@ export default function HomeScreen({ navigation }) {
   ];
 
   const menuItems = [
-    { labelKey: 'myData',        screen: 'History' },
-    { labelKey: 'myDiary',       screen: 'LogEntry' },
+    { labelKey: 'myDiary',       screen: 'History' },
+    { labelKey: 'myData',        screen: 'LogEntry' },
     { labelKey: 'shareData',     screen: 'Profile' },
     { labelKey: 'myMedications', screen: 'Medications' },
   ];
