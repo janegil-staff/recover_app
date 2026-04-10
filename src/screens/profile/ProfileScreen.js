@@ -136,10 +136,10 @@ export default function ProfileScreen({ navigation }) {
 
   const handleBack = () => {
     if (isDirty) {
-      Alert.alert(t.saveChanges, t.unsavedChanges, [
-        { text: t.cancel,  style: 'cancel' },
-        { text: t.discard, style: 'destructive', onPress: () => navigation.goBack() },
-        { text: t.save,    style: 'default',     onPress: async () => { await saveChanges(); navigation.goBack(); } },
+      Alert.alert(t.saveChanges ?? 'Save changes?', t.unsavedChanges ?? 'You have unsaved changes.', [
+        { text: t.cancel  ?? 'Cancel',  style: 'cancel' },
+        { text: t.discard ?? 'Discard', style: 'destructive', onPress: () => navigation.goBack() },
+        { text: t.save    ?? 'Save',    style: 'default',     onPress: async () => { await saveChanges(); navigation.goBack(); } },
       ]);
     } else {
       navigation.goBack();
@@ -153,14 +153,14 @@ export default function ProfileScreen({ navigation }) {
     else                                    setTheme('system');
   };
 
-  const handleLogout = () => Alert.alert(t.signOut, t.signOutMsg, [
-    { text: t.cancel,  style: 'cancel' },
-    { text: t.signOut, style: 'destructive', onPress: logout },
+  const handleLogout = () => Alert.alert(t.signOut ?? 'Sign out', t.signOutMsg ?? 'Are you sure?', [
+    { text: t.cancel  ?? 'Cancel',   style: 'cancel' },
+    { text: t.signOut ?? 'Sign out', style: 'destructive', onPress: logout },
   ]);
 
-  const handleClearPin = () => Alert.alert(t.signOutClearPin, t.clearPinMsg, [
-    { text: t.cancel,          style: 'cancel' },
-    { text: t.signOutClearPin, style: 'destructive', onPress: logoutAndClearPin },
+  const handleClearPin = () => Alert.alert(t.signOutClearPin ?? 'Sign out & clear PIN', t.clearPinMsg ?? 'This will remove your PIN from this device.', [
+    { text: t.cancel          ?? 'Cancel',              style: 'cancel' },
+    { text: t.signOutClearPin ?? 'Sign out & clear PIN', style: 'destructive', onPress: logoutAndClearPin },
   ]);
 
   const s = makeStyles(theme, insets);
