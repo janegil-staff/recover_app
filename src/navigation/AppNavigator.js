@@ -26,7 +26,7 @@ import MedicationsScreen    from '../screens/medications/MedicationsScreen';
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
-  const { user, loading, pinVerified } = useAuth();
+  const { user, loading, pinVerified, isNewUser, setIsNewUser } = useAuth();
   const [onboardingDone, setOnboardingDone] = React.useState(null);
 
   React.useEffect(() => {
@@ -45,9 +45,12 @@ export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!onboardingDone ? (
+        {(!onboardingDone || isNewUser) ? (
           <Stack.Screen name="Onboarding" children={() =>
-            <OnboardingScreen onDone={() => setOnboardingDone(true)} />
+            <OnboardingScreen onDone={() => {
+              setOnboardingDone(true);
+              setIsNewUser(false);
+            }} />
           } />
         ) : !user ? (
           // ── Auth ─────────────────────────────────────────────────────

@@ -1,61 +1,61 @@
 // src/screens/onboarding/OnboardingScreen.js
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
   Dimensions, ScrollView, StatusBar, Image,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getTranslations } from '../../translations';
+
 
 const { width } = Dimensions.get('window');
 
 // ── Slide definitions ─────────────────────────────────────────────────────────
 // Replace image require() paths when you have the illustrations
-const SLIDES = [
-  {
-    image:    require('../../../assets/images/recover_logo.jpg'),
-    imageStyle: { width: 180, height: 180, borderRadius: 90 },
-    bg:       '#1a7f6e',
-    accent:   '#f4a261',
-    dark:     true,
-    title:    'Welcome to Recover',
-    subtitle: 'Your daily companion on the road to recovery. Let us help you take control.',
-  },
-  {
-    image:    require('../../../assets/images/onboarding_1.jpg'),
-    bg:       '#f0f9f7',
-    accent:   '#1a7f6e',
-    dark:     false,
-    title:    'Daily Logging',
-    subtitle: 'Log substances, cravings, mood and wellbeing. Build insight into your patterns over time.',
-  },
-  {
-    image:    require('../../../assets/images/onboarding_2.jpg'),
-    bg:       '#fff8f0',
-    accent:   '#f4a261',
-    dark:     false,
-    title:    'Track Your Progress',
-    subtitle: 'See sober days in a row, weight development and average scores — all in one place.',
-  },
-  {
-    image:    require('../../../assets/images/onboarding_3.jpg'),
-    bg:       '#f5f0ff',
-    accent:   '#7C3AED',
-    dark:     false,
-    title:    'Monitor Your Health',
-    subtitle: 'Validated questionnaires give you and your doctor a clear picture of your mental health.',
-  },
-  {
-    image:    require('../../../assets/images/onboarding_4.jpg'),
-    bg:       '#f0f7ff',
-    accent:   '#1a7f6e',
-    dark:     false,
-    title:    'Share With Your Doctor',
-    subtitle: 'Share an access code with your doctor. Your data is encrypted and private.',
-  },
-];
+function getSlides(t) {
+  return [
+    {
+      image:      require('../../../assets/images/onboarding_8.jpg'),
+      imageStyle: { width: 180, height: 180, borderRadius: 90 },
+      bg: '#ffffff', accent: '#1a7f6e', dark: false,
+      title:    t.onboarding1Title,
+      subtitle: t.onboarding1Subtitle,
+    },
+    {
+      image:    require('../../../assets/images/onboarding_1.jpg'),
+      bg: '#ffffff', accent: '#1a7f6e', dark: false,
+      title:    t.onboarding2Title,
+      subtitle: t.onboarding2Subtitle,
+    },
+    {
+      image:    require('../../../assets/images/onboarding_2.jpg'),
+      bg: '#ffffff', accent: '#f4a261', dark: false,
+      title:    t.onboarding3Title,
+      subtitle: t.onboarding3Subtitle,
+    },
+    {
+      image:    require('../../../assets/images/onboarding_3.jpg'),
+      bg: '#ffffff', accent: '#7C3AED', dark: false,
+      title:    t.onboarding4Title,
+      subtitle: t.onboarding4Subtitle,
+    },
+    {
+      image:    require('../../../assets/images/onboarding_4.jpg'),
+      bg: '#ffffff', accent: '#1a7f6e', dark: false,
+      title:    t.onboarding5Title,
+      subtitle: t.onboarding5Subtitle,
+    },
+  ];
+}
 
 export default function OnboardingScreen({ onDone }) {
+  const [lang, setLang] = useState('en');
+  useEffect(() => {
+    AsyncStorage.getItem('lang_override').then(v => { if (v) setLang(v); }).catch(() => {});
+  }, []);
+  const t      = getTranslations(lang);
+  const SLIDES = getSlides(t);
   const [index, setIndex] = useState(0);
   const scrollRef         = useRef(null);
   const insets            = useSafeAreaInsets();

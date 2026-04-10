@@ -1,6 +1,17 @@
 // src/translations/index.js
 
 const en = {
+  // Onboarding
+  onboarding1Title:    'Welcome to Recover',
+  onboarding1Subtitle: 'Your daily companion on the road to recovery. Let us help you take control.',
+  onboarding2Title:    'Daily Logging',
+  onboarding2Subtitle: 'Log substances, cravings, mood and wellbeing. Build insight into your patterns over time.',
+  onboarding3Title:    'Track Your Progress',
+  onboarding3Subtitle: 'See sober days in a row, weight development and average scores — all in one place.',
+  onboarding4Title:    'Monitor Your Health',
+  onboarding4Subtitle: 'Validated questionnaires give you and your doctor a clear picture of your mental health.',
+  onboarding5Title:    'Share With Your Doctor',
+  onboarding5Subtitle: 'Share an access code with your doctor. Your data is encrypted and private.',
   appName:          'Recover',
   tagline:          'TRACK YOUR RECOVERY',
   yourDiary:        'Your Recovery Diary',
@@ -302,6 +313,16 @@ const en = {
 };
 
 const no = {
+  onboarding1Title: 'Velkommen til Recover',
+  onboarding1Subtitle: 'Din daglige følgesvenn på veien mot bedring. La oss hjelpe deg å ta kontroll.',
+  onboarding2Title: 'Daglig registrering',
+  onboarding2Subtitle: 'Logg stoffer, sug, humør og velvære. Bygg innsikt i mønstrene dine over tid.',
+  onboarding3Title: 'Følg fremgangen din',
+  onboarding3Subtitle: 'Se rusfrie dager på rad, vektutvikling og gjennomsnittsskårer — alt på ett sted.',
+  onboarding4Title: 'Kartlegg helsa di',
+  onboarding4Subtitle: 'Validerte skjemaer gir deg og behandleren et klart bilde av din psykiske helse.',
+  onboarding5Title: 'Del med legen din',
+  onboarding5Subtitle: 'Del en tilgangskode med behandleren din. Dataene dine er krypterte og private.',
   next:             'Neste',
   error:            'Feil',
   gender:           'Kjønn',
@@ -545,6 +566,16 @@ const no = {
 };
 
 const de = {
+  onboarding1Title: 'Willkommen bei Recover',
+  onboarding1Subtitle: 'Dein täglicher Begleiter auf dem Weg zur Genesung. Lass uns dir helfen, die Kontrolle zu übernehmen.',
+  onboarding2Title: 'Tägliches Logging',
+  onboarding2Subtitle: 'Protokolliere Substanzen, Verlangen, Stimmung und Wohlbefinden. Erkenne deine Muster.',
+  onboarding3Title: 'Verfolge deinen Fortschritt',
+  onboarding3Subtitle: 'Sieh nüchterne Tage in Folge, Gewichtsentwicklung und Durchschnittswerte.',
+  onboarding4Title: 'Gesundheit überwachen',
+  onboarding4Subtitle: 'Validierte Fragebögen geben dir und deinem Arzt ein klares Bild deiner psychischen Gesundheit.',
+  onboarding5Title: 'Mit dem Arzt teilen',
+  onboarding5Subtitle: 'Teile einen Zugangscode mit deinem Arzt. Deine Daten sind verschlüsselt und privat.',
   gender:           'Geschlecht',
   female:           'Weiblich',
   male:             'Männlich',
@@ -645,6 +676,16 @@ const de = {
 };
 
 const da = {
+  onboarding1Title: 'Velkommen til Recover',
+  onboarding1Subtitle: 'Din daglige ledsager på vejen mod bedring. Lad os hjælpe dig med at tage kontrol.',
+  onboarding2Title: 'Daglig registrering',
+  onboarding2Subtitle: 'Log stoffer, trang, humør og velvære. Byg indsigt i dine mønstre over tid.',
+  onboarding3Title: 'Følg dine fremskridt',
+  onboarding3Subtitle: 'Se rusfrie dage i træk, vægtudvikling og gennemsnitsscorer — alt på ét sted.',
+  onboarding4Title: 'Overvåg dit helbred',
+  onboarding4Subtitle: 'Validerede spørgeskemaer giver dig og din læge et klart billede af dit mentale helbred.',
+  onboarding5Title: 'Del med din læge',
+  onboarding5Subtitle: 'Del en adgangskode med din behandler. Dine data er krypterede og private.',
   appName:          'Recover',
   tagline:          'FØLG DIN BEDRING',
   yourDiary:        'Din bedringsdagbog',
@@ -749,6 +790,16 @@ const da = {
 };
 
 const sv = {
+  onboarding1Title: 'Välkommen till Recover',
+  onboarding1Subtitle: 'Din dagliga följeslagare på vägen mot tillfrisknande. Låt oss hjälpa dig ta kontroll.',
+  onboarding2Title: 'Daglig loggning',
+  onboarding2Subtitle: 'Logga substanser, sug, humör och välmående. Bygg insikt om dina mönster över tid.',
+  onboarding3Title: 'Följ dina framsteg',
+  onboarding3Subtitle: 'Se nyktra dagar i rad, viktutveckling och genomsnittliga poäng — allt på ett ställe.',
+  onboarding4Title: 'Övervaka din hälsa',
+  onboarding4Subtitle: 'Validerade frågeformulär ger dig och din läkare en tydlig bild av din psykiska hälsa.',
+  onboarding5Title: 'Dela med din läkare',
+  onboarding5Subtitle: 'Dela en åtkomstkod med din behandlare. Dina data är krypterade och privata.',
 substancesSubtitle:  'Välj alla substanser du använt idag',
   frequencySubtitle:   'Hur ofta använde du idag?',
   amountSubtitle:      '0 = inget   10 = väldigt högt',
@@ -909,6 +960,16 @@ substancesSubtitle:  'Välj alla substanser du använt idag',
 };
 
 const fi = {
+  onboarding1Title: 'Tervetuloa Recoveriin',
+  onboarding1Subtitle: 'Päivittäinen kumppanisi toipumisen tiellä. Anna meidän auttaa sinua ottamaan hallinta.',
+  onboarding2Title: 'Päivittäinen kirjaaminen',
+  onboarding2Subtitle: 'Kirjaa aineet, himot, mieliala ja hyvinvointi. Luo oivalluksia kuviostasi ajan myötä.',
+  onboarding3Title: 'Seuraa edistymistäsi',
+  onboarding3Subtitle: 'Katso raittiit päivät peräkkäin, painon kehitys ja keskiarvopisteet — kaikki yhdessä paikassa.',
+  onboarding4Title: 'Seuraa terveyttäsi',
+  onboarding4Subtitle: 'Validoidut kyselylomakkeet antavat sinulle ja lääkärillesi selkeän kuvan mielenterveydestäsi.',
+  onboarding5Title: 'Jaa lääkärisi kanssa',
+  onboarding5Subtitle: 'Jaa pääsykoodi hoitajasi kanssa. Tietosi ovat salattuja ja yksityisiä.',
   appName:          'Recover',
   tagline:          'SEURAA TOIPUMISTASI',
   yourDiary:        'Toipumispäiväkirjasi',
@@ -1009,6 +1070,16 @@ const fi = {
 };
 
 const fr = {
+  onboarding1Title: 'Bienvenue sur Recover',
+  onboarding1Subtitle: 'Votre compagnon quotidien sur la route de la guérison. Laissez-nous vous aider à reprendre le contrôle.',
+  onboarding2Title: 'Journal quotidien',
+  onboarding2Subtitle: 'Enregistrez substances, envies, humeur et bien-être. Construisez une vision de vos habitudes.',
+  onboarding3Title: 'Suivez vos progrès',
+  onboarding3Subtitle: 'Voyez les jours sobres consécutifs, l\'évolution du poids et les scores moyens — tout en un.',
+  onboarding4Title: 'Surveillez votre santé',
+  onboarding4Subtitle: 'Des questionnaires validés donnent à vous et votre médecin une image claire de votre santé mentale.',
+  onboarding5Title: 'Partagez avec votre médecin',
+  onboarding5Subtitle: 'Partagez un code d\'accès avec votre médecin. Vos données sont cryptées et privées.',
   appName:          'Recover',
   tagline:          'SUIVEZ VOTRE RÉTABLISSEMENT',
   yourDiary:        'Votre journal de rétablissement',
@@ -1109,6 +1180,16 @@ const fr = {
 };
 
 const es = {
+  onboarding1Title: 'Bienvenido a Recover',
+  onboarding1Subtitle: 'Tu compañero diario en el camino hacia la recuperación. Déjanos ayudarte a tomar el control.',
+  onboarding2Title: 'Registro diario',
+  onboarding2Subtitle: 'Registra sustancias, antojos, estado de ánimo y bienestar. Genera conocimiento sobre tus patrones.',
+  onboarding3Title: 'Sigue tu progreso',
+  onboarding3Subtitle: 'Ve días sobrios consecutivos, evolución del peso y puntuaciones medias — todo en un lugar.',
+  onboarding4Title: 'Monitorea tu salud',
+  onboarding4Subtitle: 'Cuestionarios validados dan a ti y a tu médico una imagen clara de tu salud mental.',
+  onboarding5Title: 'Comparte con tu médico',
+  onboarding5Subtitle: 'Comparte un código de acceso con tu médico. Tus datos están cifrados y son privados.',
   appName:          'Recover',
   tagline:          'SIGUE TU RECUPERACIÓN',
   yourDiary:        'Tu diario de recuperación',
@@ -1209,6 +1290,16 @@ const es = {
 };
 
 const it = {
+  onboarding1Title: 'Benvenuto su Recover',
+  onboarding1Subtitle: 'Il tuo compagno quotidiano nel percorso di guarigione. Lasciaci aiutarti a riprendere il controllo.',
+  onboarding2Title: 'Registro quotidiano',
+  onboarding2Subtitle: 'Registra sostanze, voglie, umore e benessere. Costruisci consapevolezza dei tuoi schemi nel tempo.',
+  onboarding3Title: 'Monitora i tuoi progressi',
+  onboarding3Subtitle: 'Vedi i giorni di sobrietà consecutivi, l\'andamento del peso e i punteggi medi — tutto in un posto.',
+  onboarding4Title: 'Monitora la tua salute',
+  onboarding4Subtitle: 'Questionari validati danno a te e al tuo medico un quadro chiaro della tua salute mentale.',
+  onboarding5Title: 'Condividi con il tuo medico',
+  onboarding5Subtitle: 'Condividi un codice di accesso con il tuo medico. I tuoi dati sono crittografati e privati.',
   appName:          'Recover',
   tagline:          'SEGUI IL TUO RECUPERO',
   yourDiary:        'Il tuo diario di recupero',
@@ -1309,6 +1400,16 @@ const it = {
 };
 
 const nl = {
+  onboarding1Title: 'Welkom bij Recover',
+  onboarding1Subtitle: 'Jouw dagelijkse metgezel op de weg naar herstel. Laat ons je helpen de controle terug te nemen.',
+  onboarding2Title: 'Dagelijkse registratie',
+  onboarding2Subtitle: 'Log middelen, trek, stemming en welzijn. Krijg inzicht in jouw patronen over tijd.',
+  onboarding3Title: 'Volg je voortgang',
+  onboarding3Subtitle: 'Zie nuchtere dagen op rij, gewichtsontwikkeling en gemiddelde scores — alles op één plek.',
+  onboarding4Title: 'Monitor je gezondheid',
+  onboarding4Subtitle: 'Gevalideerde vragenlijsten geven jou en je arts een duidelijk beeld van je geestelijke gezondheid.',
+  onboarding5Title: 'Deel met je arts',
+  onboarding5Subtitle: 'Deel een toegangscode met je behandelaar. Jouw gegevens zijn versleuteld en privé.',
   appName:          'Recover',
   tagline:          'VOLG JE HERSTEL',
   yourDiary:        'Jouw hersteldagboek',
@@ -1409,6 +1510,16 @@ const nl = {
 };
 
 const pl = {
+  onboarding1Title: 'Witaj w Recover',
+  onboarding1Subtitle: 'Twój codzienny towarzysz w drodze do zdrowienia. Pozwól nam pomóc Ci odzyskać kontrolę.',
+  onboarding2Title: 'Codzienne logowanie',
+  onboarding2Subtitle: 'Rejestruj substancje, głód, nastrój i samopoczucie. Buduj wgląd w swoje wzorce w czasie.',
+  onboarding3Title: 'Śledź swoje postępy',
+  onboarding3Subtitle: 'Zobacz kolejne dni trzeźwości, zmiany wagi i średnie wyniki — wszystko w jednym miejscu.',
+  onboarding4Title: 'Monitoruj swoje zdrowie',
+  onboarding4Subtitle: 'Zwalidowane kwestionariusze dają Tobie i lekarzowi jasny obraz Twojego zdrowia psychicznego.',
+  onboarding5Title: 'Udostępnij lekarzowi',
+  onboarding5Subtitle: 'Udostępnij kod dostępu swojemu lekarzowi. Twoje dane są zaszyfrowane i prywatne.',
   appName:          'Recover',
   tagline:          'ŚLEDŹ SWÓJ POWRÓT DO ZDROWIA',
   yourDiary:        'Twój dziennik zdrowienia',
@@ -1509,6 +1620,16 @@ const pl = {
 };
 
 const pt = {
+  onboarding1Title: 'Bem-vindo ao Recover',
+  onboarding1Subtitle: 'O seu companheiro diário no caminho para a recuperação. Deixe-nos ajudá-lo a retomar o controlo.',
+  onboarding2Title: 'Registo diário',
+  onboarding2Subtitle: 'Registe substâncias, desejos, humor e bem-estar. Construa conhecimento sobre os seus padrões.',
+  onboarding3Title: 'Acompanhe o seu progresso',
+  onboarding3Subtitle: 'Veja dias sóbrios consecutivos, evolução do peso e pontuações médias — tudo num só lugar.',
+  onboarding4Title: 'Monitorize a sua saúde',
+  onboarding4Subtitle: 'Questionários validados dão a si e ao seu médico uma imagem clara da sua saúde mental.',
+  onboarding5Title: 'Partilhe com o seu médico',
+  onboarding5Subtitle: 'Partilhe um código de acesso com o seu médico. Os seus dados são encriptados e privados.',
   appName:          'Recover',
   tagline:          'ACOMPANHE SUA RECUPERAÇÃO',
   yourDiary:        'Seu diário de recuperação',
