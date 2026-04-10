@@ -73,7 +73,8 @@ export const authApi = {
 
 // ── patientApi ────────────────────────────────────────────────────────────
 export const patientApi = {
-  get:           ()     => request('GET',   '/api/patient'),
+  get:              ()       => request('GET',    '/api/patient'),
+  generateShareCode: (data)   => request('POST',   '/api/patient/share-code', data),
   updateProfile: (data) => request('PATCH', '/api/patient/profile', data),
   updateProfile: (data) => request('PATCH', '/api/patient/profile', data),
   addRecord: (record) => request('POST', '/api/patient/records', record),

@@ -133,6 +133,7 @@ function QCard({ config, latestScore, onPress, theme }) {
 
 // ── Question form ─────────────────────────────────────────────────────────────
 function QuestionForm({ config, onBack, onSave, theme, t }) {
+  const insets = useSafeAreaInsets();
   const [answers,  setAnswers]  = useState({});
   const [saving,   setSaving]   = useState(false);
 
@@ -154,7 +155,7 @@ function QuestionForm({ config, onBack, onSave, theme, t }) {
   return (
     <View style={{ flex: 1, backgroundColor: theme.bgSecondary ?? '#F0F4F8' }}>
       {/* Header */}
-      <View style={[sf.header, { backgroundColor: config.color }]}>
+      <View style={[sf.header, { backgroundColor: config.color, paddingTop: insets.top }]}>
         <TouchableOpacity onPress={onBack} style={sf.backBtn}>
           <Text style={sf.backArrow}>‹</Text>
         </TouchableOpacity>

@@ -14,23 +14,23 @@ export const Radius = {
 // Light theme — matches FocusApp key names
 export const LightTheme = {
   // backgrounds
-  bg:          '#f7faf9',
+  bg:          '#f0f4f8',
   surface:     '#ffffff',
-  surfaceAlt:  '#f0f6f5',
+  surfaceAlt:  '#e8eef5',
 
   // text
-  text:           '#1a2928',
-  textSecondary:  '#4a6a68',
-  textMuted:      '#8aaba8',
+  text:           '#1a2c3d',
+  textSecondary:  '#3a5272',
+  textMuted:      '#7a9ab8',
 
-  // brand
-  accent:         '#1a7f6e',
-  accentDark:     '#115c4f',
-  accentLight:    '#e6f4f1',
+  // brand — FocusApp blue
+  accent:         '#4A7AB5',
+  accentDark:     '#2d4a6e',
+  accentLight:    '#dde8f4',
 
   // ui
-  border:         '#dde8e6',
-  inputLine:      '#dde8e6',
+  border:         '#ccdaec',
+  inputLine:      '#ccdaec',
   error:          '#d32f2f',
   success:        '#388e3c',
   warning:        '#f9a825',

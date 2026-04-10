@@ -8,23 +8,20 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getTranslations } from '../../translations';
 
-
 const { width } = Dimensions.get('window');
 
-// ── Slide definitions ─────────────────────────────────────────────────────────
-// Replace image require() paths when you have the illustrations
 function getSlides(t) {
   return [
     {
       image:      require('../../../assets/images/onboarding_8.jpg'),
       imageStyle: { width: 180, height: 180, borderRadius: 90 },
-      bg: '#ffffff', accent: '#1a7f6e', dark: false,
+      bg: '#ffffff', accent: '#4A7AB5', dark: false,
       title:    t.onboarding1Title,
       subtitle: t.onboarding1Subtitle,
     },
     {
       image:    require('../../../assets/images/onboarding_1.jpg'),
-      bg: '#ffffff', accent: '#1a7f6e', dark: false,
+      bg: '#ffffff', accent: '#4A7AB5', dark: false,
       title:    t.onboarding2Title,
       subtitle: t.onboarding2Subtitle,
     },
@@ -42,7 +39,7 @@ function getSlides(t) {
     },
     {
       image:    require('../../../assets/images/onboarding_4.jpg'),
-      bg: '#ffffff', accent: '#1a7f6e', dark: false,
+      bg: '#ffffff', accent: '#4A7AB5', dark: false,
       title:    t.onboarding5Title,
       subtitle: t.onboarding5Subtitle,
     },
@@ -81,9 +78,6 @@ export default function OnboardingScreen({ onDone }) {
     onDone();
   };
 
-  const textColor = slide.dark ? '#fff' : '#1a2928';
-  const subColor  = slide.dark ? 'rgba(255,255,255,0.8)' : '#4a6a68';
-
   return (
     <View style={[s.root, { backgroundColor: slide.bg }]}>
       <StatusBar
@@ -91,50 +85,31 @@ export default function OnboardingScreen({ onDone }) {
         backgroundColor={slide.bg}
       />
 
-      {/* Skip */}
       {!isLast && (
-        <TouchableOpacity
-          style={[s.skip, { top: insets.top + 12 }]}
-          onPress={handleSkip}
-        >
-          <Text style={[s.skipText, { color: slide.accent }]}>Skip</Text>
+        <TouchableOpacity style={[s.skip, { top: insets.top + 12 }]} onPress={handleSkip}>
+          <Text style={[s.skipText, { color: slide.accent }]}>{t.skip ?? 'Skip'}</Text>
         </TouchableOpacity>
       )}
 
-      {/* Slides */}
       <ScrollView
         ref={scrollRef}
-        horizontal
-        pagingEnabled
+        horizontal pagingEnabled
         showsHorizontalScrollIndicator={false}
         scrollEnabled={false}
         style={{ flex: 1 }}
       >
         {SLIDES.map((sl, i) => (
           <View key={i} style={[s.slide, { width, paddingTop: insets.top + 60, backgroundColor: sl.bg }]}>
-            {/* Image */}
             <View style={s.imageWrap}>
-              <Image
-                source={sl.image}
-                style={[s.image, sl.imageStyle]}
-                resizeMode="contain"
-              />
+              <Image source={sl.image} style={[s.image, sl.imageStyle]} resizeMode="contain" />
             </View>
-
-            {/* Text */}
-            <Text style={[s.title, { color: sl.dark ? '#fff' : '#1a2928' }]}>
-              {sl.title}
-            </Text>
-            <Text style={[s.subtitle, { color: sl.dark ? 'rgba(255,255,255,0.8)' : '#4a6a68' }]}>
-              {sl.subtitle}
-            </Text>
+            <Text style={[s.title, { color: sl.dark ? '#fff' : '#1a2c3d' }]}>{sl.title}</Text>
+            <Text style={[s.subtitle, { color: sl.dark ? 'rgba(255,255,255,0.8)' : '#3a5272' }]}>{sl.subtitle}</Text>
           </View>
         ))}
       </ScrollView>
 
-      {/* Bottom */}
       <View style={[s.bottom, { paddingBottom: insets.bottom + 24 }]}>
-        {/* Dots */}
         <View style={s.dots}>
           {SLIDES.map((_, i) => (
             <TouchableOpacity key={i} onPress={() => goTo(i)}>
@@ -148,14 +123,11 @@ export default function OnboardingScreen({ onDone }) {
           ))}
         </View>
 
-        {/* Button */}
         <TouchableOpacity
           style={[s.btn, { backgroundColor: slide.accent }]}
-          onPress={handleNext}
-          activeOpacity={0.85}
-        >
+          onPress={handleNext} activeOpacity={0.85}>
           <Text style={s.btnText}>
-            {isLast ? 'GET STARTED' : 'NEXT'}
+            {isLast ? (t.getStarted ?? 'GET STARTED') : (t.next ?? 'NEXT')}
           </Text>
         </TouchableOpacity>
       </View>

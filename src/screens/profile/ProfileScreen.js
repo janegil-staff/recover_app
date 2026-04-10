@@ -301,7 +301,7 @@ const makeStyles = (t, insets) => StyleSheet.create({
     paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xl },
   genderItem:      { alignItems: 'center', gap: 8 },
   genderCircle:    { width: 80, height: 80, borderRadius: 40,
-    backgroundColor: t.accentBg ?? '#e6f4f1', justifyContent: 'center', alignItems: 'center' },
+    backgroundColor: t.accentBg ?? '#dde8f4', justifyContent: 'center', alignItems: 'center' },
   genderLabel:     { color: t.textSecondary, fontSize: FontSize.md },
   fieldWrap:       { paddingHorizontal: Spacing.lg, paddingTop: 14, paddingBottom: 0 },
   fieldLabel:      { color: t.textMuted, fontSize: FontSize.sm, marginBottom: 2 },

@@ -19,6 +19,8 @@ import LogEntryScreen      from '../screens/log/LogEntryScreen';
 import LogHistoryScreen    from '../screens/log/LogHistoryScreen';
 import ProfileScreen       from '../screens/profile/ProfileScreen';
 import QuestionnaireScreen  from '../screens/questionnaire/QuestionnaireScreen';
+import ShareScreen            from '../screens/share/ShareScreen';
+import RecoveryStudiesScreen  from '../screens/share/RecoveryStudiesScreen';
 import PersonalSettingsScreen from '../screens/settings/PersonalSettingsScreen';
 import LanguageScreen          from '../screens/settings/LanguageScreen';
 import MedicationsScreen    from '../screens/medications/MedicationsScreen';
@@ -77,7 +79,9 @@ export default function AppNavigator() {
             <Stack.Screen name="Profile"       component={ProfileScreen} />
             <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
             <Stack.Screen name="Medications"       component={MedicationsScreen} />
-            <Stack.Screen name="PersonalSettings"  component={PersonalSettingsScreen} />
+            <Stack.Screen name="Share"              component={ShareScreen} />
+            <Stack.Screen name="RecoveryStudies"    component={RecoveryStudiesScreen} />
+            <Stack.Screen name="PersonalSettings"   component={PersonalSettingsScreen} />
             <Stack.Screen name="Language"           component={LanguageScreen} />
           </>
         )}

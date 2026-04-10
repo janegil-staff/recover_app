@@ -10,7 +10,6 @@ import { useTheme } from '../../context/ThemeContext';
 import { useLang }  from '../../context/LangContext';
 import { FontSize, Spacing, Radius } from '../../constants/theme';
 
-// ── Languages ─────────────────────────────────────────────────────────────────
 const LANGUAGES = [
   { code: 'no', flag: '🇳🇴', label: 'Norsk' },
   { code: 'en', flag: '🇬🇧', label: 'English' },
@@ -26,7 +25,6 @@ const LANGUAGES = [
   { code: 'pt', flag: '🇵🇹', label: 'Português' },
 ];
 
-// ── Gender SVG icons ──────────────────────────────────────────────────────────
 function GenderIcon({ type, active, color, size = 44 }) {
   if (type === 'female') return (
     <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
@@ -50,7 +48,6 @@ function GenderIcon({ type, active, color, size = 44 }) {
         strokeLinecap="round" strokeLinejoin="round" />
     </Svg>
   );
-  // undefined
   return (
     <Svg width={size} height={size} viewBox="0 0 44 44" fill="none">
       <Circle cx="22" cy="11" r="7" stroke={color} strokeWidth="2.2"
@@ -64,7 +61,6 @@ function GenderIcon({ type, active, color, size = 44 }) {
   );
 }
 
-// ── Underline text field ──────────────────────────────────────────────────────
 function Field({ label, value, onChangeText, keyboardType, secureTextEntry, theme }) {
   return (
     <View style={{ width: '100%', marginBottom: Spacing.lg }}>
@@ -87,7 +83,6 @@ function Field({ label, value, onChangeText, keyboardType, secureTextEntry, them
   );
 }
 
-// ── Main screen ───────────────────────────────────────────────────────────────
 export default function RegisterScreen({ navigation, route }) {
   const { register }  = useAuth();
   const { theme }     = useTheme();
@@ -97,6 +92,7 @@ export default function RegisterScreen({ navigation, route }) {
   const [language,     setLanguage]     = useState('en');
   const [age,          setAge]          = useState('');
   const [height,       setHeight]       = useState('');
+  const [weight,       setWeight]       = useState('');
   const [email,        setEmail]        = useState('');
   const [emailConfirm, setEmailConfirm] = useState('');
   const [pin,          setPin]          = useState('');
@@ -106,12 +102,12 @@ export default function RegisterScreen({ navigation, route }) {
   const [langOpen,     setLangOpen]     = useState(false);
   const [error,        setError]        = useState('');
 
-  // Restore state when returning from PIN setup
   useEffect(() => {
     const p = route?.params ?? {};
     if (p.pin)          setPin(p.pin);
     if (p.age)          setAge(p.age);
     if (p.height !== undefined) setHeight(String(p.height));
+    if (p.weight !== undefined) setWeight(String(p.weight));
     if (p.email)        setEmail(p.email);
     if (p.emailConfirm) setEmailConfirm(p.emailConfirm);
     if (p.gender)       setGender(p.gender);
@@ -126,15 +122,15 @@ export default function RegisterScreen({ navigation, route }) {
   const goToPinSetup = () => {
     navigation.navigate('PinSetup', {
       returnTo:     'Register',
-      returnParams: { age, height, email, emailConfirm, gender, language, tncAccepted, infoAccepted },
+      returnParams: { age, height, weight, email, emailConfirm, gender, language, tncAccepted, infoAccepted },
     });
   };
 
   const submit = async () => {
-    console.log('[REGISTER] height state:', height);
     if (!age.trim())    { setError(`${t.age} ${t.isRequired ?? 'is required'}`); return; }
     if (!height.trim()) { setError(`${t.heightCm ?? 'Height'} ${t.isRequired ?? 'is required'}`); return; }
-    if (!email.trim()) { setError(`${t.email} er påkrevd`); return; }
+    if (!weight.trim()) { setError(`${t.weightKg ?? 'Weight'} ${t.isRequired ?? 'is required'}`); return; }
+    if (!email.trim())  { setError(`${t.email} er påkrevd`); return; }
     if (email.trim().toLowerCase() !== emailConfirm.trim().toLowerCase()) {
       setError('E-postadressene stemmer ikke'); return;
     }
@@ -150,6 +146,7 @@ export default function RegisterScreen({ navigation, route }) {
         language,
         age:      parseInt(age, 10)    || undefined,
         height:   parseInt(height, 10)  || 0,
+        weight:   parseInt(weight, 10)  || 0,
         gender,
       });
     } catch (e) {
@@ -166,7 +163,7 @@ export default function RegisterScreen({ navigation, route }) {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
 
-          {/* ── Gender ──────────────────────────────────────────────── */}
+          {/* ── Gender ── */}
           <Text style={s.sectionLabel}>{t.gender}</Text>
           <View style={s.genderRow}>
             {[
@@ -181,7 +178,7 @@ export default function RegisterScreen({ navigation, route }) {
                   <View style={[s.genderCircle,
                     active
                       ? { backgroundColor: theme.accent }
-                      : { backgroundColor: theme.accentLight ?? '#e6f4f1' }
+                      : { backgroundColor: theme.accentLight ?? '#dde8f4' }
                   ]}>
                     <GenderIcon type={icon} active={active}
                       color={active ? '#fff' : theme.accent} size={44} />
@@ -194,16 +191,29 @@ export default function RegisterScreen({ navigation, route }) {
             })}
           </View>
 
-          {/* ── Fields ──────────────────────────────────────────────── */}
+          {/* ── Fields ── */}
           <View style={s.fields}>
             {!!error && <Text style={s.error}>{error}</Text>}
 
-            <Field label={`${t.age}*`}         value={age}
-              onChangeText={v => setAge(v.replace(/[^0-9]/g, ''))}
-              keyboardType="number-pad" theme={theme} />
-            <Field label={t.heightCm ?? 'Height (cm)'}  value={height}
-              onChangeText={v => setHeight(v.replace(/[^0-9]/g, ''))}
-              keyboardType="number-pad" theme={theme} />
+            {/* Age + Height + Weight in one row */}
+            <View style={{ flexDirection: 'row', gap: Spacing.md }}>
+              <View style={{ flex: 1 }}>
+                <Field label={`${t.age}*`} value={age}
+                  onChangeText={v => setAge(v.replace(/[^0-9]/g, ''))}
+                  keyboardType="number-pad" theme={theme} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Field label={t.heightCm ?? 'Height (cm)'} value={height}
+                  onChangeText={v => setHeight(v.replace(/[^0-9]/g, ''))}
+                  keyboardType="number-pad" theme={theme} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Field label={t.weightKg ?? 'Weight (kg)'} value={weight}
+                  onChangeText={v => setWeight(v.replace(/[^0-9]/g, ''))}
+                  keyboardType="number-pad" theme={theme} />
+              </View>
+            </View>
+
             <Field label={`${t.email}*`}        value={email}
               onChangeText={setEmail} keyboardType="email-address" theme={theme} />
             <Field label={`${t.confirmEmail}*`} value={emailConfirm}
@@ -220,7 +230,7 @@ export default function RegisterScreen({ navigation, route }) {
             </TouchableOpacity>
           </View>
 
-          {/* ── Language ────────────────────────────────────────────── */}
+          {/* ── Language ── */}
           <Text style={s.sectionLabel}>{t.language}</Text>
           <View style={{ marginBottom: Spacing.lg }}>
             <TouchableOpacity
@@ -272,7 +282,7 @@ export default function RegisterScreen({ navigation, route }) {
 
           <View style={{ height: Spacing.lg }} />
 
-          {/* ── Terms ───────────────────────────────────────────────── */}
+          {/* ── Terms ── */}
           <TouchableOpacity style={s.checkRow} onPress={() => setTncAccepted(!tncAccepted)}>
             <View style={[s.checkbox, tncAccepted && s.checkboxChecked]}>
               {tncAccepted && <Text style={s.checkmark}>✓</Text>}
@@ -294,7 +304,7 @@ export default function RegisterScreen({ navigation, route }) {
 
           <View style={{ height: Spacing.xl }} />
 
-          {/* ── Submit ──────────────────────────────────────────────── */}
+          {/* ── Submit ── */}
           <TouchableOpacity
             style={[s.btn, !canSubmit && s.btnDisabled]}
             onPress={canSubmit ? submit : undefined}
@@ -325,14 +335,12 @@ const makeStyles = (t) => StyleSheet.create({
     marginBottom: Spacing.md, marginTop: Spacing.sm, letterSpacing: 0.3,
   },
 
-  // Gender
   genderRow:    { flexDirection: 'row', justifyContent: 'space-between', marginBottom: Spacing.xl },
   genderItem:   { alignItems: 'center', flex: 1 },
   genderCircle: { width: 80, height: 80, borderRadius: 40,
                   justifyContent: 'center', alignItems: 'center', marginBottom: Spacing.sm },
   genderText:   { fontSize: FontSize.sm, color: t.textSecondary, fontWeight: '500' },
 
-  // Fields
   fields: { width: '100%' },
   error:  { color: '#C62828', fontSize: FontSize.sm, marginBottom: Spacing.md },
 
@@ -344,7 +352,6 @@ const makeStyles = (t) => StyleSheet.create({
   pinAction:{ color: t.accent, fontSize: FontSize.md, fontWeight: '700' },
   pinDone:  { color: '#2E7D32' },
 
-  // Language dropdown
   dropdown: {
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: Spacing.md,
     paddingVertical: 14, borderWidth: 1.5, borderColor: t.inputLine,
@@ -365,7 +372,6 @@ const makeStyles = (t) => StyleSheet.create({
   langFlag:          { fontSize: 20 },
   dropdownItemLabel: { flex: 1, fontSize: FontSize.md },
 
-  // Terms
   checkRow:        { width: '100%', flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
   checkbox:        { width: 22, height: 22, borderRadius: 4, borderWidth: 2,
                      borderColor: t.border, justifyContent: 'center', alignItems: 'center',
@@ -375,7 +381,6 @@ const makeStyles = (t) => StyleSheet.create({
   checkText:       { color: t.text, fontSize: FontSize.sm, lineHeight: 20, flex: 1 },
   checkLink:       { color: t.text, fontWeight: '700', textDecorationLine: 'underline' },
 
-  // Button
   btn: {
     width: '100%', height: 56, backgroundColor: t.accent, borderRadius: 10,
     justifyContent: 'center', alignItems: 'center',

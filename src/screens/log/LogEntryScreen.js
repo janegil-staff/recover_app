@@ -15,11 +15,11 @@ import { FontSize, Spacing, Radius } from '../../constants/theme';
 
 const { width } = Dimensions.get('window');
 
-const ACCENT        = '#1a7f6e';
+const ACCENT        = '#4A7AB5';
 const BG            = '#ffffff';
 const BG_SECONDARY  = '#f0f4f8';
-const TEXT          = '#1a2928';
-const TEXT_MUTED    = '#8aaba8';
+const TEXT          = '#1a2c3d';
+const TEXT_MUTED    = '#7a9ab8';
 const BORDER        = '#d1dde8';
 
 const CRAVING_COLORS = { 0:'#22C55E',1:'#7AABDB',2:'#FBBF24',3:'#FB923C',4:'#EF4444',5:'#991B1B' };

@@ -26,16 +26,24 @@ const PRESET_MEDICATIONS = [
   { id: 'diazepam',        name: 'Diazepam',         brand: 'Valium, Stesolid' },
   { id: 'antidepressant',  name: 'Antidepressiva',   brand: 'SSRI/SNRI' },
   { id: 'antipsychotic',   name: 'Antipsykotika',    brand: '' },
-  { id: 'other',           name: 'Annet',            brand: '' },
+  { id: 'vivitrol',         name: 'Vivitrol',         brand: 'Naltrexon injeksjon (månedlig)' },
+  { id: 'buvidal_weekly',   name: 'Buvidal Ukentlig',  brand: 'Buprenorfin depot' },
+  { id: 'buvidal_monthly',  name: 'Buvidal Månedlig',  brand: 'Buprenorfin depot' },
+  { id: 'sublocade',        name: 'Sublocade',          brand: 'Buprenorfin injeksjon (månedlig)' },
+  { id: 'other',            name: 'Annet',              brand: '' },
 ];
 
-const FREQUENCIES = [
-  { id: 'daily',            label: 'En gang daglig' },
-  { id: 'twice_daily',      label: 'To ganger daglig' },
-  { id: 'three_times_daily',label: '3× daglig' },
-  { id: 'weekly',           label: 'Ukentlig' },
-  { id: 'as_needed',        label: 'Ved behov' },
-];
+function getFrequencies(t) {
+  return [
+    { id: 'daily',             label: t.freqDaily            ?? 'Once daily' },
+    { id: 'twice_daily',       label: t.freqTwiceDaily       ?? 'Twice daily' },
+    { id: 'three_times_daily', label: t.freqThreeTimesDaily  ?? '3× daily' },
+    { id: 'weekly',            label: t.freqWeekly           ?? 'Weekly' },
+    { id: 'biweekly',          label: t.freqBiweekly         ?? 'Every 2 weeks' },
+    { id: 'monthly_injection', label: t.freqMonthlyInjection ?? 'Monthly injection' },
+    { id: 'as_needed',         label: t.freqAsNeeded         ?? 'As needed' },
+  ];
+}
 
 const EMPTY_FORM = {
   name: '', dosage: '', frequency: 'daily',
@@ -70,6 +78,7 @@ export default function MedicationsScreen({ navigation }) {
     load();
   }, []);
 
+  const FREQUENCIES = getFrequencies(t);
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     if (!q) return PRESET_MEDICATIONS;
