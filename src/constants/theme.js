@@ -27,6 +27,7 @@ export const LightTheme = {
   accent:         '#4A7AB5',
   accentDark:     '#2d4a6e',
   accentLight:    '#dde8f4',
+  accentBorder:   '#b8ccec',
 
   // ui
   border:         '#ccdaec',
