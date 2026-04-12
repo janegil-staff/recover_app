@@ -144,7 +144,7 @@ const STAT_ICONS = [IconCalendarCheck, IconCraving, IconMood, IconWellbeing, Ico
 const GRID_ICONS = [IconMyDiary, IconMyData, IconShareData, IconMedications];
 
 export default function HomeScreen({ navigation }) {
-  console.log('HOME MOUNT');
+
   const { user }    = useAuth();
   const insets      = useSafeAreaInsets();
   const { theme }   = useTheme();
@@ -181,7 +181,7 @@ export default function HomeScreen({ navigation }) {
 
   const menuItems = [
     { labelKey: 'myDiary',       screen: 'History' },
-    { labelKey: 'myData',        screen: 'LogEntry' },
+    { labelKey: 'myData',        screen: 'MyData' },
     { labelKey: 'shareData',     screen: 'Share' },
     { labelKey: 'myMedications', screen: 'Medications' },
   ];

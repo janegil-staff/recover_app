@@ -26,6 +26,7 @@ import RecoveryStudiesScreen from "../screens/share/RecoveryStudiesScreen";
 import PersonalSettingsScreen from "../screens/settings/PersonalSettingsScreen";
 import LanguageScreen from "../screens/settings/LanguageScreen";
 import MedicationsScreen from "../screens/medications/MedicationsScreen";
+import MyDataScreen from "../screens/home/MyDataScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +75,7 @@ export default function AppNavigator() {
           // ── Home is FIRST = initial screen ────────────────────────────
           <>
             <Stack.Screen name="Home"       component={HomeScreen} />
+            <Stack.Screen name="MyData" component={MyDataScreen} />
             <Stack.Screen name="Log"        component={LogEntryScreen} />
             <Stack.Screen name="LogEntry"   component={LogEntryScreen} />
             <Stack.Screen name="History"    component={LogHistoryScreen} />
