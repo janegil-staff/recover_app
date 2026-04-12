@@ -25,7 +25,7 @@ const BORDER        = '#d1dde8';
 const CRAVING_COLORS = { 0:'#22C55E',1:'#7AABDB',2:'#FBBF24',3:'#FB923C',4:'#EF4444',5:'#991B1B' };
 const MOOD_COLORS    = { 1:'#EF4444',2:'#FB923C',3:'#FBBF24',4:'#7AABDB',5:'#22C55E' };
 
-const SUBSTANCES   = ['alcohol','cannabis','cocaine','opioids','amphetamines','benzodiazepines','tobacco','prescription','other'];
+const SUBSTANCES = ['alcohol','cannabis','cocaine','opioids','amphetamines','benzodiazepines','other'];
 const FREQUENCIES  = ['none','once','few_times','daily','multiple_daily'];
 const SIDE_EFFECTS = ['nausea','insomnia','anxiety','paranoia','headache','fatigue','appetite_loss','memory_issues','irritability','depression'];
 

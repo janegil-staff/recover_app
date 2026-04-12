@@ -678,6 +678,13 @@ const no = {
 };
 
 const de = {
+  weightSubtitle: 'Optional — Gewicht heute eintragen',
+  sideEffectsSubtitle: 'Irgendwelche Nebenwirkungen heute?',
+  moodSubtitle: '1 = sehr schlecht   5 = sehr gut',
+  cravingsSubtitle: '0 = kein Verlangen   5 = überwältigend',
+  amountSubtitle: '0 = keine   10 = sehr hoch',
+  frequencySubtitle: 'Wie oft hast du heute konsumiert?',
+  substancesSubtitle: 'Wähle alle heute verwendeten Substanzen',
   skip:             'Überspringen',
   getStarted:        'LOSLEGEN',
   freqDaily:           'Einmal täglich',
@@ -964,6 +971,13 @@ const de = {
 };
 
 const da = {
+  weightSubtitle: 'Valgfrit — log din vægt i dag',
+  sideEffectsSubtitle: 'Nogen bivirkninger i dag?',
+  moodSubtitle: '1 = meget dårlig   5 = meget god',
+  cravingsSubtitle: '0 = ingen trang   5 = overvældende',
+  amountSubtitle: '0 = ingen   10 = meget høj',
+  frequencySubtitle: 'Hvor ofte brugte du i dag?',
+  substancesSubtitle: 'Vælg alle stoffer brugt i dag',
   skip:             'Spring over',
   getStarted:        'KOM I GANG',
   freqDaily:           'En gang dagligt',
@@ -1254,6 +1268,7 @@ const da = {
 };
 
 const sv = {
+  substancesSubtitle: 'Välj alla substanser du använt idag',
   skip:             'Hoppa över',
   getStarted:        'KOM IGÅNG',
   shareTabCode:         'Kod',
@@ -1609,6 +1624,13 @@ substancesSubtitle:  'Välj alla substanser du använt idag',
 };
 
 const fi = {
+  weightSubtitle: 'Valinnainen — kirjaa painosi tänään',
+  sideEffectsSubtitle: 'Mitään sivuvaikutuksia tänään?',
+  moodSubtitle: '1 = erittäin huono   5 = erittäin hyvä',
+  cravingsSubtitle: '0 = ei himoa   5 = ylivoimainen',
+  amountSubtitle: '0 = ei mitään   10 = erittäin korkea',
+  frequencySubtitle: 'Kuinka usein käytit tänään?',
+  substancesSubtitle: 'Valitse kaikki tänään käyttämäsi aineet',
   skip:             'Ohita',
   getStarted:        'ALOITA',
   freqDaily:           'Kerran päivässä',
@@ -1895,6 +1917,13 @@ const fi = {
 };
 
 const fr = {
+  weightSubtitle: 'Facultatif — enregistrez votre poids aujourd'hui',
+  sideEffectsSubtitle: 'Des effets secondaires aujourd'hui ?',
+  moodSubtitle: '1 = très mauvais   5 = très bon',
+  cravingsSubtitle: '0 = pas de manque   5 = accablant',
+  amountSubtitle: '0 = aucun   10 = très élevé',
+  frequencySubtitle: 'À quelle fréquence avez-vous consommé aujourd'hui ?',
+  substancesSubtitle: 'Sélectionnez toutes les substances utilisées aujourd'hui',
   skip:             'Passer',
   getStarted:        'COMMENCER',
   freqDaily:           'Une fois par jour',
@@ -2181,6 +2210,13 @@ const fr = {
 };
 
 const es = {
+  weightSubtitle: 'Opcional — registra tu peso hoy',
+  sideEffectsSubtitle: '¿Algún efecto secundario hoy?',
+  moodSubtitle: '1 = muy malo   5 = muy bueno',
+  cravingsSubtitle: '0 = sin antojos   5 = abrumador',
+  amountSubtitle: '0 = nada   10 = muy alto',
+  frequencySubtitle: '¿Con qué frecuencia consumiste hoy?',
+  substancesSubtitle: 'Selecciona todas las sustancias usadas hoy',
   skip:             'Omitir',
   getStarted:        'COMENZAR',
   freqDaily:           'Una vez al día',
@@ -2467,6 +2503,13 @@ const es = {
 };
 
 const it = {
+  weightSubtitle: 'Facoltativo — registra il tuo peso oggi',
+  sideEffectsSubtitle: 'Effetti collaterali oggi?',
+  moodSubtitle: '1 = molto cattivo   5 = molto buono',
+  cravingsSubtitle: '0 = nessuna voglia   5 = travolgente',
+  amountSubtitle: '0 = nessuna   10 = molto alta',
+  frequencySubtitle: 'Con quale frequenza hai consumato oggi?',
+  substancesSubtitle: 'Seleziona tutte le sostanze usate oggi',
   skip:             'Salta',
   getStarted:        'INIZIA',
   freqDaily:           'Una volta al giorno',
@@ -2753,6 +2796,13 @@ const it = {
 };
 
 const nl = {
+  weightSubtitle: 'Optioneel — log je gewicht vandaag',
+  sideEffectsSubtitle: 'Bijwerkingen vandaag?',
+  moodSubtitle: '1 = zeer slecht   5 = zeer goed',
+  cravingsSubtitle: '0 = geen cravings   5 = overweldigend',
+  amountSubtitle: '0 = niets   10 = zeer hoog',
+  frequencySubtitle: 'Hoe vaak heb je vandaag gebruikt?',
+  substancesSubtitle: 'Selecteer alle vandaag gebruikte stoffen',
   skip:             'Overslaan',
   getStarted:        'AAN DE SLAG',
   freqDaily:           'Eén keer per dag',
@@ -3039,6 +3089,13 @@ const nl = {
 };
 
 const pl = {
+  weightSubtitle: 'Opcjonalnie — zapisz swoją wagę dzisiaj',
+  sideEffectsSubtitle: 'Jakieś skutki uboczne dzisiaj?',
+  moodSubtitle: '1 = bardzo zły   5 = bardzo dobry',
+  cravingsSubtitle: '0 = brak głodu   5 = przytłaczający',
+  amountSubtitle: '0 = brak   10 = bardzo wysoki',
+  frequencySubtitle: 'Jak często używałeś dzisiaj?',
+  substancesSubtitle: 'Wybierz wszystkie substancje użyte dzisiaj',
   skip:             'Pomiń',
   getStarted:        'ZACZNIJ',
   freqDaily:           'Raz dziennie',
@@ -3325,6 +3382,13 @@ const pl = {
 };
 
 const pt = {
+  weightSubtitle: 'Opcional — registe o seu peso hoje',
+  sideEffectsSubtitle: 'Algum efeito colateral hoje?',
+  moodSubtitle: '1 = muito mau   5 = muito bom',
+  cravingsSubtitle: '0 = sem fissura   5 = avassalador',
+  amountSubtitle: '0 = nenhum   10 = muito alto',
+  frequencySubtitle: 'Com que frequência consumiu hoje?',
+  substancesSubtitle: 'Selecione todas as substâncias usadas hoje',
   skip:             'Pular',
   getStarted:        'COMEÇAR',
   freqDaily:           'Uma vez ao dia',
