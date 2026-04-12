@@ -64,19 +64,26 @@ export default function MedicationsScreen({ navigation }) {
   const [form,       setForm]       = useState(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const meds = await patientApi.getMedications();
-        setCustom(meds ?? []);
-      } catch (e) {
-        console.log('Load medications error:', e?.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+useEffect(() => {
+  const load = async () => {
+    try {
+      const [meds, profileRes] = await Promise.all([
+        patientApi.getMedications(),
+        patientApi.get(),
+      ]);
+      setCustom(meds ?? []);
+      const savedIds = (profileRes?.medicines ?? [])
+        .map(m => m.id ?? m.name)
+        .filter(Boolean);
+      if (savedIds.length > 0) setSelected(new Set(savedIds));
+    } catch (e) {
+      console.log('Load medications error:', e?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  load();
+}, []);
 
   const FREQUENCIES = getFrequencies(t);
   const filtered = useMemo(() => {
