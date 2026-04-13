@@ -28,6 +28,7 @@ import LanguageScreen from "../screens/settings/LanguageScreen";
 import MedicationsScreen from "../screens/medications/MedicationsScreen";
 import MyDataScreen from "../screens/home/MyDataScreen";
 import AdviceScreen from "../screens/advice/AdviceScreen";
+import TermsScreen from "../screens/auth/TermsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,14 +44,7 @@ export default function AppNavigator() {
 
   if (loading || onboardingDone === null) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: theme.bg,
-        }}
-      >
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: theme.bg }}>
         <ActivityIndicator size="large" color={theme.accent} />
       </View>
     );
@@ -60,23 +54,16 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!onboardingDone || isNewUser ? (
-          <Stack.Screen
-            name="Onboarding"
-            children={() => (
-              <OnboardingScreen
-                onDone={() => {
-                  setOnboardingDone(true);
-                  setIsNewUser(false);
-                }}
-              />
-            )}
-          />
+          <Stack.Screen name="Onboarding" children={() => (
+            <OnboardingScreen onDone={() => { setOnboardingDone(true); setIsNewUser(false); }} />
+          )} />
         ) : !user ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="PinSetup" component={PinSetupScreen} />
             <Stack.Screen name="PinConfirm" component={PinConfirmScreen} />
+            <Stack.Screen name="Terms" component={TermsScreen} />
           </>
         ) : !pinVerified ? (
           <>
@@ -85,7 +72,6 @@ export default function AppNavigator() {
             <Stack.Screen name="PinConfirm" component={PinConfirmScreen} />
           </>
         ) : (
-          // ── Home is FIRST = initial screen ────────────────────────────
           <>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="MyData" component={MyDataScreen} />
@@ -94,28 +80,13 @@ export default function AppNavigator() {
             <Stack.Screen name="LogEntry" component={LogEntryScreen} />
             <Stack.Screen name="History" component={LogHistoryScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen
-              name="Questionnaire"
-              component={QuestionnaireScreen}
-            />
-            <Stack.Screen
-              name="QuestionnaireIntro"
-              component={QuestionnaireIntroScreen}
-            />
-            <Stack.Screen
-              name="QuestionnaireForm"
-              component={QuestionnaireFormScreen}
-            />
+            <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
+            <Stack.Screen name="QuestionnaireIntro" component={QuestionnaireIntroScreen} />
+            <Stack.Screen name="QuestionnaireForm" component={QuestionnaireFormScreen} />
             <Stack.Screen name="Medications" component={MedicationsScreen} />
             <Stack.Screen name="Share" component={ShareScreen} />
-            <Stack.Screen
-              name="RecoveryStudies"
-              component={RecoveryStudiesScreen}
-            />
-            <Stack.Screen
-              name="PersonalSettings"
-              component={PersonalSettingsScreen}
-            />
+            <Stack.Screen name="RecoveryStudies" component={RecoveryStudiesScreen} />
+            <Stack.Screen name="PersonalSettings" component={PersonalSettingsScreen} />
             <Stack.Screen name="Language" component={LanguageScreen} />
           </>
         )}
