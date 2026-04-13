@@ -2,32 +2,67 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { patientApi } from '../services/api';
 
-const TOTAL_ADVICE = 18;
+const TOTAL_ADVICE = 18; // 3 per category × 6 categories
+
 const AdviceContext = createContext(null);
 
 export function AdviceProvider({ children }) {
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [viewed,      setViewed]      = useState(new Set());
+  const [userRelevant,setUserRelevant]= useState(new Set());
+  const [loaded,      setLoaded]      = useState(false);
 
-  const refresh = useCallback(async () => {
-    try {
-      const profile = await patientApi.get();
-      const viewed   = (profile?.viewedAdvice   ?? []).length;
-      const relevant = (profile?.relevantAdvice ?? []).length;
-      // unread = not yet opened (neither viewed nor relevant)
-      const seen = new Set([
-        ...(profile?.viewedAdvice   ?? []),
-        ...(profile?.relevantAdvice ?? []),
-      ]);
-      setUnreadCount(Math.max(0, TOTAL_ADVICE - seen.size));
-    } catch {
-      setUnreadCount(0);
-    }
+  // Load viewed/relevant from patient profile
+  useEffect(() => {
+    patientApi.get()
+      .then(profile => {
+        setViewed(new Set(profile?.viewedAdvice   ?? []));
+        setUserRelevant(new Set(profile?.relevantAdvice ?? []));
+      })
+      .catch(() => {
+        // New user / not logged in yet — treat all as unread
+        setViewed(new Set());
+      })
+      .finally(() => setLoaded(true));
   }, []);
 
-  useEffect(() => { refresh(); }, []);
+  const markViewed = useCallback((id) => {
+    setViewed(prev => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      patientApi.updateViewedAdvice([...next]).catch(() => {});
+      return next;
+    });
+  }, []);
+
+  const toggleRelevant = useCallback((id) => {
+    setUserRelevant(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      patientApi.updateRelevantAdvice([...next]).catch(() => {});
+      return next;
+    });
+  }, []);
+
+  const refresh = useCallback(() => {
+    patientApi.get()
+      .then(profile => {
+        setViewed(new Set(profile?.viewedAdvice   ?? []));
+        setUserRelevant(new Set(profile?.relevantAdvice ?? []));
+      })
+      .catch(() => {});
+  }, []);
+
+  // Show badge for all advice not yet viewed
+  // For new users (viewed is empty Set), this equals TOTAL_ADVICE
+  const unreadCount = loaded ? Math.max(0, TOTAL_ADVICE - viewed.size) : 0;
 
   return (
-    <AdviceContext.Provider value={{ unreadCount, refresh }}>
+    <AdviceContext.Provider value={{
+      viewed, userRelevant,
+      markViewed, toggleRelevant, refresh,
+      unreadCount,
+    }}>
       {children}
     </AdviceContext.Provider>
   );
@@ -35,6 +70,6 @@ export function AdviceProvider({ children }) {
 
 export function useAdvice() {
   const ctx = useContext(AdviceContext);
-  if (!ctx) return { unreadCount: 0, refresh: () => {} };
+  if (!ctx) throw new Error('useAdvice must be used inside AdviceProvider');
   return ctx;
 }
