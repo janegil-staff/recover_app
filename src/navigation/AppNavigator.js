@@ -29,6 +29,8 @@ import MedicationsScreen from "../screens/medications/MedicationsScreen";
 import MyDataScreen from "../screens/home/MyDataScreen";
 import AdviceScreen from "../screens/advice/AdviceScreen";
 import TermsScreen from "../screens/auth/TermsScreen";
+import ChangeEmailScreen from "../screens/profile/ChangeEmailScreen";
+import AboutScreen from "../screens/settings/AboutScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +90,9 @@ export default function AppNavigator() {
             <Stack.Screen name="RecoveryStudies" component={RecoveryStudiesScreen} />
             <Stack.Screen name="PersonalSettings" component={PersonalSettingsScreen} />
             <Stack.Screen name="Language" component={LanguageScreen} />
+            <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
+            <Stack.Screen name="About" component={AboutScreen} />
+            <Stack.Screen name="Terms" component={TermsScreen} />
           </>
         )}
       </Stack.Navigator>

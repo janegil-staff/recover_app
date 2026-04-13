@@ -110,4 +110,6 @@ export const patientApi = {
     request("PATCH", "/api/patient/advice/relevant", { relevantAdvice: ids }),
   updateViewedAdvice: (ids) =>
     request("PATCH", "/api/patient/advice/viewed", { viewedAdvice: ids }),
+  changeEmail: ({ newEmail, pin }) =>
+  request("PATCH", "/api/auth/change-email", { newEmail, password: pin }),
 };

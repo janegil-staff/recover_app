@@ -1,4 +1,4 @@
-// src/screens/auth/TermsScreen.js
+// src/screens/settings/AboutScreen.js
 import React from "react";
 import {
   View,
@@ -38,7 +38,7 @@ function Section({ title, children, theme }) {
   );
 }
 
-export default function TermsScreen({ navigation }) {
+export default function AboutScreen({ navigation }) {
   const { theme } = useTheme();
   const { t } = useLang();
   const insets = useSafeAreaInsets();
@@ -53,53 +53,75 @@ export default function TermsScreen({ navigation }) {
         >
           <Text style={s.headerBack}>‹</Text>
         </TouchableOpacity>
-        <Text style={s.headerTitle}>{t.termsLink ?? "Terms & Conditions"}</Text>
-        <View style={{ width: 40 }} />
+        <Text style={s.headerTitle}>{t.about ?? "About"}</Text>
+        <View style={s.headerBtn} />
       </View>
 
       <ScrollView
         contentContainerStyle={s.scroll}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={s.intro}>
-          {t.termsIntro ??
-            "Please read these Terms and Conditions carefully before using the Recover app."}
-        </Text>
+        <View style={{ alignItems: "center", marginBottom: Spacing.xl }}>
+          <Text style={{ fontSize: 48, marginBottom: Spacing.sm }}>💊</Text>
+          <Text
+            style={{
+              color: theme.text,
+              fontSize: 22,
+              fontWeight: "800",
+              letterSpacing: 0.5,
+            }}
+          >
+            Recover
+          </Text>
+          <Text
+            style={{
+              color: theme.textMuted,
+              fontSize: FontSize.sm,
+              marginTop: 4,
+            }}
+          >
+            by Qup DA
+          </Text>
+          <Text
+            style={{
+              color: theme.textMuted,
+              fontSize: FontSize.xs,
+              marginTop: 2,
+            }}
+          >
+            Version 1.0.0
+          </Text>
+        </View>
 
-        <Section title={t.terms1Title ?? "1. About the App"} theme={theme}>
-          {t.terms1Body ?? ""}
-        </Section>
-        <Section title={t.terms2Title ?? "2. Health Data"} theme={theme}>
-          {t.terms2Body ?? ""}
-        </Section>
-        <Section title={t.terms3Title ?? "3. Privacy Policy"} theme={theme}>
-          {t.terms3Body ?? ""}
-        </Section>
-        <Section title={t.terms4Title ?? "4. Medical Disclaimer"} theme={theme}>
-          {t.terms4Body ?? ""}
-        </Section>
-        <Section title={t.terms5Title ?? "5. Data Sharing"} theme={theme}>
-          {t.terms5Body ?? ""}
-        </Section>
-        <Section title={t.terms6Title ?? "6. Account Security"} theme={theme}>
-          {t.terms6Body ?? ""}
-        </Section>
-        <Section title={t.terms7Title ?? "7. Changes to Terms"} theme={theme}>
-          {t.terms7Body ?? ""}
-        </Section>
-        <Section title={t.terms8Title ?? "8. Contact"} theme={theme}>
-          {t.terms8Body ?? ""}
+        <Section title={t.aboutWhatTitle ?? "What is Recover?"} theme={theme}>
+          {t.aboutWhatBody ??
+            "Recover is a personal harm reduction and recovery support app developed by Qup DA."}
         </Section>
 
-        <TouchableOpacity
-          style={s.btn}
-          onPress={() => navigation.goBack()}
-          activeOpacity={0.85}
+        <Section title={t.aboutWhoTitle ?? "Who is it for?"} theme={theme}>
+          {t.aboutWhoBody ??
+            "Recover is designed for individuals working through substance use challenges."}
+        </Section>
+
+        <Section title={t.aboutDataTitle ?? "Your data"} theme={theme}>
+          {t.aboutDataBody ??
+            "All data is stored securely and never sold to third parties."}
+        </Section>
+
+        <Section
+          title={t.aboutDisclaimerTitle ?? "Medical disclaimer"}
+          theme={theme}
         >
-          <Text style={s.btnText}>{t.back ?? "← Back"}</Text>
-        </TouchableOpacity>
+          {t.aboutDisclaimerBody ??
+            "Recover is not a medical device. Always consult a qualified healthcare professional."}
+        </Section>
 
-        <View style={{ height: 40 }} />
+        <Section title={t.aboutContactTitle ?? "Contact"} theme={theme}>
+          {t.aboutContactBody ??
+            "Qup DA\nEmail: support@qupda.com\nWebsite: www.qupda.com"}
+        </Section>
+
+        <View style={{ height: Spacing.xl }} />
       </ScrollView>
     </View>
   );
@@ -127,24 +149,6 @@ const makeStyles = (t, insets) =>
     scroll: {
       paddingHorizontal: 24,
       paddingTop: Spacing.xl,
-      paddingBottom: 40,
+      paddingBottom: 50,
     },
-    intro: {
-      color: t.textSecondary,
-      fontSize: FontSize.sm,
-      lineHeight: 22,
-      marginBottom: Spacing.xl,
-    },
-    btn: {
-      width: "100%",
-      height: 52,
-      backgroundColor: t.surface,
-      borderRadius: Radius.md,
-      borderWidth: 1.5,
-      borderColor: t.border,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: Spacing.lg,
-    },
-    btnText: { color: t.text, fontSize: FontSize.md, fontWeight: "700" },
   });
