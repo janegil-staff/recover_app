@@ -35,9 +35,8 @@ async function clearSession() {
   await AsyncStorage.removeItem("user").catch(() => {});
 }
 
-// ── authApi — shape matches FocusApp usage ────────────────────────────────
+// ── authApi ───────────────────────────────────────────────────────────────
 export const authApi = {
-  // Returns { token, refreshToken, user }
   register: async ({
     email,
     password,
@@ -63,20 +62,17 @@ export const authApi = {
     return data.user;
   },
 
-  // Returns user object
   login: async ({ email, password }) => {
     const data = await request("POST", "/api/auth/login", { email, password });
     await saveTokens(data);
     return data.user;
   },
 
-  // Returns user or null
   getMe: async () => {
     const token = await getToken();
     if (!token) return null;
     try {
-      const data = await request("GET", "/api/auth/me");
-      return data;
+      return await request("GET", "/api/auth/me");
     } catch (_) {
       return null;
     }
@@ -85,6 +81,19 @@ export const authApi = {
   logout: async () => {
     await clearSession();
   },
+
+  requestPasswordReset: async (email) =>
+    request("POST", "/api/auth/forgot-password", { email }),
+
+  verifyResetCode: async (email, code) =>
+    request("POST", "/api/auth/forgot-password/verify", { email, code }),
+
+  resetPassword: async (email, code, newPassword) =>
+    request("POST", "/api/auth/forgot-password/reset", {
+      email,
+      code,
+      newPassword,
+    }),
 };
 
 // ── patientApi ────────────────────────────────────────────────────────────
@@ -92,11 +101,8 @@ export const patientApi = {
   get: () => request("GET", "/api/patient"),
   generateShareCode: (data) => request("POST", "/api/patient/share-code", data),
   updateProfile: (data) => request("PATCH", "/api/patient/profile", data),
-  updateProfile: (data) => request("PATCH", "/api/patient/profile", data),
   addRecord: (record) => request("POST", "/api/patient/records", record),
   deleteRecord: (date) => request("DELETE", `/api/patient/records/${date}`),
-
-  // Medications
   getMedications: () => request("GET", "/api/patient/medications?active=true"),
   addMedication: (data) => request("POST", "/api/patient/medications", data),
   deleteMedication: (id) => request("DELETE", `/api/patient/medications/${id}`),
@@ -105,11 +111,9 @@ export const patientApi = {
   updateQuestionnaire: (key, data) =>
     request("PATCH", "/api/patient/questionnaire", { key, data }),
   updateRelevantAdvice: (ids) =>
-    request("PATCH", "/api/patient/advice", { relevantAdvice: ids }),
-  updateRelevantAdvice: (ids) =>
     request("PATCH", "/api/patient/advice/relevant", { relevantAdvice: ids }),
   updateViewedAdvice: (ids) =>
     request("PATCH", "/api/patient/advice/viewed", { viewedAdvice: ids }),
   changeEmail: ({ newEmail, pin }) =>
-  request("PATCH", "/api/auth/change-email", { newEmail, password: pin }),
+    request("PATCH", "/api/auth/change-email", { newEmail, password: pin }),
 };
