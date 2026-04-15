@@ -10,20 +10,25 @@ import {
   Platform,
   TextInput,
   Image,
+  Linking,
 } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import { useLang } from "../../context/LangContext";
 import { FontSize, Spacing } from "../../constants/theme";
 
+const APP_VERSION = "1.0.0";
+const COMPANY     = "Qup DA";
+const EMAIL       = "post@quprecover.com";
+
 export default function LoginScreen({ navigation }) {
   const { login } = useAuth();
   const { theme } = useTheme();
   const { t } = useLang();
   const [email, setEmail] = useState("");
-  const [pin, setPin] = useState("");
+  const [pin, setPin]     = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError]     = useState("");
 
   const s = makeStyles(theme);
 
@@ -57,68 +62,91 @@ export default function LoginScreen({ navigation }) {
           contentContainerStyle={s.scroll}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Header */}
-          <View style={s.header}>
-            <View style={s.logoWrap}>
-              <Image
-                source={require("../../../assets/images/focus_logo.png")}
-                style={s.logo}
-                resizeMode="cover"
-              />
-            </View>
-            <Text style={s.title}>{t.appName}</Text>
-            <Text style={s.subtitle}>{t.tagline}</Text>
-          </View>
-
-          <View style={{ width: "100%" }}>
-            {!!error && <Text style={s.error}>{error}</Text>}
-            <Field
-              label={`${t.email}*`}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              theme={theme}
-            />
-            <Field
-              label={`${t.pinCode}*`}
-              value={pin}
-              onChangeText={(v) => setPin(v.replace(/\D/g, "").slice(0, 4))}
-              keyboardType="number-pad"
-              secureTextEntry
-              theme={theme}
+          {/* Logo */}
+          <View style={s.logoWrap}>
+            <Image
+              source={require("../../../assets/images/focus_logo.png")}
+              style={s.logo}
+              resizeMode="cover"
             />
           </View>
 
-          <View style={{ height: Spacing.xl }} />
+          {/* Title */}
+          <Text style={s.title}>{t.appName ?? "Recover"}</Text>
+          {!!t.tagline && <Text style={s.tagline}>{t.tagline}</Text>}
 
+          <View style={{ height: 36 }} />
+
+          {/* Error */}
+          {!!error && <Text style={s.error}>{error}</Text>}
+
+          {/* Fields */}
+          <UnderlineField
+            placeholder={t.email ?? "Epost"}
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            theme={theme}
+          />
+          <UnderlineField
+            placeholder={t.pinCode ?? "PIN"}
+            value={pin}
+            onChangeText={(v) => setPin(v.replace(/\D/g, "").slice(0, 4))}
+            keyboardType="number-pad"
+            secureTextEntry
+            theme={theme}
+          />
+
+          <View style={{ height: 28 }} />
+
+          {/* Login button */}
           <TouchableOpacity style={s.btn} onPress={submit} activeOpacity={0.85}>
             <Text style={s.btnText}>
-              {loading ? "..." : t.login.toUpperCase()}
+              {loading ? "..." : (t.login ?? "Logg inn").toUpperCase()}
             </Text>
           </TouchableOpacity>
 
-          <View style={s.links}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ForgotPassword")}
-            >
-              <Text style={s.linkBold}>{t.forgotPin ?? "Forgot PIN?"}</Text>
-            </TouchableOpacity>
-            <View style={{ height: Spacing.lg }} />
-            <Text style={s.linkMuted}>{t.noAccount}</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-              <Text style={s.linkBold}>{t.signUp}</Text>
-            </TouchableOpacity>
-          </View>
+          <View style={{ height: 32 }} />
 
-          <View style={{ height: 40 }} />
+          {/* Links */}
+          <Text style={s.linkMuted}>
+            {t.noAccount ?? "Har du ikke konto ?"}
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Register")}
+            style={{ marginTop: 6 }}
+          >
+            <Text style={s.linkPrimary}>
+              {(t.signUp ?? "Opprett konto").toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+
+          <View style={{ height: 20 }} />
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ForgotPassword")}
+          >
+            <Text style={s.linkPrimary}>
+              {(t.forgotPin ?? "Glemt PIN-kode?").toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Footer */}
+          <View style={s.footer}>
+            <Text style={s.footerText}>{COMPANY}</Text>
+            <TouchableOpacity onPress={() => Linking.openURL(`mailto:${EMAIL}`)}>
+              <Text style={s.footerLink}>{EMAIL}</Text>
+            </TouchableOpacity>
+            <Text style={s.footerText}>v{APP_VERSION}</Text>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
   );
 }
 
-function Field({
-  label,
+function UnderlineField({
+  placeholder,
   value,
   onChangeText,
   keyboardType,
@@ -126,88 +154,83 @@ function Field({
   theme,
 }) {
   return (
-    <View style={{ width: "100%", marginBottom: Spacing.lg }}>
-      <Text
-        style={{
-          color: theme.textSecondary,
-          fontSize: FontSize.md,
-          fontWeight: "600",
-          marginBottom: 6,
-        }}
-      >
-        {label}
-      </Text>
+    <View style={{ width: "100%", marginBottom: 24 }}>
       <TextInput
         style={{
           color: theme.text,
           fontSize: FontSize.md,
           fontWeight: "500",
-          paddingBottom: 8,
+          paddingVertical: 8,
+          paddingHorizontal: 0,
         }}
+        placeholder={placeholder}
+        placeholderTextColor={theme.textMuted}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
         autoCapitalize="none"
-        placeholderTextColor={theme.textMuted}
         selectionColor={theme.accent}
       />
-      <View
-        style={{ height: 2, backgroundColor: theme.inputLine, width: "100%" }}
-      />
+      <View style={{ height: 1.5, backgroundColor: theme.inputLine ?? "#ccc", width: "100%" }} />
     </View>
   );
 }
 
 const makeStyles = (t) =>
   StyleSheet.create({
-    bg: { flex: 1, backgroundColor: t.bg },
+    bg: {
+      flex: 1,
+      backgroundColor: t.bg,
+    },
     scroll: {
       flexGrow: 1,
-      paddingHorizontal: 30,
-      paddingTop: 70,
-      paddingBottom: 50,
+      paddingHorizontal: 32,
+      paddingTop: 72,
+      paddingBottom: 40,
       alignItems: "center",
     },
-    header: { alignItems: "center", marginBottom: 40, width: "100%" },
     logoWrap: {
-      width: 130,
-      height: 130,
-      borderRadius: 65,
+      width: 120,
+      height: 120,
+      borderRadius: 22,
       overflow: "hidden",
-      marginBottom: 8,
-      alignSelf: "center",
+      marginBottom: 16,
     },
-    logo: { width: 130, height: 130 },
+    logo: {
+      width: 120,
+      height: 120,
+    },
     title: {
       color: t.text,
-      fontSize: 26,
+      fontSize: 22,
       fontWeight: "700",
-      marginTop: 4,
-      letterSpacing: 0.5,
+      textAlign: "center",
+      letterSpacing: 0.3,
     },
-    subtitle: {
+    tagline: {
       color: t.textMuted,
       fontSize: FontSize.xs,
-      letterSpacing: 2,
+      textAlign: "center",
       marginTop: 4,
+      letterSpacing: 1,
     },
     error: {
       color: t.error,
       fontSize: FontSize.sm,
-      marginBottom: Spacing.md,
+      marginBottom: 16,
       width: "100%",
     },
     btn: {
       width: "100%",
-      height: 56,
+      height: 54,
       backgroundColor: t.accent,
       borderRadius: 10,
       justifyContent: "center",
       alignItems: "center",
       shadowColor: t.accent,
-      shadowOpacity: 0.4,
-      shadowRadius: 8,
+      shadowOpacity: 0.35,
+      shadowRadius: 10,
       shadowOffset: { width: 0, height: 4 },
       elevation: 6,
     },
@@ -217,17 +240,34 @@ const makeStyles = (t) =>
       fontWeight: "800",
       letterSpacing: 2,
     },
-    links: { alignItems: "center", marginTop: Spacing.xxl },
     linkMuted: {
       color: t.textSecondary,
       fontSize: FontSize.sm,
       fontWeight: "500",
+      textAlign: "center",
     },
-    linkBold: {
-      color: t.text,
-      fontSize: FontSize.md,
+    linkPrimary: {
+      color: t.accent,
+      fontSize: FontSize.sm,
       fontWeight: "700",
-      letterSpacing: 1,
-      marginTop: Spacing.sm,
+      letterSpacing: 1.5,
+      textAlign: "center",
+    },
+    footer: {
+      marginTop: 48,
+      alignItems: "center",
+      gap: 4,
+    },
+    footerText: {
+      color: t.textMuted,
+      fontSize: 11,
+      fontWeight: "500",
+      textAlign: "center",
+    },
+    footerLink: {
+      color: t.accent,
+      fontSize: 11,
+      fontWeight: "500",
+      textAlign: "center",
     },
   });

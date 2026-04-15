@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import { useLang } from "../../context/LangContext";
-import { patientApi } from "../../services/api";
+import { patientApi, authApi } from "../../services/api";
 import { FontSize, Spacing } from "../../constants/theme";
 
 function ToggleRow({
@@ -101,7 +101,7 @@ function LinkRow({ label, value, onPress, theme, last }) {
 }
 
 export default function PersonalSettingsScreen({ navigation }) {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
   const { theme, override, setTheme } = useTheme();
   const { t } = useLang();
   const insets = useSafeAreaInsets();
@@ -148,10 +148,29 @@ export default function PersonalSettingsScreen({ navigation }) {
   };
 
   const handleDeleteAccount = () => {
-    Alert.alert(t.deleteAccount, "Are you sure? This cannot be undone.", [
-      { text: t.cancel, style: "cancel" },
-      { text: t.deleteAccount, style: "destructive", onPress: () => {} },
-    ]);
+    Alert.alert(
+      t.deleteAccount ?? "Delete account",
+      t.deleteAccountConfirm ??
+        "Are you sure? This cannot be undone. All your data will be permanently deleted.",
+      [
+        { text: t.cancel ?? "Cancel", style: "cancel" },
+        {
+          text: t.deleteAccount ?? "Delete account",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await authApi.deleteAccount();
+              await logout();
+            } catch (e) {
+              Alert.alert(
+                t.error ?? "Error",
+                e?.message ?? "Could not delete account. Please try again.",
+              );
+            }
+          },
+        },
+      ],
+    );
   };
 
   const s = makeStyles(theme, insets);
@@ -270,13 +289,14 @@ export default function PersonalSettingsScreen({ navigation }) {
           />
         </View>
 
-
         <View style={s.divider} />
 
         {/* Delete account */}
         <View style={s.section}>
           <TouchableOpacity style={s.deleteRow} onPress={handleDeleteAccount}>
-            <Text style={s.deleteText}>{t.deleteAccount}</Text>
+            <Text style={s.deleteText}>
+              {t.deleteAccount ?? "Delete account"}
+            </Text>
             <Text style={s.deleteChevron}>›</Text>
           </TouchableOpacity>
         </View>

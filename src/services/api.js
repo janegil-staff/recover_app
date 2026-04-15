@@ -82,6 +82,11 @@ export const authApi = {
     await clearSession();
   },
 
+  deleteAccount: async () => {
+    await request("DELETE", "/api/auth/account");
+    await clearSession();
+  },
+
   requestPasswordReset: async (email) =>
     request("POST", "/api/auth/forgot-password", { email }),
 
