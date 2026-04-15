@@ -54,7 +54,7 @@ function CodeTab({ theme, t }) {
 
   const copyCode = () => {
     if (code) Share.share({
-      message: `${t.shareCodeMsg ?? 'Your Recover share code'}: ${code}\n\n${SHARE_DOMAIN}/share/${code}`,
+      message: `${t.shareCodeMsg ?? 'Your Recover share code'}: ${code}\n\n${SHARE_DOMAIN}`,
     });
   };
 
@@ -96,7 +96,7 @@ function CodeTab({ theme, t }) {
         {code && (
           <TouchableOpacity onPress={copyCode}>
             <Text style={[styles.shareUrl, { color: PRIMARY }]}>
-              {SHARE_DOMAIN}/share/{code}
+              {SHARE_DOMAIN}
             </Text>
           </TouchableOpacity>
         )}

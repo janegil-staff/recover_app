@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { FontSize, Spacing } from '../../constants/theme';
 
 export const TOTAL_SECONDS = 10 * 60;
-export const SHARE_DOMAIN  = 'recover.no';
+export const SHARE_DOMAIN  = 'https://quprecover.com';
 
 export const cardShadow = {
   shadowColor: '#000', shadowOpacity: 0.06,
