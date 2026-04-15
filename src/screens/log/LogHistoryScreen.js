@@ -1,7 +1,7 @@
 // src/screens/log/LogHistoryScreen.js
 import React, { useState, useCallback } from 'react';
 import {
-  View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator,
+  View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator, Image,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
@@ -11,16 +11,26 @@ import { useTheme } from '../../context/ThemeContext';
 import { useLang }  from '../../context/LangContext';
 import { FontSize, Spacing, Radius } from '../../constants/theme';
 
-// Cravings 0=best(green) → 5=worst(red) — used as avg score
 const SCORE_COLORS = {
   0: '#22C55E', 1: '#7AABDB', 2: '#FBBF24',
   3: '#FB923C', 4: '#EF4444', 5: '#991B1B',
 };
 
+// Combined score — cravings, amount, frequency = high is bad; mood & wellbeing = high is good (inverted)
+// Returns 0–5 rounded
+const FREQ_SCORE = { none: 0, once: 1, few_times: 2, daily: 3, multiple_daily: 4 };
+
 function avgScore(log) {
-  if (log.cravings != null) return Math.min(5, Math.round(log.cravings));
-  if (log.mood != null) return Math.max(0, 6 - log.mood);
-  return null;
+  if (!log) return null;
+  const vals = [];
+  if (log.cravings  != null) vals.push(log.cravings);
+  if (log.mood      != null) vals.push(6 - log.mood);                          // invert: 5→1, 1→5
+  if (log.wellbeing != null) vals.push(6 - log.wellbeing);                     // invert: 5→1, 1→5
+  if (log.amount    != null) vals.push(Math.min(5, (log.amount / 10) * 5));    // normalize 0–10 → 0–5
+  if (log.frequency != null && FREQ_SCORE[log.frequency] != null)
+    vals.push(FREQ_SCORE[log.frequency]);                                       // none=0 … multiple_daily=4
+  if (!vals.length) return null;
+  return Math.min(5, Math.round(vals.reduce((a, b) => a + b, 0) / vals.length));
 }
 
 function scoreColor(s) { return SCORE_COLORS[s] ?? '#b3cde8'; }
@@ -127,12 +137,33 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
                           </Svg>
                         </View>
                       )}
+                      {!!(existing?.medicationsTaken?.length) && (
+                        <View style={cal.medIcon}>
+                          <Image
+                            source={require('../../../assets/images/ico_medicine.png')}
+                            style={{ width: 16, height: 16 }}
+                            resizeMode="contain"
+                          />
+                        </View>
+                      )}
                     </View>
                   </TouchableOpacity>
                 );
               })}
             </View>
         }
+      </View>
+
+      {/* Legend */}
+      <View style={[cal.card, { backgroundColor: '#fff', paddingVertical: 10 }]}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
+          {[0,1,2,3,4,5].map(s => (
+            <View key={s} style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              <View style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: scoreColor(s) }} />
+              <Text style={{ fontSize: 10, color: MUTED }}>{scoreLabels[s]}</Text>
+            </View>
+          ))}
+        </View>
       </View>
 
       <View style={[cal.card, { backgroundColor: '#fff' }]}>
@@ -147,7 +178,7 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
             <Text style={[cal.summaryValue,{color:avgAll!=null?scoreColor(avgAll):MUTED}]}>
               {avgAll != null ? scoreLabels[avgAll] : '—'}
             </Text>
-            <Text style={[cal.summarySubLabel,{color:MUTED}]}>{t.avgCravings ?? 'Gj.snitt sug'}</Text>
+            <Text style={[cal.summarySubLabel,{color:MUTED}]}>{t.avgScore ?? 'Avg. score'}</Text>
           </View>
           <View style={[cal.divider,{backgroundColor:'#e8eef5'}]} />
           <View style={cal.summaryItem}>
@@ -158,7 +189,7 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
       </View>
 
       <View style={[cal.card, { backgroundColor: '#fff', marginBottom: 40 }]}>
-        <Text style={[cal.sectionTitle,{color:NAVY}]}>{t.cravingBreakdown ?? 'Sug-oversikt'}</Text>
+        <Text style={[cal.sectionTitle,{color:NAVY}]}>{t.cravingBreakdown ?? 'Score-oversikt'}</Text>
         {countByScore.map(({ score, count, label, color }) => (
           <View key={score} style={cal.breakdownRow}>
             <View style={[cal.breakdownDot,{backgroundColor:color}]} />
@@ -191,6 +222,7 @@ const cal = StyleSheet.create({
                      borderRadius:12,borderWidth:1.5,borderColor:'#2d4a6e',overflow:'visible' },
   cellText:        { fontSize: 13, fontWeight: '600' },
   noteIcon:        { position:'absolute',bottom:-6,right:-6,width:18,height:18 },
+  medIcon:         { position:'absolute',top:-6,right:-6,width:16,height:16 },
   summaryRow:      { flexDirection:'row',justifyContent:'space-around',alignItems:'center' },
   summaryItem:     { alignItems:'center',flex:1 },
   summaryValue:    { fontSize: 20, fontWeight: '800' },
@@ -346,7 +378,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                   {months[item.month]} {item.year}
                 </Text>
                 <Text style={{ color: pillText, fontSize: 13, marginTop: 2, opacity: 0.8 }}>
-                  {t.avgCravings ?? 'Avg. cravings'}: {item.avg != null ? scoreLabels[item.avg] : '—'}
+                  {t.avgScore ?? 'Avg. score'}: {item.avg != null ? scoreLabels[item.avg] : '—'}
                 </Text>
               </View>
               <Text style={{ color: pillText, fontSize: 20, opacity: 0.7, marginLeft: 8 }}>
@@ -404,6 +436,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       <Text style={{ color: '#444', fontSize: 13, marginBottom: 2 }}>
                         <Text style={{ fontWeight: '700' }}>{t.wellbeing ?? 'Wellbeing'}: </Text>
                         {log.wellbeing}/5
+                      </Text>
+                    )}
+                    {log.amount != null && (
+                      <Text style={{ color: '#444', fontSize: 13, marginBottom: 2 }}>
+                        <Text style={{ fontWeight: '700' }}>{t.amount ?? 'Amount'}: </Text>
+                        {log.amount}/10
                       </Text>
                     )}
                     {log.frequency && log.frequency !== 'none' && (

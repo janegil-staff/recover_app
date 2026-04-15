@@ -77,14 +77,6 @@ export default function PersonalSettingsScreen({ navigation }) {
   const [showTimePicker, setShowTimePicker]   = useState(false);
 
   const [darkMode,        setDarkMode]        = useState(override === "dark");
-  const [requirePin,      setRequirePin]      = useState(user?.settings?.requirePin ?? true);
-  const [trackSubstances, setTrackSubstances] = useState(user?.settings?.trackSubstances ?? true);
-  const [trackCravings,   setTrackCravings]   = useState(user?.settings?.trackCravings ?? true);
-  const [trackMood,       setTrackMood]       = useState(user?.settings?.trackMood ?? true);
-  const [trackMedication, setTrackMedication] = useState(user?.settings?.trackMedication ?? true);
-  const [trackWeight,     setTrackWeight]     = useState(user?.settings?.trackWeight ?? true);
-  const [shareWithDoctor, setShareWithDoctor] = useState(user?.settings?.shareWithDoctor ?? false);
-  const [weeklyReport,    setWeeklyReport]    = useState(user?.settings?.weeklyReport ?? false);
 
   // Load saved reminder state from AsyncStorage on mount
   useEffect(() => {
@@ -241,33 +233,9 @@ export default function PersonalSettingsScreen({ navigation }) {
             onValueChange={handleDarkMode}
             theme={theme}
           />
-          <ToggleRow
-            label={t.requirePin}
-            value={requirePin}
-            onValueChange={toggle(setRequirePin, "requirePin")}
-            theme={theme}
-            last
-          />
+
         </View>
 
-        <View style={s.divider} />
-
-        {/* ── Tracking fields ── */}
-        <View style={s.section}>
-          <ToggleRow label={t.trackSubstances} subtitle="Log which substances were used each day."    value={trackSubstances} onValueChange={toggle(setTrackSubstances, "trackSubstances")} theme={theme} />
-          <ToggleRow label={t.trackCravings}   subtitle="Track craving intensity from 0 to 5."        value={trackCravings}   onValueChange={toggle(setTrackCravings,   "trackCravings")}   theme={theme} />
-          <ToggleRow label={t.trackMood}        subtitle="Log mood and wellbeing each day."            value={trackMood}       onValueChange={toggle(setTrackMood,        "trackMood")}       theme={theme} />
-          <ToggleRow label={t.trackMedication}  subtitle="Log whether you took your medication."      value={trackMedication} onValueChange={toggle(setTrackMedication,  "trackMedication")} theme={theme} />
-          <ToggleRow label={t.trackWeight}      subtitle="Log your weight as part of your recovery."  value={trackWeight}     onValueChange={toggle(setTrackWeight,      "trackWeight")}     theme={theme} last />
-        </View>
-
-        <View style={s.divider} />
-
-        {/* ── Sharing ── */}
-        <View style={s.section}>
-          <ToggleRow label={t.weeklyReport} subtitle="Receive a weekly overview of your recovery trends." value={weeklyReport}    onValueChange={toggle(setWeeklyReport,    "weeklyReport")}    theme={theme} />
-          <ToggleRow label={t.shareData}    subtitle="Allow your clinician to view your logs and trends."  value={shareWithDoctor} onValueChange={toggle(setShareWithDoctor, "shareWithDoctor")} theme={theme} last />
-        </View>
 
         <View style={s.divider} />
 
