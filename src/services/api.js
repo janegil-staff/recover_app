@@ -99,6 +99,16 @@ export const authApi = {
       code,
       newPassword,
     }),
+
+  checkEmail: async (email) => {
+    try {
+      await request("POST", "/api/auth/check-email", { email });
+      return { exists: false };
+    } catch (e) {
+      if (e.message?.toLowerCase().includes("already")) return { exists: true };
+      throw e;
+    }
+  },
 };
 
 // ── patientApi ────────────────────────────────────────────────────────────
