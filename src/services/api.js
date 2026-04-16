@@ -50,7 +50,7 @@ export const authApi = {
     const payload = {
       email,
       password,
-      name: name ?? email?.split("@")[0] ?? "",
+      name: name ?? (typeof email === "string" ? email.split("@")[0] : "") ?? "",
       language: language ?? "en",
       age: age ?? 0,
       gender: gender ?? "other",
