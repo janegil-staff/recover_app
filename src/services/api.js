@@ -2,7 +2,7 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "https://monkfish-app-qjb62.ondigitalocean.app/";
 
 async function getToken() {
   return SecureStore.getItemAsync("token");
@@ -45,6 +45,7 @@ export const authApi = {
     age,
     gender,
     height,
+    weight
   }) => {
     if (!email) throw new Error("Email is required");
     const payload = {
@@ -55,6 +56,7 @@ export const authApi = {
       age: age ?? 0,
       gender: gender ?? "other",
       height: height ?? 0,
+      weight: weight ?? 0,
     };
     console.log("[API] register payload:", payload);
     const data = await request("POST", "/api/auth/register", payload);

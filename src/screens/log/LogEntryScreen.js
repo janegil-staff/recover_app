@@ -13,6 +13,8 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import {
   SafeAreaView,
@@ -441,7 +443,6 @@ function IllustrationSideEffects() {
 function IllustrationMedication() {
   return (
     <Svg width={180} height={160} viewBox="0 0 200 180" fill="none">
-      {/* Pill */}
       <Rect
         x="30"
         y="75"
@@ -470,7 +471,6 @@ function IllustrationMedication() {
         fill={ACCENT}
         opacity="0.25"
       />
-      {/* Capsule */}
       <Rect
         x="120"
         y="60"
@@ -490,7 +490,6 @@ function IllustrationMedication() {
         fill="#f4a261"
         opacity="0.5"
       />
-      {/* Bottle */}
       <Rect
         x="68"
         y="125"
@@ -511,7 +510,6 @@ function IllustrationMedication() {
         opacity="0.5"
       />
       <Circle cx="82" cy="142" r="5" fill={ACCENT} opacity="0.4" />
-      {/* Checkmarks */}
       <Circle
         cx="165"
         cy="80"
@@ -542,7 +540,6 @@ function IllustrationMedication() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {/* Dashes */}
       <Line
         x1="112"
         y1="80"
@@ -810,7 +807,6 @@ export default function LogEntryScreen({ navigation, route }) {
   );
   const [savedMeds, setSavedMeds] = useState([]);
 
-  // Load user's saved medications (custom + preset selections)
   useEffect(() => {
     const PRESET_MEDS = [
       { id: "methadone", name: "Metadon", brand: "Metadone" },
@@ -834,14 +830,12 @@ export default function LogEntryScreen({ navigation, route }) {
           patientApi.getMedications(),
           patientApi.get(),
         ]);
-        // Custom meds from DB
         const custom = (customMeds ?? []).map((m) => ({
           _id: m._id,
           name: m.name,
           dosage: m.dosage,
           isCustom: true,
         }));
-        // Preset meds the user selected in MedicationsScreen
         const selectedIds = profile?.medicines?.map((m) => m.id) ?? [];
         const preset = PRESET_MEDS.filter((m) =>
           selectedIds.includes(m.id),
@@ -1120,21 +1114,17 @@ export default function LogEntryScreen({ navigation, route }) {
       subtitle: t.notePlaceholder,
       illustration: <IllustrationNote />,
       content: (
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-        >
-          <TextInput
-            style={s.noteInput}
-            value={note}
-            onChangeText={setNote}
-            placeholder={t.notePlaceholder}
-            placeholderTextColor={TEXT_MUTED}
-            multiline
-            numberOfLines={5}
-            textAlignVertical="top"
-            selectionColor={ACCENT}
-          />
-        </KeyboardAvoidingView>
+        <TextInput
+          style={s.noteInput}
+          value={note}
+          onChangeText={setNote}
+          placeholder={t.notePlaceholder}
+          placeholderTextColor={TEXT_MUTED}
+          multiline
+          numberOfLines={5}
+          textAlignVertical="top"
+          selectionColor={ACCENT}
+        />
       ),
     },
     {
@@ -1174,6 +1164,7 @@ export default function LogEntryScreen({ navigation, route }) {
 
   const goNext = async () => {
     if (step < totalSteps - 1) {
+      Keyboard.dismiss();
       animateSlide(1);
       setStep((s) => s + 1);
     } else {
@@ -1183,6 +1174,7 @@ export default function LogEntryScreen({ navigation, route }) {
 
   const goBack = () => {
     if (step > 0) {
+      Keyboard.dismiss();
       animateSlide(-1);
       setStep((s) => s - 1);
     } else navigation.goBack();
@@ -1237,77 +1229,77 @@ export default function LogEntryScreen({ navigation, route }) {
   });
 
   return (
-    <View style={s.root}>
-      <SafeAreaView style={{ flex: 1 }} edges={["top", "bottom"]}>
-        {/* Top bar */}
-        <View style={s.topBar}>
-          <TouchableOpacity onPress={goBack} style={s.topBtn}>
-            <Text style={s.topBtnText}>{step === 0 ? "✕" : "‹"}</Text>
-          </TouchableOpacity>
-
-          <View style={s.dots}>
-            {STEPS.map((_, i) => (
-              <View
-                key={i}
-                style={[
-                  s.dot,
-                  i === step && { width: 20, backgroundColor: ACCENT },
-                  i < step && { backgroundColor: ACCENT, opacity: 0.35 },
-                  i > step && { backgroundColor: BORDER },
-                ]}
-              />
-            ))}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={s.root}>
+        <SafeAreaView style={{ flex: 1 }} edges={["top", "bottom"]}>
+          {/* Top bar */}
+          <View style={s.topBar}>
+            <TouchableOpacity onPress={goBack} style={s.topBtn}>
+              <Text style={s.topBtnText}>{step === 0 ? "✕" : "‹"}</Text>
+            </TouchableOpacity>
+            <View style={s.dots}>
+              {STEPS.map((_, i) => (
+                <View
+                  key={i}
+                  style={[
+                    s.dot,
+                    i === step && { width: 20, backgroundColor: ACCENT },
+                    i < step && { backgroundColor: ACCENT, opacity: 0.35 },
+                    i > step && { backgroundColor: BORDER },
+                  ]}
+                />
+              ))}
+            </View>
+            {isEdit ? (
+              <TouchableOpacity onPress={handleDelete} style={s.topBtn}>
+                <Text style={s.topBtnText}>🗑</Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={s.topBtn} />
+            )}
           </View>
 
-          {isEdit ? (
-            <TouchableOpacity onPress={handleDelete} style={s.topBtn}>
-              <Text style={s.topBtnText}>🗑</Text>
+          <Text style={s.dateText}>{displayDate}</Text>
+
+          {/* Slide */}
+          <Animated.View
+            style={[{ flex: 1 }, { transform: [{ translateX: slideAnim }] }]}
+          >
+            <View style={s.illustrationWrap}>{currentStep.illustration}</View>
+            <Text style={s.stepTitle}>{currentStep.title}</Text>
+            <Text style={s.stepSubtitle}>{currentStep.subtitle}</Text>
+            <ScrollView
+              contentContainerStyle={s.contentArea}
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+            >
+              {currentStep.content}
+            </ScrollView>
+          </Animated.View>
+
+          {/* Bottom bar */}
+          <View style={[s.bottomBar, { paddingBottom: insets.bottom + 8 }]}>
+            <Text style={s.stepCounter}>
+              {step + 1} / {totalSteps}
+            </Text>
+            <TouchableOpacity
+              style={s.nextBtn}
+              onPress={goNext}
+              disabled={saving}
+              activeOpacity={0.85}
+            >
+              {saving ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={s.nextBtnText}>
+                  {step === totalSteps - 1 ? t.save : `${t.next} →`}
+                </Text>
+              )}
             </TouchableOpacity>
-          ) : (
-            <View style={s.topBtn} />
-          )}
-        </View>
-
-        <Text style={s.dateText}>{displayDate}</Text>
-
-        {/* Slide */}
-        <Animated.View
-          style={[{ flex: 1 }, { transform: [{ translateX: slideAnim }] }]}
-        >
-          <View style={s.illustrationWrap}>{currentStep.illustration}</View>
-          <Text style={s.stepTitle}>{currentStep.title}</Text>
-          <Text style={s.stepSubtitle}>{currentStep.subtitle}</Text>
-          <ScrollView
-            contentContainerStyle={s.contentArea}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-          >
-            {currentStep.content}
-          </ScrollView>
-        </Animated.View>
-
-        {/* Bottom bar */}
-        <View style={[s.bottomBar, { paddingBottom: insets.bottom + 8 }]}>
-          <Text style={s.stepCounter}>
-            {step + 1} / {totalSteps}
-          </Text>
-          <TouchableOpacity
-            style={s.nextBtn}
-            onPress={goNext}
-            disabled={saving}
-            activeOpacity={0.85}
-          >
-            {saving ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={s.nextBtnText}>
-                {step === totalSteps - 1 ? t.save : `${t.next} →`}
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    </View>
+          </View>
+        </SafeAreaView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
