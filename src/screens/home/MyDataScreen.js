@@ -343,7 +343,10 @@ export default function MyDataScreen({ navigation }) {
   // 1. Recovery Profile
   const recoverySpider = useMemo(() => {
     if (!records.length) return null;
-    const avg = (key) => { const v = records.map(r => r[key]).filter(x => x != null); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : 0; };
+    const avg = (key) => {
+      const v = records.map(r => r[key]).filter(x => x != null);
+      return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+    };
     const avgMood      = avg("mood");
     const avgWellbeing = avg("wellbeing");
     const avgCravings  = avg("cravings");
@@ -351,11 +354,11 @@ export default function MyDataScreen({ navigation }) {
     const soberDays    = records.filter(r => !r.substances?.length).length;
     const soberPct     = (soberDays / records.length) * 5;
     return [
-      { label: "Mood",       value: avgMood,                             max: 5 },
-      { label: "Wellbeing",  value: avgWellbeing,                        max: 5 },
-      { label: "Low craving",value: Math.max(0, 5 - avgCravings),        max: 5 },
-      { label: "Low amount", value: Math.max(0, 5 - (avgAmount/10)*5),   max: 5 },
-      { label: "Sober days", value: soberPct,                            max: 5 },
+      { label: "Mood",        value: avgMood      ?? 0, max: 5 },
+      { label: "Wellbeing",   value: avgWellbeing ?? 0, max: 5 },
+      { label: "Low craving", value: avgCravings  != null ? Math.max(0, 5 - avgCravings) : 5, max: 5 },
+      { label: "Low amount",  value: avgAmount    != null ? Math.max(0, 5 - (avgAmount / 10) * 5) : 5, max: 5 },
+      { label: `Sober (${soberDays}d)`, value: soberPct, max: 5 },
     ];
   }, [records]);
 
