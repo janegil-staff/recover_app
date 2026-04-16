@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "../../context/ThemeContext";
@@ -62,7 +63,11 @@ export default function AboutScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
       >
         <View style={{ alignItems: "center", marginBottom: Spacing.xl }}>
-          <Text style={{ fontSize: 48, marginBottom: Spacing.sm }}>💊</Text>
+          <Image
+            source={require("../../../assets/images/focus_logo.png")}
+            style={{ width: 80, height: 80, borderRadius: 20, marginBottom: Spacing.sm }}
+            resizeMode="contain"
+          />
           <Text
             style={{
               color: theme.text,
@@ -118,7 +123,7 @@ export default function AboutScreen({ navigation }) {
 
         <Section title={t.aboutContactTitle ?? "Contact"} theme={theme}>
           {t.aboutContactBody ??
-            "Qup DA\nEmail: support@qupda.com\nWebsite: www.qupda.com"}
+            "Qup DA\nEmail: support@quprecover.com\nWebsite: www.quprecover.com"}
         </Section>
 
         <View style={{ height: Spacing.xl }} />
