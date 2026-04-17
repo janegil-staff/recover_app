@@ -1,8 +1,7 @@
 {
   "expo": {
-    "name": "recover_app",
-
-    "slug": "recover_app",
+    "name": "recover",
+    "slug": "recover",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/focus_logo.png",
@@ -14,7 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.qup.recover",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -30,6 +33,11 @@
       "expo-secure-store",
       "@react-native-community/datetimepicker",
       "expo-notifications"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c6c78478-5b54-4537-ad8b-066309aa0f08"
+      }
+    }
   }
 }
