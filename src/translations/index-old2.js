@@ -250,40 +250,36 @@ const en = {
   myMedications: "Mediciner",
   myDiary: "Min dagbok",
   shareData: "Dela data",
-    editLog: "Edit Log",
-  
-    deleteLog: "Delete Log",
-  
-    deleteLogConfirm: "Are you sure you want to delete this entry?",
-  
-    delete: "Delete",
-  
-    calendar: "Calendar",
-  
-    diary: "Diary",
-  
-    monthSummary: "Month Summary",
-  
-    missing: "Missing",
-  
-    cravingBreakdown: "Craving Breakdown",
-  
-    scoreNone: "No cravings",
-  
-    scoreLow: "Low",
-  
-    scoreModerate: "Moderate",
-  
-    scoreHigh: "High",
-  
-    scoreVeryHigh: "Very high",
-  
-    scoreSevere: "Severe",
-  
-    months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-  
-    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  
+  editLog: "Rediger logg",
+  deleteLog: "Slett logg",
+  deleteLogConfirm: "Er du sikker på at du vil slette denne registreringen?",
+  delete: "Slett",
+  calendar: "Kalender",
+  diary: "Dagbok",
+  monthSummary: "Månedsoversikt",
+  missing: "Mangler",
+  cravingBreakdown: "Sug-oversikt",
+  scoreNone: "Ingen sug",
+  scoreLow: "Lavt",
+  scoreModerate: "Moderat",
+  scoreHigh: "Høyt",
+  scoreVeryHigh: "Veldig høyt",
+  scoreSevere: "Kraftig sug",
+  months: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
+  ],
+  weekdays: ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"],
   gender: "Kjønn",
   female: "Kvinne",
   male: "Mann",
@@ -300,27 +296,38 @@ const en = {
   myMedications: "Medikamente",
   myDiary: "Mein Tagebuch",
   shareData: "Daten teilen",
-  
-  
-  
-    next: "Next",
-  
-    error: "Error",
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  editLog: "Edit Log",
+  deleteLog: "Delete Log",
+  deleteLogConfirm: "Are you sure you want to delete this entry?",
+  next: "Next",
+  error: "Error",
+  delete: "Delete",
+  calendar: "Calendar",
+  diary: "Diary",
+  monthSummary: "Month Summary",
+  missing: "Missing",
+  cravingBreakdown: "Craving Breakdown",
+  scoreNone: "No cravings",
+  scoreLow: "Low",
+  scoreModerate: "Moderate",
+  scoreHigh: "High",
+  scoreVeryHigh: "Very high",
+  scoreSevere: "Severe",
+  months: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+  weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   gender: "Gender",
   female: "Female",
   male: "Male",
@@ -391,8 +398,8 @@ const en = {
   gad7Q5: "Being so restless that it is hard to sit still?",
   gad7Q6: "Becoming easily annoyed or irritable?",
   gad7Q7: "Feeling afraid, as if something awful might happen?",
-    gad7I1: "Minimal anxiety",
-  
+  gad7I1:
+    "Minimal anxiety', gad7I2: 'Mild anxiety', gad7I3: 'Moderate anxiety', gad7I4: 'Severe anxiety",
 
   // PHQ-9
   phq9Title: "PHQ-9",
@@ -406,8 +413,8 @@ const en = {
   phq9Q7: "Trouble concentrating on things?",
   phq9Q8: "Moving or speaking so slowly that others could have noticed?",
   phq9Q9: "Thoughts that you would be better off dead, or of hurting yourself?",
-    phq9I1: "Minimal depression",
-  
+  phq9I1:
+    "Minimal depression', phq9I2: 'Mild depression', phq9I3: 'Moderate depression', phq9I4: 'Moderately severe', phq9I5: 'Severe depression",
 
   // AUDIT
   auditTitle: "AUDIT",
@@ -429,8 +436,8 @@ const en = {
     "Have you or someone else been injured as a result of your drinking?",
   auditQ10:
     "Has a doctor, nurse or other health worker suggested you cut down on your drinking?",
-    auditI1: "Low risk",
-  
+  auditI1:
+    "Low risk', auditI2: 'Hazardous use', auditI3: 'Harmful use', auditI4: 'Likely dependence",
 
   // DAST-10
   dast10Title: "DAST-10",
@@ -448,8 +455,8 @@ const en = {
   dast10Q9:
     "Have you experienced withdrawal symptoms when you stopped using drugs?",
   dast10Q10: "Have you had medical problems as a result of your drug use?",
-    dast10I1: "No problem",
-  
+  dast10I1:
+    "No problem', dast10I2: 'Low level', dast10I3: 'Moderate', dast10I4: 'Substantial', dast10I5: 'Severe",
 
   // CAGE
   cageTitle: "CAGE",
@@ -458,8 +465,8 @@ const en = {
   cageQ2: "Have people annoyed you by criticizing your drinking? (Annoyed)",
   cageQ3: "Have you ever felt bad or guilty about your drinking? (Guilty)",
   cageQ4: "Have you ever had a drink first thing in the morning? (Eye-opener)",
-    cageI1: "Probably not dependent",
-  
+  cageI1:
+    "Probably not dependent', cageI2: 'Possible alcohol problem', cageI3: 'Likely alcohol dependence",
 
   // Readiness
   readinessTitle: "Readiness to Change",
@@ -470,8 +477,8 @@ const en = {
   readinessQ4: "I am motivated to stop",
   readinessQ5: "I believe I can change my substance use",
   readinessQ6: "I am ready to start the process of change",
-    readinessI1: "Not ready",
-  
+  readinessI1:
+    "Not ready', readinessI2: 'Considering change', readinessI3: 'Ready for change",
 
   myData: "My Data",
   medicationsSubtitle: "Which medications did you take today?",
@@ -618,56 +625,6 @@ const en = {
     "Qup DA reserves the right to update these Terms at any time. Continued use of the app after changes constitutes acceptance of the updated Terms.",
   terms8Title: "8. Contact",
   terms8Body: "Qup DA\nEmail: support@qupda.com\nWebsite: www.qupda.com",
-
-  gad7I2: "Mild anxiety",
-  gad7I3: "Moderate anxiety",
-  gad7I4: "Severe anxiety",
-  phq9I2: "Mild depression",
-  phq9I3: "Moderate depression",
-  phq9I4: "Moderately severe",
-  phq9I5: "Severe depression",
-  auditI2: "Hazardous use",
-  auditI3: "Harmful use",
-  auditI4: "Likely dependence",
-  dast10I2: "Low level",
-  dast10I3: "Moderate",
-  dast10I4: "Substantial",
-  dast10I5: "Severe",
-  cageI2: "Possible alcohol problem",
-  cageI3: "Likely alcohol dependence",
-  readinessI2: "Considering change",
-  readinessI3: "Ready for change",
-
-  recoveryProfileTitle: "Recovery Profile",
-  recoveryProfileSub: "Higher = better on all axes",
-  substanceProfileTitle: "Substance Profile",
-  substanceProfileSub: "Days used (blue) · Avg amount (pink)",
-  questionnaireRadarTitle: "Questionnaire Radar",
-  questionnaireRadarSub: "% of maximum score per assessment",
-  axisMood: "Mood",
-  axisWellbeing: "Wellbeing",
-  axisLowCraving: "Low craving",
-  axisLowAmount: "Low amount",
-  axisSober: "Sober",
-  legendDaysUsed: "Days used",
-  legendAvgAmount: "Avg amount",
-  qcMinimal: "Minimal",
-  qcMild: "Mild",
-  qcModerate: "Moderate",
-  qcSevere: "Severe",
-  qcModSevere: "Mod-severe",
-  qcLowRisk: "Low risk",
-  qcHazardous: "Hazardous",
-  qcHarmful: "Harmful",
-  qcLikelyDep: "Likely dep.",
-  qcNone: "None",
-  qcLow: "Low",
-  qcSubstantial: "Substantial",
-  qcUnlikely: "Unlikely",
-  qcPossible: "Possible",
-  qcNotReady: "Not ready",
-  qcConsidering: "Considering",
-  qcReady: "Ready",
 };
 
 const no = {
@@ -810,10 +767,8 @@ const no = {
   onboarding5Title: "Del med legen din",
   onboarding5Subtitle:
     "Del en tilgangskode med behandleren din. Dataene dine er krypterte og private.",
-    next: "Neste",
-  
-    error: "Feil",
-  
+  next: "Neste",
+  error: "Feil",
   gender: "Kjønn",
   female: "Kvinne",
   male: "Mann",
@@ -981,8 +936,8 @@ const no = {
   gad7Q5: "Vært så rastløs at det er vanskelig å sitte stille?",
   gad7Q6: "Blitt lett irritabel eller oppfarende?",
   gad7Q7: "Følt deg redd for at noe forferdelig kan skje?",
-    gad7I1: "Minimal angst",
-  
+  gad7I1:
+    "Minimal angst', gad7I2: 'Mild angst', gad7I3: 'Moderat angst', gad7I4: 'Alvorlig angst",
 
   // PHQ-9
   phq9Title: "PHQ-9",
@@ -997,8 +952,8 @@ const no = {
   phq9Q8: "Beveget deg saktere enn normalt eller vært rastløs?",
   phq9Q9:
     "Tanker om å skade deg selv eller at det hadde vært bedre å være død?",
-    phq9I1: "Minimal depresjon",
-  
+  phq9I1:
+    "Minimal depresjon', phq9I2: 'Mild depresjon', phq9I3: 'Moderat depresjon', phq9I4: 'Moderat-alvorlig', phq9I5: 'Alvorlig depresjon",
 
   // AUDIT
   auditTitle: "AUDIT",
@@ -1013,8 +968,8 @@ const no = {
   auditQ8: "Hvor ofte siste år klarte du ikke å huske hva som skjedde?",
   auditQ9: "Har du eller noen andre blitt skadet pga. din drikking?",
   auditQ10: "Har lege eller sykepleier anbefalt at du drikker mindre?",
-    auditI1: "Lavrisiko",
-  
+  auditI1:
+    "Lavrisiko', auditI2: 'Risikofylt forbruk', auditI3: 'Skadelig forbruk', auditI4: 'Sannsynlig avhengighet",
 
   // DAST-10
   dast10Title: "DAST-10",
@@ -1030,8 +985,8 @@ const no = {
   dast10Q8: "Har du bedrevet ulovlige aktiviteter for å skaffe deg rusmidler?",
   dast10Q9: "Har du opplevd abstinenssymptomer når du sluttet med rusmidler?",
   dast10Q10: "Har du hatt helseproblemer som følge av rusbruk?",
-    dast10I1: "Intet problem",
-  
+  dast10I1:
+    "Intet problem', dast10I2: 'Lavt nivå', dast10I3: 'Moderat', dast10I4: 'Alvorlig', dast10I5: 'Svært alvorlig",
 
   // CAGE
   cageTitle: "CAGE",
@@ -1043,8 +998,8 @@ const no = {
     "Har du noen gang følt deg dårlig eller skyldig over drikkingen? (Guilty)",
   cageQ4:
     "Har du noen gang drukket alkohol første ting om morgenen? (Eye-opener)",
-    cageI1: "Sannsynligvis ikke avhengig",
-  
+  cageI1:
+    "Sannsynligvis ikke avhengig', cageI2: 'Mulig alkoholproblem', cageI3: 'Sannsynlig alkoholavhengighet",
 
   // Readiness
   readinessTitle: "Endringsvilje",
@@ -1055,8 +1010,8 @@ const no = {
   readinessQ4: "Jeg er motivert til å slutte",
   readinessQ5: "Jeg tror jeg kan klare å endre rusbruken min",
   readinessQ6: "Jeg er klar til å starte endringsprosessen",
-    readinessI1: "Ikke klar",
-  
+  readinessI1:
+    "Ikke klar', readinessI2: 'Vurderer endring', readinessI3: 'Klar for endring",
 
   myData: "Mine data",
   medicationsSubtitle: "Hvilke medisiner tok du i dag?",
@@ -1204,73 +1159,6 @@ const no = {
     "Qup DA forbeholder seg retten til å oppdatere disse vilkårene. Fortsatt bruk etter endringer innebærer aksept.",
   terms8Title: "8. Kontakt",
   terms8Body: "Qup DA\nE-post: support@qupda.com\nNettside: www.qupda.com",
-
-  calendar: "Kalender",
-  diary: "Dagbok",
-  monthSummary: "Månedsoversikt",
-  missing: "Mangler",
-  cravingBreakdown: "Sug-oversikt",
-  scoreNone: "Ingen sug",
-  scoreLow: "Lavt",
-  scoreModerate: "Moderat",
-  scoreHigh: "Høyt",
-  scoreVeryHigh: "Veldig høyt",
-  scoreSevere: "Kraftig sug",
-  months: ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
-  weekdays: ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"],
-  editLog: "Rediger logg",
-  deleteLog: "Slett logg",
-  deleteLogConfirm: "Er du sikker på at du vil slette denne registreringen?",
-  delete: "Slett",
-  gad7I2: "Mild angst",
-  gad7I3: "Moderat angst",
-  gad7I4: "Alvorlig angst",
-  phq9I2: "Mild depresjon",
-  phq9I3: "Moderat depresjon",
-  phq9I4: "Moderat-alvorlig",
-  phq9I5: "Alvorlig depresjon",
-  auditI2: "Risikofylt forbruk",
-  auditI3: "Skadelig forbruk",
-  auditI4: "Sannsynlig avhengighet",
-  dast10I2: "Lavt nivå",
-  dast10I3: "Moderat",
-  dast10I4: "Alvorlig",
-  dast10I5: "Svært alvorlig",
-  cageI2: "Mulig alkoholproblem",
-  cageI3: "Sannsynlig alkoholavhengighet",
-  readinessI2: "Vurderer endring",
-  readinessI3: "Klar for endring",
-
-  recoveryProfileTitle: "Bedringsprofil",
-  recoveryProfileSub: "Høyere = bedre på alle akser",
-  substanceProfileTitle: "Rusbruksprofil",
-  substanceProfileSub: "Dager brukt (blå) · Gj.snitt mengde (rosa)",
-  questionnaireRadarTitle: "Spørreskjema-radar",
-  questionnaireRadarSub: "% av maksskår per skjema",
-  axisMood: "Humør",
-  axisWellbeing: "Velvære",
-  axisLowCraving: "Lite sug",
-  axisLowAmount: "Lite mengde",
-  axisSober: "Rusfri",
-  legendDaysUsed: "Dager brukt",
-  legendAvgAmount: "Gj.snitt mengde",
-  qcMinimal: "Minimal",
-  qcMild: "Mild",
-  qcModerate: "Moderat",
-  qcSevere: "Alvorlig",
-  qcModSevere: "Mod-alvorlig",
-  qcLowRisk: "Lav risiko",
-  qcHazardous: "Risikofylt",
-  qcHarmful: "Skadelig",
-  qcLikelyDep: "Sannsynlig avh.",
-  qcNone: "Ingen",
-  qcLow: "Lav",
-  qcSubstantial: "Betydelig",
-  qcUnlikely: "Usannsynlig",
-  qcPossible: "Mulig",
-  qcNotReady: "Ikke klar",
-  qcConsidering: "Vurderer",
-  qcReady: "Klar",
 };
 
 const de = {
@@ -1579,14 +1467,10 @@ const de = {
   gad7Q5: "So unruhig, dass es schwer ist, still zu sitzen?",
   gad7Q6: "Leicht gereizt oder reizbar geworden?",
   gad7Q7: "Angst gefühlt, als ob etwas Schreckliches passieren könnte?",
-    gad7I1: "Minimale Angst",
-  
-    gad7I2: "Milde Angst",
-  
-    gad7I3: "Moderate Angst",
-  
-    gad7I4: "Schwere Angst",
-  
+  gad7I1: "Minimale Angst",
+  gad7I2: "Milde Angst",
+  gad7I3: "Moderate Angst",
+  gad7I4: "Schwere Angst",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Depressions-Screening (letzte 2 Wochen)",
   phq9Q1: "Wenig Interesse oder Freude an Aktivitäten?",
@@ -1600,16 +1484,11 @@ const de = {
   phq9Q8:
     "So langsam bewegt oder gesprochen, dass andere es bemerkt haben könnten?",
   phq9Q9: "Gedanken, besser tot zu sein oder sich selbst zu verletzen?",
-    phq9I1: "Minimale Depression",
-  
-    phq9I2: "Milde Depression",
-  
-    phq9I3: "Moderate Depression",
-  
-    phq9I4: "Moderat-schwer",
-  
-    phq9I5: "Schwere Depression",
-  
+  phq9I1: "Minimale Depression",
+  phq9I2: "Milde Depression",
+  phq9I3: "Moderate Depression",
+  phq9I4: "Moderat-schwer",
+  phq9I5: "Schwere Depression",
   auditTitle: "AUDIT",
   auditSubtitle: "Alkohol-Screening",
   auditQ1: "Wie oft trinken Sie ein alkoholisches Getränk?",
@@ -1623,14 +1502,10 @@ const de = {
   auditQ8: "Wie oft konnten Sie sich wegen des Trinkens nicht erinnern?",
   auditQ9: "Wurden Sie oder jemand anderes durch Ihr Trinken verletzt?",
   auditQ10: "Hat ein Arzt empfohlen, weniger zu trinken?",
-    auditI1: "Geringes Risiko",
-  
-    auditI2: "Riskanter Konsum",
-  
-    auditI3: "Schädlicher Konsum",
-  
-    auditI4: "Wahrscheinlich abhängig",
-  
+  auditI1: "Geringes Risiko",
+  auditI2: "Riskanter Konsum",
+  auditI3: "Schädlicher Konsum",
+  auditI4: "Wahrscheinlich abhängig",
   dast10Title: "DAST-10",
   dast10Subtitle: "Drogenkonsum-Screening (letzte 12 Monate)",
   dast10Q1:
@@ -1647,16 +1522,11 @@ const de = {
     "Haben Sie illegale Aktivitäten unternommen, um Drogen zu beschaffen?",
   dast10Q9: "Hatten Sie Entzugserscheinungen beim Aufhören?",
   dast10Q10: "Hatten Sie gesundheitliche Probleme durch Drogenkonsum?",
-    dast10I1: "Kein Problem",
-  
-    dast10I2: "Geringes Niveau",
-  
-    dast10I3: "Moderat",
-  
-    dast10I4: "Erheblich",
-  
-    dast10I5: "Schwer",
-  
+  dast10I1: "Kein Problem",
+  dast10I2: "Geringes Niveau",
+  dast10I3: "Moderat",
+  dast10I4: "Erheblich",
+  dast10I5: "Schwer",
   cageTitle: "CAGE",
   cageSubtitle: "Schnelles Alkohol-Screening",
   cageQ1: "Haben Sie jemals das Gefühl gehabt, weniger trinken zu müssen?",
@@ -1664,12 +1534,9 @@ const de = {
   cageQ3:
     "Haben Sie sich jemals schlecht oder schuldig wegen des Trinkens gefühlt?",
   cageQ4: "Haben Sie morgens als erstes getrunken?",
-    cageI1: "Wahrscheinlich nicht abhängig",
-  
-    cageI2: "Mögliches Alkoholproblem",
-  
-    cageI3: "Wahrscheinlich Alkoholabhängigkeit",
-  
+  cageI1: "Wahrscheinlich nicht abhängig",
+  cageI2: "Mögliches Alkoholproblem",
+  cageI3: "Wahrscheinlich Alkoholabhängigkeit",
   readinessTitle: "Veränderungsbereitschaft",
   readinessSubtitle: "Motivation zur Genesung",
   readinessQ1: "Ich habe ein Problem mit meinem Substanzkonsum",
@@ -1678,12 +1545,9 @@ const de = {
   readinessQ4: "Ich bin motiviert aufzuhören",
   readinessQ5: "Ich glaube, ich kann meinen Substanzkonsum ändern",
   readinessQ6: "Ich bin bereit, den Veränderungsprozess zu beginnen",
-    readinessI1: "Nicht bereit",
-  
-    readinessI2: "Erwägt Veränderung",
-  
-    readinessI3: "Bereit zur Veränderung",
-  
+  readinessI1: "Nicht bereit",
+  readinessI2: "Erwägt Veränderung",
+  readinessI3: "Bereit zur Veränderung",
 
   // Questionnaire intro screens
   introWhatIsIt: "Was ist das?",
@@ -1820,57 +1684,6 @@ const de = {
     "Qup DA behält sich das Recht vor, diese Bedingungen zu aktualisieren.",
   terms8Title: "8. Kontakt",
   terms8Body: "Qup DA\nE-Mail: support@qupda.com\nWebsite: www.qupda.com",
-
-  calendar: "Kalender",
-  diary: "Tagebuch",
-  monthSummary: "Monatsübersicht",
-  missing: "Fehlt",
-  cravingBreakdown: "Verlangen-Aufschlüsselung",
-  scoreNone: "Kein Verlangen",
-  scoreLow: "Gering",
-  scoreModerate: "Mäßig",
-  scoreHigh: "Hoch",
-  scoreVeryHigh: "Sehr hoch",
-  scoreSevere: "Sehr stark",
-  months: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"],
-  weekdays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
-  editLog: "Eintrag bearbeiten",
-  deleteLog: "Eintrag löschen",
-  deleteLogConfirm: "Möchtest du diesen Eintrag wirklich löschen?",
-  delete: "Löschen",
-  error: "Fehler",
-  next: "Weiter",
-
-  recoveryProfileTitle: "Genesungsprofil",
-  recoveryProfileSub: "Höher = besser auf allen Achsen",
-  substanceProfileTitle: "Substanzprofil",
-  substanceProfileSub: "Tage Konsum (blau) · Ø Menge (rosa)",
-  questionnaireRadarTitle: "Fragebogen-Radar",
-  questionnaireRadarSub: "% der Maximalpunktzahl pro Bewertung",
-  axisMood: "Stimmung",
-  axisWellbeing: "Wohlbefinden",
-  axisLowCraving: "Wenig Verlangen",
-  axisLowAmount: "Wenig Menge",
-  axisSober: "Nüchtern",
-  legendDaysUsed: "Tage Konsum",
-  legendAvgAmount: "Ø Menge",
-  qcMinimal: "Minimal",
-  qcMild: "Mild",
-  qcModerate: "Moderat",
-  qcSevere: "Schwer",
-  qcModSevere: "Mod-schwer",
-  qcLowRisk: "Geringes Risiko",
-  qcHazardous: "Riskant",
-  qcHarmful: "Schädlich",
-  qcLikelyDep: "Wahrsch. abh.",
-  qcNone: "Keine",
-  qcLow: "Gering",
-  qcSubstantial: "Erheblich",
-  qcUnlikely: "Unwahrsch.",
-  qcPossible: "Möglich",
-  qcNotReady: "Nicht bereit",
-  qcConsidering: "Erwägt",
-  qcReady: "Bereit",
 };
 
 const da = {
@@ -2174,14 +1987,10 @@ const da = {
   gad7Q5: "Så rastløs at det var svært at sidde stille?",
   gad7Q6: "Let irritabel eller opfarende?",
   gad7Q7: "Følt dig bange for at noget forfærdeligt kunne ske?",
-    gad7I1: "Minimal angst",
-  
-    gad7I2: "Mild angst",
-  
-    gad7I3: "Moderat angst",
-  
-    gad7I4: "Alvorlig angst",
-  
+  gad7I1: "Minimal angst",
+  gad7I2: "Mild angst",
+  gad7I3: "Moderat angst",
+  gad7I4: "Alvorlig angst",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Depressions-screening (seneste 2 uger)",
   phq9Q1: "Lille interesse eller glæde ved at lave ting?",
@@ -2194,16 +2003,11 @@ const da = {
   phq9Q8: "Bevæget dig eller talt langsommere end normalt?",
   phq9Q9:
     "Tanker om at du ville have det bedre død, eller om at skade dig selv?",
-    phq9I1: "Minimal depression",
-  
-    phq9I2: "Mild depression",
-  
-    phq9I3: "Moderat depression",
-  
-    phq9I4: "Moderat-alvorlig",
-  
-    phq9I5: "Alvorlig depression",
-  
+  phq9I1: "Minimal depression",
+  phq9I2: "Mild depression",
+  phq9I3: "Moderat depression",
+  phq9I4: "Moderat-alvorlig",
+  phq9I5: "Alvorlig depression",
   auditTitle: "AUDIT",
   auditSubtitle: "Alkohol-screening",
   auditQ1: "Hvor ofte drikker du en alkoholholdig drik?",
@@ -2216,14 +2020,10 @@ const da = {
   auditQ8: "Hvor ofte det seneste år kunne du ikke huske hvad der skete?",
   auditQ9: "Er du eller andre blevet skadet pga. dit drikkeri?",
   auditQ10: "Har en læge anbefalet dig at skære ned på alkohol?",
-    auditI1: "Lav risiko",
-  
-    auditI2: "Risikabelt forbrug",
-  
-    auditI3: "Skadeligt forbrug",
-  
-    auditI4: "Sandsynligvis afhængig",
-  
+  auditI1: "Lav risiko",
+  auditI2: "Risikabelt forbrug",
+  auditI3: "Skadeligt forbrug",
+  auditI4: "Sandsynligvis afhængig",
   dast10Title: "DAST-10",
   dast10Subtitle: "Stofbrug-screening (seneste 12 mdr)",
   dast10Q1:
@@ -2238,28 +2038,20 @@ const da = {
   dast10Q8: "Har du begået ulovlige handlinger for at skaffe stoffer?",
   dast10Q9: "Har du oplevet abstinenser når du stoppede med stoffer?",
   dast10Q10: "Har du haft helbredsproblemer som følge af stofbrug?",
-    dast10I1: "Intet problem",
-  
-    dast10I2: "Lavt niveau",
-  
-    dast10I3: "Moderat",
-  
-    dast10I4: "Alvorligt",
-  
-    dast10I5: "Meget alvorligt",
-  
+  dast10I1: "Intet problem",
+  dast10I2: "Lavt niveau",
+  dast10I3: "Moderat",
+  dast10I4: "Alvorligt",
+  dast10I5: "Meget alvorligt",
   cageTitle: "CAGE",
   cageSubtitle: "Hurtig alkohol-screening",
   cageQ1: "Har du nogensinde følt at du burde skære ned på dit drikkeri?",
   cageQ2: "Har folk irriteret dig ved at kritisere dit drikkeri?",
   cageQ3: "Har du nogensinde haft det dårligt eller skyldig over dit drikkeri?",
   cageQ4: "Har du nogensinde drukket alkohol som det første om morgenen?",
-    cageI1: "Sandsynligvis ikke afhængig",
-  
-    cageI2: "Muligt alkoholproblem",
-  
-    cageI3: "Sandsynlig alkoholafhængighed",
-  
+  cageI1: "Sandsynligvis ikke afhængig",
+  cageI2: "Muligt alkoholproblem",
+  cageI3: "Sandsynlig alkoholafhængighed",
   readinessTitle: "Parathed til forandring",
   readinessSubtitle: "Motivation for bedring",
   readinessQ1: "Jeg har et problem med mit stofbrug",
@@ -2268,12 +2060,9 @@ const da = {
   readinessQ4: "Jeg er motiveret til at stoppe",
   readinessQ5: "Jeg tror jeg kan ændre mit stofbrug",
   readinessQ6: "Jeg er klar til at starte forandringsprocessen",
-    readinessI1: "Ikke klar",
-  
-    readinessI2: "Overvejer ændring",
-  
-    readinessI3: "Klar til ændring",
-  
+  readinessI1: "Ikke klar",
+  readinessI2: "Overvejer ændring",
+  readinessI3: "Klar til ændring",
 
   // Questionnaire intro screens
   introWhatIsIt: "Hvad er det?",
@@ -2405,57 +2194,6 @@ const da = {
   terms7Body: "Qup DA forbeholder sig retten til at opdatere disse vilkår.",
   terms8Title: "8. Kontakt",
   terms8Body: "Qup DA\nE-mail: support@qupda.com\nHjemmeside: www.qupda.com",
-
-  calendar: "Kalender",
-  diary: "Dagbog",
-  monthSummary: "Månedsoversigt",
-  missing: "Mangler",
-  cravingBreakdown: "Trang-oversigt",
-  scoreNone: "Ingen trang",
-  scoreLow: "Lav",
-  scoreModerate: "Moderat",
-  scoreHigh: "Høj",
-  scoreVeryHigh: "Meget høj",
-  scoreSevere: "Kraftig trang",
-  months: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
-  weekdays: ["Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn"],
-  editLog: "Rediger log",
-  deleteLog: "Slet log",
-  deleteLogConfirm: "Er du sikker på, at du vil slette denne registrering?",
-  delete: "Slet",
-  error: "Fejl",
-  next: "Næste",
-
-  recoveryProfileTitle: "Bedringsprofil",
-  recoveryProfileSub: "Højere = bedre på alle akser",
-  substanceProfileTitle: "Stofbrugsprofil",
-  substanceProfileSub: "Dage brugt (blå) · Gns. mængde (rosa)",
-  questionnaireRadarTitle: "Spørgeskema-radar",
-  questionnaireRadarSub: "% af maks.score pr. skema",
-  axisMood: "Humør",
-  axisWellbeing: "Velvære",
-  axisLowCraving: "Lidt trang",
-  axisLowAmount: "Lidt mængde",
-  axisSober: "Rusfri",
-  legendDaysUsed: "Dage brugt",
-  legendAvgAmount: "Gns. mængde",
-  qcMinimal: "Minimal",
-  qcMild: "Mild",
-  qcModerate: "Moderat",
-  qcSevere: "Alvorlig",
-  qcModSevere: "Mod-alvorlig",
-  qcLowRisk: "Lav risiko",
-  qcHazardous: "Risikabelt",
-  qcHarmful: "Skadeligt",
-  qcLikelyDep: "Sandsynl. afh.",
-  qcNone: "Ingen",
-  qcLow: "Lav",
-  qcSubstantial: "Betydeligt",
-  qcUnlikely: "Usandsynligt",
-  qcPossible: "Muligt",
-  qcNotReady: "Ikke klar",
-  qcConsidering: "Overvejer",
-  qcReady: "Klar",
 };
 
 const sv = {
@@ -2603,44 +2341,38 @@ const sv = {
   moodSubtitle: "1 = väldigt dålig   5 = väldigt bra",
   sideEffectsSubtitle: "Några biverkningar idag?",
   weightSubtitle: "Valfritt — logga din vikt idag",
-    next: "Nästa",
-  
-    error: "Fel",
-  
-    delete: "Radera",
-  
-    deleteLog: "Radera logg",
-  
-    deleteLogConfirm: "Är du säker på att du vill radera denna post?",
-  
-    editLog: "Redigera logg",
-  
-    calendar: "Kalender",
-  
-    diary: "Dagbok",
-  
-    monthSummary: "Månadsöversikt",
-  
-    missing: "Saknas",
-  
-    cravingBreakdown: "Sugöversikt",
-  
-    scoreNone: "Inga sug",
-  
-    scoreLow: "Lågt",
-  
-    scoreModerate: "Måttligt",
-  
-    scoreHigh: "Högt",
-  
-    scoreVeryHigh: "Väldigt högt",
-  
-    scoreSevere: "Kraftigt sug",
-  
-    months: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
-  
-    weekdays: ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"],
-  
+  next: "Nästa",
+  error: "Fel",
+  delete: "Radera",
+  deleteLog: "Radera logg",
+  deleteLogConfirm: "Är du säker på att du vill radera denna post?",
+  editLog: "Redigera logg",
+  calendar: "Kalender",
+  diary: "Dagbok",
+  monthSummary: "Månadsöversikt",
+  missing: "Saknas",
+  cravingBreakdown: "Sugsöversikt",
+  scoreNone: "Inga sug",
+  scoreLow: "Lågt",
+  scoreModerate: "Måttlig",
+  scoreHigh: "Högt",
+  scoreVeryHigh: "Väldigt högt",
+  scoreSevere: "Kraftigt sug",
+  months: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Maj",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Dec",
+  ],
+  weekdays: ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"],
   saveScore: "Spara poäng",
   questionsRemaining: "frågor kvar",
   questionnairesIntro:
@@ -2831,14 +2563,10 @@ const sv = {
   gad7Q5: "Varit så rastlös att det är svårt att sitta stilla?",
   gad7Q6: "Lätt irriterad eller uppretad?",
   gad7Q7: "Känt dig rädd, som om något hemskt skulle hända?",
-    gad7I1: "Minimal ångest",
-  
-    gad7I2: "Mild ångest",
-  
-    gad7I3: "Måttlig ångest",
-  
-    gad7I4: "Svår ångest",
-  
+  gad7I1: "Minimal ångest",
+  gad7I2: "Mild ångest",
+  gad7I3: "Måttlig ångest",
+  gad7I4: "Svår ångest",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Depressions-screening (senaste 2 veckorna)",
   phq9Q1: "Lite intresse eller nöje av att göra saker?",
@@ -2850,16 +2578,11 @@ const sv = {
   phq9Q7: "Svårt att koncentrera sig?",
   phq9Q8: "Rört dig eller talat långsammare än vanligt?",
   phq9Q9: "Tankar om att du vore bättre off död eller om att skada dig?",
-    phq9I1: "Minimal depression",
-  
-    phq9I2: "Mild depression",
-  
-    phq9I3: "Måttlig depression",
-  
-    phq9I4: "Måttligt-allvarlig",
-  
-    phq9I5: "Svår depression",
-  
+  phq9I1: "Minimal depression",
+  phq9I2: "Mild depression",
+  phq9I3: "Måttlig depression",
+  phq9I4: "Måttligt-allvarlig",
+  phq9I5: "Svår depression",
   auditTitle: "AUDIT",
   auditSubtitle: "Alkohol-screening",
   auditQ1: "Hur ofta dricker du en alkoholhaltig dryck?",
@@ -2874,14 +2597,10 @@ const sv = {
   auditQ8: "Hur ofta det senaste året kunde du inte minnas vad som hände?",
   auditQ9: "Har du eller någon annan skadats pga. ditt drickande?",
   auditQ10: "Har en läkare rekommenderat att du dricker mindre?",
-    auditI1: "Låg risk",
-  
-    auditI2: "Riskabelt bruk",
-  
-    auditI3: "Skadligt bruk",
-  
-    auditI4: "Troligtvis beroende",
-  
+  auditI1: "Låg risk",
+  auditI2: "Riskabelt bruk",
+  auditI3: "Skadligt bruk",
+  auditI4: "Troligtvis beroende",
   dast10Title: "DAST-10",
   dast10Subtitle: "Drogbruk-screening (senaste 12 mån)",
   dast10Q1: "Har du använt droger utöver de som är medicinskt nödvändiga?",
@@ -2894,28 +2613,20 @@ const sv = {
   dast10Q8: "Har du begått olagliga handlingar för att skaffa droger?",
   dast10Q9: "Har du upplevt abstinenssymptom när du slutat med droger?",
   dast10Q10: "Har du haft medicinska problem pga. drogbruk?",
-    dast10I1: "Inget problem",
-  
-    dast10I2: "Låg nivå",
-  
-    dast10I3: "Måttlig",
-  
-    dast10I4: "Allvarlig",
-  
-    dast10I5: "Mycket allvarlig",
-  
+  dast10I1: "Inget problem",
+  dast10I2: "Låg nivå",
+  dast10I3: "Måttlig",
+  dast10I4: "Allvarlig",
+  dast10I5: "Mycket allvarlig",
   cageTitle: "CAGE",
   cageSubtitle: "Snabb alkohol-screening",
   cageQ1: "Har du någonsin känt att du borde minska ditt drickande?",
   cageQ2: "Har folk irriterat dig genom att kritisera ditt drickande?",
   cageQ3: "Har du någonsin känt dig dålig eller skyldig över ditt drickande?",
   cageQ4: "Har du någonsin druckit alkohol som det första på morgonen?",
-    cageI1: "Förmodligen inte beroende",
-  
-    cageI2: "Möjligt alkoholproblem",
-  
-    cageI3: "Troligtvis alkoholberoende",
-  
+  cageI1: "Förmodligen inte beroende",
+  cageI2: "Möjligt alkoholproblem",
+  cageI3: "Troligtvis alkoholberoende",
   readinessTitle: "Förändringsberedskap",
   readinessSubtitle: "Motivation för tillfrisknande",
   readinessQ1: "Jag har ett problem med mitt drogbruk",
@@ -2924,12 +2635,9 @@ const sv = {
   readinessQ4: "Jag är motiverad att sluta",
   readinessQ5: "Jag tror att jag kan förändra mitt drogbruk",
   readinessQ6: "Jag är redo att påbörja förändringsprocessen",
-    readinessI1: "Inte redo",
-  
-    readinessI2: "Överväger förändring",
-  
-    readinessI3: "Redo för förändring",
-  
+  readinessI1: "Inte redo",
+  readinessI2: "Överväger förändring",
+  readinessI3: "Redo för förändring",
 
   // Questionnaire intro screens
   introWhatIsIt: "Vad är det?",
@@ -3035,37 +2743,6 @@ const sv = {
   terms7Body: "Qup DA förbehåller sig rätten att uppdatera dessa villkor.",
   terms8Title: "8. Kontakt",
   terms8Body: "Qup DA\nE-post: support@qupda.com\nWebbplats: www.qupda.com",
-
-  recoveryProfileTitle: "Återhämtningsprofil",
-  recoveryProfileSub: "Högre = bättre på alla axlar",
-  substanceProfileTitle: "Substansprofil",
-  substanceProfileSub: "Dagar använd (blå) · Snittmängd (rosa)",
-  questionnaireRadarTitle: "Frågeformulär-radar",
-  questionnaireRadarSub: "% av maxpoäng per formulär",
-  axisMood: "Humör",
-  axisWellbeing: "Välmående",
-  axisLowCraving: "Lite sug",
-  axisLowAmount: "Liten mängd",
-  axisSober: "Nykter",
-  legendDaysUsed: "Dagar använd",
-  legendAvgAmount: "Snittmängd",
-  qcMinimal: "Minimal",
-  qcMild: "Mild",
-  qcModerate: "Måttlig",
-  qcSevere: "Svår",
-  qcModSevere: "Måttl-svår",
-  qcLowRisk: "Låg risk",
-  qcHazardous: "Riskabel",
-  qcHarmful: "Skadlig",
-  qcLikelyDep: "Trol. beroende",
-  qcNone: "Ingen",
-  qcLow: "Låg",
-  qcSubstantial: "Betydlig",
-  qcUnlikely: "Osannolikt",
-  qcPossible: "Möjligt",
-  qcNotReady: "Inte redo",
-  qcConsidering: "Överväger",
-  qcReady: "Redo",
 };
 
 const fi = {
@@ -3371,14 +3048,10 @@ const fi = {
   gad7Q5: "Niin levoton, että vaikea istua paikallaan?",
   gad7Q6: "Helposti ärsyyntynyt tai ärtyisä?",
   gad7Q7: "Tuntunut pelokkaalta, kuin jotain kamalaa voisi tapahtua?",
-    gad7I1: "Minimaalinen ahdistus",
-  
-    gad7I2: "Lievä ahdistus",
-  
-    gad7I3: "Kohtalainen ahdistus",
-  
-    gad7I4: "Vakava ahdistus",
-  
+  gad7I1: "Minimaalinen ahdistus",
+  gad7I2: "Lievä ahdistus",
+  gad7I3: "Kohtalainen ahdistus",
+  gad7I4: "Vakava ahdistus",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Masennusseula (viimeiset 2 viikkoa)",
   phq9Q1: "Vähän kiinnostusta tai iloa asioiden tekemiseen?",
@@ -3391,16 +3064,11 @@ const fi = {
   phq9Q8: "Liikkunut tai puhunut niin hitaasti, että muut ovat huomanneet?",
   phq9Q9:
     "Ajatuksia, että olisi parempi olla kuollut, tai itsensä vahingoittamisesta?",
-    phq9I1: "Minimaalinen masennus",
-  
-    phq9I2: "Lievä masennus",
-  
-    phq9I3: "Kohtalainen masennus",
-  
-    phq9I4: "Kohtalaisen vakava",
-  
-    phq9I5: "Vakava masennus",
-  
+  phq9I1: "Minimaalinen masennus",
+  phq9I2: "Lievä masennus",
+  phq9I3: "Kohtalainen masennus",
+  phq9I4: "Kohtalaisen vakava",
+  phq9I5: "Vakava masennus",
   auditTitle: "AUDIT",
   auditSubtitle: "Alkoholiseula",
   auditQ1: "Kuinka usein juot alkoholia?",
@@ -3415,14 +3083,10 @@ const fi = {
   auditQ8: "Kuinka usein viime vuonna et muistanut tapahtumia juomisen takia?",
   auditQ9: "Oletko sinä tai joku muu loukkaantunut juomisesi takia?",
   auditQ10: "Onko lääkäri suositellut vähentämään juomista?",
-    auditI1: "Matala riski",
-  
-    auditI2: "Riskialtis käyttö",
-  
-    auditI3: "Haitallinen käyttö",
-  
-    auditI4: "Todennäköisesti riippuvainen",
-  
+  auditI1: "Matala riski",
+  auditI2: "Riskialtis käyttö",
+  auditI3: "Haitallinen käyttö",
+  auditI4: "Todennäköisesti riippuvainen",
   dast10Title: "DAST-10",
   dast10Subtitle: "Huumeidenkäyttöseula (viimeiset 12 kk)",
   dast10Q1: "Oletko käyttänyt huumeita muista kuin lääkinnällisistä syistä?",
@@ -3438,16 +3102,11 @@ const fi = {
   dast10Q8: "Oletko syyllistynyt laittomiin toimiin aineiden hankkimiseksi?",
   dast10Q9: "Oletko kokenut vieroitusoireita lopettaessasi aineiden käytön?",
   dast10Q10: "Onko sinulla ollut terveysongelmia aineidenkäytön seurauksena?",
-    dast10I1: "Ei ongelmaa",
-  
-    dast10I2: "Matala taso",
-  
-    dast10I3: "Kohtalainen",
-  
-    dast10I4: "Merkittävä",
-  
-    dast10I5: "Vakava",
-  
+  dast10I1: "Ei ongelmaa",
+  dast10I2: "Matala taso",
+  dast10I3: "Kohtalainen",
+  dast10I4: "Merkittävä",
+  dast10I5: "Vakava",
   cageTitle: "CAGE",
   cageSubtitle: "Nopea alkoholiseula",
   cageQ1: "Oletko koskaan tuntenut, että sinun pitäisi vähentää juomistasi?",
@@ -3455,12 +3114,9 @@ const fi = {
   cageQ3:
     "Oletko koskaan tuntenut itsesi huonoksi tai syylliseksi juomisestasi?",
   cageQ4: "Oletko koskaan juonut alkoholia ensimmäisenä aamulla?",
-    cageI1: "Todennäköisesti ei riippuvainen",
-  
-    cageI2: "Mahdollinen alkoholiongelma",
-  
-    cageI3: "Todennäköisesti alkoholiriippuvainen",
-  
+  cageI1: "Todennäköisesti ei riippuvainen",
+  cageI2: "Mahdollinen alkoholiongelma",
+  cageI3: "Todennäköisesti alkoholiriippuvainen",
   readinessTitle: "Muutosvalmius",
   readinessSubtitle: "Motivaatio toipumiseen",
   readinessQ1: "Minulla on ongelma aineidenkäyttöni kanssa",
@@ -3469,12 +3125,9 @@ const fi = {
   readinessQ4: "Olen motivoitunut lopettamaan",
   readinessQ5: "Uskon, että pystyn muuttamaan aineidenkäyttöäni",
   readinessQ6: "Olen valmis aloittamaan muutosprosessin",
-    readinessI1: "Ei valmis",
-  
-    readinessI2: "Harkitsee muutosta",
-  
-    readinessI3: "Valmis muutokseen",
-  
+  readinessI1: "Ei valmis",
+  readinessI2: "Harkitsee muutosta",
+  readinessI3: "Valmis muutokseen",
 
   // Questionnaire intro screens
   introWhatIsIt: "Mikä se on?",
@@ -3609,57 +3262,6 @@ const fi = {
   terms8Title: "8. Yhteystiedot",
   terms8Body:
     "Qup DA\nSähköposti: support@qupda.com\nVerkkosivusto: www.qupda.com",
-
-  calendar: "Kalenteri",
-  diary: "Päiväkirja",
-  monthSummary: "Kuukausiyhteenveto",
-  missing: "Puuttuu",
-  cravingBreakdown: "Himo-erittely",
-  scoreNone: "Ei himoa",
-  scoreLow: "Matala",
-  scoreModerate: "Kohtalainen",
-  scoreHigh: "Korkea",
-  scoreVeryHigh: "Erittäin korkea",
-  scoreSevere: "Voimakas himo",
-  months: ["Tam", "Hel", "Maa", "Huh", "Tou", "Kes", "Hei", "Elo", "Syy", "Lok", "Mar", "Jou"],
-  weekdays: ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"],
-  editLog: "Muokkaa kirjausta",
-  deleteLog: "Poista kirjaus",
-  deleteLogConfirm: "Haluatko varmasti poistaa tämän kirjauksen?",
-  delete: "Poista",
-  error: "Virhe",
-  next: "Seuraava",
-
-  recoveryProfileTitle: "Toipumisprofiili",
-  recoveryProfileSub: "Korkeampi = parempi kaikilla akseleilla",
-  substanceProfileTitle: "Ainekäyttöprofiili",
-  substanceProfileSub: "Käyttöpäivät (sininen) · Keskim. määrä (pinkki)",
-  questionnaireRadarTitle: "Kyselytutka",
-  questionnaireRadarSub: "% maksimipisteistä per kysely",
-  axisMood: "Mieliala",
-  axisWellbeing: "Hyvinvointi",
-  axisLowCraving: "Vähän himoa",
-  axisLowAmount: "Vähän määrää",
-  axisSober: "Raittiina",
-  legendDaysUsed: "Käyttöpäivät",
-  legendAvgAmount: "Keskim. määrä",
-  qcMinimal: "Minimaalinen",
-  qcMild: "Lievä",
-  qcModerate: "Kohtalainen",
-  qcSevere: "Vakava",
-  qcModSevere: "Koht-vakava",
-  qcLowRisk: "Matala riski",
-  qcHazardous: "Riskialtis",
-  qcHarmful: "Haitallinen",
-  qcLikelyDep: "Todenn. riipp.",
-  qcNone: "Ei mitään",
-  qcLow: "Matala",
-  qcSubstantial: "Merkittävä",
-  qcUnlikely: "Epätodenn.",
-  qcPossible: "Mahdollinen",
-  qcNotReady: "Ei valmis",
-  qcConsidering: "Harkitsee",
-  qcReady: "Valmis",
 };
 
 const fr = {
@@ -3970,14 +3572,10 @@ const fr = {
   gad7Q6: "Facilement irrité ou irritable ?",
   gad7Q7:
     "Sentiment de peur, comme si quelque chose de terrible pourrait arriver ?",
-    gad7I1: "Anxiété minimale",
-  
-    gad7I2: "Anxiété légère",
-  
-    gad7I3: "Anxiété modérée",
-  
-    gad7I4: "Anxiété sévère",
-  
+  gad7I1: "Anxiété minimale",
+  gad7I2: "Anxiété légère",
+  gad7I3: "Anxiété modérée",
+  gad7I4: "Anxiété sévère",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Dépistage dépression (2 dernières semaines)",
   phq9Q1: "Peu d'intérêt ou de plaisir à faire les choses ?",
@@ -3990,16 +3588,11 @@ const fr = {
   phq9Q8:
     "Bouger ou parler si lentement que les autres auraient pu le remarquer ?",
   phq9Q9: "Pensées d'être mieux mort, ou de se blesser ?",
-    phq9I1: "Dépression minimale",
-  
-    phq9I2: "Dépression légère",
-  
-    phq9I3: "Dépression modérée",
-  
-    phq9I4: "Modéré-sévère",
-  
-    phq9I5: "Dépression sévère",
-  
+  phq9I1: "Dépression minimale",
+  phq9I2: "Dépression légère",
+  phq9I3: "Dépression modérée",
+  phq9I4: "Modéré-sévère",
+  phq9I5: "Dépression sévère",
   auditTitle: "AUDIT",
   auditSubtitle: "Dépistage alcool",
   auditQ1: "À quelle fréquence buvez-vous une boisson alcoolisée ?",
@@ -4018,14 +3611,10 @@ const fr = {
   auditQ9:
     "Vous ou quelqu'un d'autre avez-vous été blessé à cause de votre consommation ?",
   auditQ10: "Un médecin a-t-il suggéré de réduire votre consommation ?",
-    auditI1: "Faible risque",
-  
-    auditI2: "Consommation à risque",
-  
-    auditI3: "Consommation nuisible",
-  
-    auditI4: "Probablement dépendant",
-  
+  auditI1: "Faible risque",
+  auditI2: "Consommation à risque",
+  auditI3: "Consommation nuisible",
+  auditI4: "Probablement dépendant",
   dast10Title: "DAST-10",
   dast10Subtitle: "Dépistage drogues (12 derniers mois)",
   dast10Q1: "Avez-vous utilisé des drogues sans raison médicale ?",
@@ -4042,28 +3631,20 @@ const fr = {
   dast10Q8: "Avez-vous commis des actes illégaux pour obtenir des drogues ?",
   dast10Q9: "Avez-vous eu des symptômes de sevrage en arrêtant les drogues ?",
   dast10Q10: "Avez-vous eu des problèmes médicaux dus à votre consommation ?",
-    dast10I1: "Aucun problème",
-  
-    dast10I2: "Niveau faible",
-  
-    dast10I3: "Modéré",
-  
-    dast10I4: "Substantiel",
-  
-    dast10I5: "Sévère",
-  
+  dast10I1: "Aucun problème",
+  dast10I2: "Niveau faible",
+  dast10I3: "Modéré",
+  dast10I4: "Substantiel",
+  dast10I5: "Sévère",
   cageTitle: "CAGE",
   cageSubtitle: "Dépistage rapide alcool",
   cageQ1: "Avez-vous déjà pensé devoir réduire votre consommation d'alcool ?",
   cageQ2: "Des gens vous ont-ils irrité en critiquant votre consommation ?",
   cageQ3: "Vous êtes-vous déjà senti mal ou coupable de votre consommation ?",
   cageQ4: "Avez-vous déjà bu de l'alcool dès le matin ?",
-    cageI1: "Probablement pas dépendant",
-  
-    cageI2: "Possible problème d'alcool",
-  
-    cageI3: "Probable dépendance à l'alcool",
-  
+  cageI1: "Probablement pas dépendant",
+  cageI2: "Possible problème d'alcool",
+  cageI3: "Probable dépendance à l'alcool",
   readinessTitle: "Prêt au changement",
   readinessSubtitle: "Motivation pour la guérison",
   readinessQ1: "J'ai un problème avec ma consommation de substances",
@@ -4072,12 +3653,9 @@ const fr = {
   readinessQ4: "Je suis motivé à arrêter",
   readinessQ5: "Je crois que je peux changer ma consommation",
   readinessQ6: "Je suis prêt à commencer le processus de changement",
-    readinessI1: "Pas prêt",
-  
-    readinessI2: "Envisage le changement",
-  
-    readinessI3: "Prêt au changement",
-  
+  readinessI1: "Pas prêt",
+  readinessI2: "Envisage le changement",
+  readinessI3: "Prêt au changement",
 
   // Questionnaire intro screens
   introWhatIsIt: "Qu'est-ce que c'est ?",
@@ -4212,57 +3790,6 @@ const fr = {
   terms7Body: "Qup DA se réserve le droit de mettre à jour ces conditions.",
   terms8Title: "8. Contact",
   terms8Body: "Qup DA\nE-mail : support@qupda.com\nSite web : www.qupda.com",
-
-  calendar: "Calendrier",
-  diary: "Journal",
-  monthSummary: "Résumé mensuel",
-  missing: "Manquant",
-  cravingBreakdown: "Détail des envies",
-  scoreNone: "Aucune envie",
-  scoreLow: "Faible",
-  scoreModerate: "Modéré",
-  scoreHigh: "Élevé",
-  scoreVeryHigh: "Très élevé",
-  scoreSevere: "Envie très forte",
-  months: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Aoû", "Sep", "Oct", "Nov", "Déc"],
-  weekdays: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
-  editLog: "Modifier l'entrée",
-  deleteLog: "Supprimer l'entrée",
-  deleteLogConfirm: "Voulez-vous vraiment supprimer cette entrée ?",
-  delete: "Supprimer",
-  error: "Erreur",
-  next: "Suivant",
-
-  recoveryProfileTitle: "Profil de rétablissement",
-  recoveryProfileSub: "Plus haut = mieux sur tous les axes",
-  substanceProfileTitle: "Profil de consommation",
-  substanceProfileSub: "Jours utilisés (bleu) · Qté moyenne (rose)",
-  questionnaireRadarTitle: "Radar des questionnaires",
-  questionnaireRadarSub: "% du score maximum par évaluation",
-  axisMood: "Humeur",
-  axisWellbeing: "Bien-être",
-  axisLowCraving: "Peu d'envies",
-  axisLowAmount: "Peu de quantité",
-  axisSober: "Sobre",
-  legendDaysUsed: "Jours utilisés",
-  legendAvgAmount: "Qté moyenne",
-  qcMinimal: "Minimal",
-  qcMild: "Léger",
-  qcModerate: "Modéré",
-  qcSevere: "Sévère",
-  qcModSevere: "Mod-sévère",
-  qcLowRisk: "Faible risque",
-  qcHazardous: "À risque",
-  qcHarmful: "Nuisible",
-  qcLikelyDep: "Prob. dép.",
-  qcNone: "Aucun",
-  qcLow: "Faible",
-  qcSubstantial: "Substantiel",
-  qcUnlikely: "Improbable",
-  qcPossible: "Possible",
-  qcNotReady: "Pas prêt",
-  qcConsidering: "Envisage",
-  qcReady: "Prêt",
 };
 
 const es = {
@@ -4574,14 +4101,10 @@ const es = {
   gad7Q5: "¿Tan inquieto que es difícil quedarse quieto?",
   gad7Q6: "¿Irritarse o ponerse de mal humor fácilmente?",
   gad7Q7: "¿Sentirse asustado, como si algo terrible fuera a pasar?",
-    gad7I1: "Ansiedad mínima",
-  
-    gad7I2: "Ansiedad leve",
-  
-    gad7I3: "Ansiedad moderada",
-  
-    gad7I4: "Ansiedad grave",
-  
+  gad7I1: "Ansiedad mínima",
+  gad7I2: "Ansiedad leve",
+  gad7I3: "Ansiedad moderada",
+  gad7I4: "Ansiedad grave",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Detección depresión (últimas 2 semanas)",
   phq9Q1: "¿Poco interés o placer en hacer las cosas?",
@@ -4593,16 +4116,11 @@ const es = {
   phq9Q7: "¿Dificultad para concentrarse?",
   phq9Q8: "¿Moverse o hablar tan despacio que otros lo han notado?",
   phq9Q9: "¿Pensamientos de que estaría mejor muerto, o de hacerse daño?",
-    phq9I1: "Depresión mínima",
-  
-    phq9I2: "Depresión leve",
-  
-    phq9I3: "Depresión moderada",
-  
-    phq9I4: "Moderada-grave",
-  
-    phq9I5: "Depresión grave",
-  
+  phq9I1: "Depresión mínima",
+  phq9I2: "Depresión leve",
+  phq9I3: "Depresión moderada",
+  phq9I4: "Moderada-grave",
+  phq9I5: "Depresión grave",
   auditTitle: "AUDIT",
   auditSubtitle: "Detección alcohol",
   auditQ1: "¿Con qué frecuencia toma una bebida alcohólica?",
@@ -4619,14 +4137,10 @@ const es = {
     "¿Con qué frecuencia el último año no pudo recordar lo que pasó por beber?",
   auditQ9: "¿Ha resultado herido usted u otro a causa de su consumo?",
   auditQ10: "¿Un médico le ha sugerido reducir el consumo de alcohol?",
-    auditI1: "Bajo riesgo",
-  
-    auditI2: "Consumo de riesgo",
-  
-    auditI3: "Consumo perjudicial",
-  
-    auditI4: "Probablemente dependiente",
-  
+  auditI1: "Bajo riesgo",
+  auditI2: "Consumo de riesgo",
+  auditI3: "Consumo perjudicial",
+  auditI4: "Probablemente dependiente",
   dast10Title: "DAST-10",
   dast10Subtitle: "Detección drogas (últimos 12 meses)",
   dast10Q1: "¿Ha usado drogas que no eran necesarias por razones médicas?",
@@ -4640,28 +4154,20 @@ const es = {
   dast10Q8: "¿Ha cometido actividades ilegales para obtener drogas?",
   dast10Q9: "¿Ha tenido síntomas de abstinencia al dejar las drogas?",
   dast10Q10: "¿Ha tenido problemas médicos por el consumo de drogas?",
-    dast10I1: "Sin problema",
-  
-    dast10I2: "Nivel bajo",
-  
-    dast10I3: "Moderado",
-  
-    dast10I4: "Sustancial",
-  
-    dast10I5: "Grave",
-  
+  dast10I1: "Sin problema",
+  dast10I2: "Nivel bajo",
+  dast10I3: "Moderado",
+  dast10I4: "Sustancial",
+  dast10I5: "Grave",
   cageTitle: "CAGE",
   cageSubtitle: "Detección rápida alcohol",
   cageQ1: "¿Ha pensado alguna vez en reducir su consumo de alcohol?",
   cageQ2: "¿Le ha molestado que critiquen su consumo?",
   cageQ3: "¿Se ha sentido mal o culpable por su consumo?",
   cageQ4: "¿Ha bebido alcohol nada más levantarse por la mañana?",
-    cageI1: "Probablemente no dependiente",
-  
-    cageI2: "Posible problema de alcohol",
-  
-    cageI3: "Probable dependencia alcohólica",
-  
+  cageI1: "Probablemente no dependiente",
+  cageI2: "Posible problema de alcohol",
+  cageI3: "Probable dependencia alcohólica",
   readinessTitle: "Disposición al cambio",
   readinessSubtitle: "Motivación para la recuperación",
   readinessQ1: "Tengo un problema con mi consumo de sustancias",
@@ -4670,12 +4176,9 @@ const es = {
   readinessQ4: "Estoy motivado para dejar",
   readinessQ5: "Creo que puedo cambiar mi consumo",
   readinessQ6: "Estoy listo para iniciar el proceso de cambio",
-    readinessI1: "No preparado",
-  
-    readinessI2: "Considerando el cambio",
-  
-    readinessI3: "Listo para cambiar",
-  
+  readinessI1: "No preparado",
+  readinessI2: "Considerando el cambio",
+  readinessI3: "Listo para cambiar",
 
   // Questionnaire intro screens
   introWhatIsIt: "¿Qué es?",
@@ -4809,57 +4312,6 @@ const es = {
   terms7Body: "Qup DA se reserva el derecho de actualizar estos términos.",
   terms8Title: "8. Contacto",
   terms8Body: "Qup DA\nEmail: support@qupda.com\nWeb: www.qupda.com",
-
-  calendar: "Calendario",
-  diary: "Diario",
-  monthSummary: "Resumen mensual",
-  missing: "Falta",
-  cravingBreakdown: "Desglose de antojos",
-  scoreNone: "Sin antojos",
-  scoreLow: "Bajo",
-  scoreModerate: "Moderado",
-  scoreHigh: "Alto",
-  scoreVeryHigh: "Muy alto",
-  scoreSevere: "Antojo severo",
-  months: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-  weekdays: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
-  editLog: "Editar registro",
-  deleteLog: "Eliminar registro",
-  deleteLogConfirm: "¿Estás seguro de que quieres eliminar este registro?",
-  delete: "Eliminar",
-  error: "Error",
-  next: "Siguiente",
-
-  recoveryProfileTitle: "Perfil de recuperación",
-  recoveryProfileSub: "Mayor = mejor en todos los ejes",
-  substanceProfileTitle: "Perfil de consumo",
-  substanceProfileSub: "Días usado (azul) · Cantidad media (rosa)",
-  questionnaireRadarTitle: "Radar de cuestionarios",
-  questionnaireRadarSub: "% del puntaje máximo por evaluación",
-  axisMood: "Ánimo",
-  axisWellbeing: "Bienestar",
-  axisLowCraving: "Pocos antojos",
-  axisLowAmount: "Poca cantidad",
-  axisSober: "Sobrio",
-  legendDaysUsed: "Días usado",
-  legendAvgAmount: "Cantidad media",
-  qcMinimal: "Mínimo",
-  qcMild: "Leve",
-  qcModerate: "Moderado",
-  qcSevere: "Grave",
-  qcModSevere: "Mod-grave",
-  qcLowRisk: "Bajo riesgo",
-  qcHazardous: "De riesgo",
-  qcHarmful: "Perjudicial",
-  qcLikelyDep: "Prob. dep.",
-  qcNone: "Ninguno",
-  qcLow: "Bajo",
-  qcSubstantial: "Sustancial",
-  qcUnlikely: "Improbable",
-  qcPossible: "Posible",
-  qcNotReady: "No preparado",
-  qcConsidering: "Considera",
-  qcReady: "Listo",
 };
 
 const it = {
@@ -5169,14 +4621,10 @@ const it = {
   gad7Q6: "Facilmente irritato o irritabile?",
   gad7Q7:
     "Sentirsi spaventato, come se qualcosa di terribile potesse accadere?",
-    gad7I1: "Ansia minima",
-  
-    gad7I2: "Ansia lieve",
-  
-    gad7I3: "Ansia moderata",
-  
-    gad7I4: "Ansia grave",
-  
+  gad7I1: "Ansia minima",
+  gad7I2: "Ansia lieve",
+  gad7I3: "Ansia moderata",
+  gad7I4: "Ansia grave",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Screening depressione (ultime 2 settimane)",
   phq9Q1: "Scarso interesse o piacere nel fare le cose?",
@@ -5189,16 +4637,11 @@ const it = {
   phq9Q8:
     "Muoversi o parlare così lentamente che altri potrebbero averlo notato?",
   phq9Q9: "Pensieri di star meglio morto, o di farsi del male?",
-    phq9I1: "Depressione minima",
-  
-    phq9I2: "Depressione lieve",
-  
-    phq9I3: "Depressione moderata",
-  
-    phq9I4: "Moderata-grave",
-  
-    phq9I5: "Depressione grave",
-  
+  phq9I1: "Depressione minima",
+  phq9I2: "Depressione lieve",
+  phq9I3: "Depressione moderata",
+  phq9I4: "Moderata-grave",
+  phq9I5: "Depressione grave",
   auditTitle: "AUDIT",
   auditSubtitle: "Screening alcol",
   auditQ1: "Con quale frequenza beve una bevanda alcolica?",
@@ -5216,14 +4659,10 @@ const it = {
     "Con quale frequenza nell'ultimo anno non ha potuto ricordare a causa dell'alcol?",
   auditQ9: "Lei o qualcun altro è stato ferito a causa del suo consumo?",
   auditQ10: "Un medico ha suggerito di ridurre il consumo di alcol?",
-    auditI1: "Basso rischio",
-  
-    auditI2: "Uso rischioso",
-  
-    auditI3: "Uso dannoso",
-  
-    auditI4: "Probabilmente dipendente",
-  
+  auditI1: "Basso rischio",
+  auditI2: "Uso rischioso",
+  auditI3: "Uso dannoso",
+  auditI4: "Probabilmente dipendente",
   dast10Title: "DAST-10",
   dast10Subtitle: "Screening droghe (ultimi 12 mesi)",
   dast10Q1: "Ha usato droghe per ragioni non mediche?",
@@ -5236,28 +4675,20 @@ const it = {
   dast10Q8: "Ha commesso attività illegali per ottenere droghe?",
   dast10Q9: "Ha avuto sintomi di astinenza quando ha smesso?",
   dast10Q10: "Ha avuto problemi medici a causa del consumo di droghe?",
-    dast10I1: "Nessun problema",
-  
-    dast10I2: "Livello basso",
-  
-    dast10I3: "Moderato",
-  
-    dast10I4: "Sostanziale",
-  
-    dast10I5: "Grave",
-  
+  dast10I1: "Nessun problema",
+  dast10I2: "Livello basso",
+  dast10I3: "Moderato",
+  dast10I4: "Sostanziale",
+  dast10I5: "Grave",
   cageTitle: "CAGE",
   cageSubtitle: "Screening rapido alcol",
   cageQ1: "Ha mai pensato di dover ridurre il consumo di alcol?",
   cageQ2: "Le ha mai dato fastidio che qualcuno criticasse il suo consumo?",
   cageQ3: "Si è mai sentito male o in colpa per il suo consumo?",
   cageQ4: "Ha mai bevuto alcolici al mattino come prima cosa?",
-    cageI1: "Probabilmente non dipendente",
-  
-    cageI2: "Possibile problema con l'alcol",
-  
-    cageI3: "Probabile dipendenza da alcol",
-  
+  cageI1: "Probabilmente non dipendente",
+  cageI2: "Possibile problema con l'alcol",
+  cageI3: "Probabile dipendenza da alcol",
   readinessTitle: "Disponibilità al cambiamento",
   readinessSubtitle: "Motivazione per la guarigione",
   readinessQ1: "Ho un problema con il mio consumo di sostanze",
@@ -5266,12 +4697,9 @@ const it = {
   readinessQ4: "Sono motivato a smettere",
   readinessQ5: "Credo di poter cambiare il mio consumo",
   readinessQ6: "Sono pronto ad iniziare il processo di cambiamento",
-    readinessI1: "Non pronto",
-  
-    readinessI2: "Considera il cambiamento",
-  
-    readinessI3: "Pronto al cambiamento",
-  
+  readinessI1: "Non pronto",
+  readinessI2: "Considera il cambiamento",
+  readinessI3: "Pronto al cambiamento",
 
   // Questionnaire intro screens
   introWhatIsIt: "Cos'è?",
@@ -5406,57 +4834,6 @@ const it = {
   terms7Body: "Qup DA si riserva il diritto di aggiornare questi termini.",
   terms8Title: "8. Contatto",
   terms8Body: "Qup DA\nEmail: support@qupda.com\nSito web: www.qupda.com",
-
-  calendar: "Calendario",
-  diary: "Diario",
-  monthSummary: "Riepilogo mensile",
-  missing: "Mancante",
-  cravingBreakdown: "Dettaglio voglie",
-  scoreNone: "Nessuna voglia",
-  scoreLow: "Basso",
-  scoreModerate: "Moderato",
-  scoreHigh: "Alto",
-  scoreVeryHigh: "Molto alto",
-  scoreSevere: "Voglia intensa",
-  months: ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],
-  weekdays: ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"],
-  editLog: "Modifica registrazione",
-  deleteLog: "Elimina registrazione",
-  deleteLogConfirm: "Sei sicuro di voler eliminare questa voce?",
-  delete: "Elimina",
-  error: "Errore",
-  next: "Avanti",
-
-  recoveryProfileTitle: "Profilo di recupero",
-  recoveryProfileSub: "Più alto = meglio su tutti gli assi",
-  substanceProfileTitle: "Profilo di sostanze",
-  substanceProfileSub: "Giorni d'uso (blu) · Qtà media (rosa)",
-  questionnaireRadarTitle: "Radar questionari",
-  questionnaireRadarSub: "% del punteggio massimo per valutazione",
-  axisMood: "Umore",
-  axisWellbeing: "Benessere",
-  axisLowCraving: "Poche voglie",
-  axisLowAmount: "Poca quantità",
-  axisSober: "Sobrio",
-  legendDaysUsed: "Giorni d'uso",
-  legendAvgAmount: "Qtà media",
-  qcMinimal: "Minimo",
-  qcMild: "Lieve",
-  qcModerate: "Moderato",
-  qcSevere: "Grave",
-  qcModSevere: "Mod-grave",
-  qcLowRisk: "Basso rischio",
-  qcHazardous: "Rischioso",
-  qcHarmful: "Dannoso",
-  qcLikelyDep: "Prob. dip.",
-  qcNone: "Nessuno",
-  qcLow: "Basso",
-  qcSubstantial: "Sostanziale",
-  qcUnlikely: "Improbabile",
-  qcPossible: "Possibile",
-  qcNotReady: "Non pronto",
-  qcConsidering: "Considera",
-  qcReady: "Pronto",
 };
 
 const nl = {
@@ -5765,14 +5142,10 @@ const nl = {
   gad7Q5: "Zo rusteloos dat het moeilijk is om stil te zitten?",
   gad7Q6: "Snel geïrriteerd of prikkelbaar?",
   gad7Q7: "Bang voelen, alsof er iets vreselijks zou kunnen gebeuren?",
-    gad7I1: "Minimale angst",
-  
-    gad7I2: "Milde angst",
-  
-    gad7I3: "Matige angst",
-  
-    gad7I4: "Ernstige angst",
-  
+  gad7I1: "Minimale angst",
+  gad7I2: "Milde angst",
+  gad7I3: "Matige angst",
+  gad7I4: "Ernstige angst",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Depressie-screening (afgelopen 2 weken)",
   phq9Q1: "Weinig interesse of plezier in dingen doen?",
@@ -5785,16 +5158,11 @@ const nl = {
   phq9Q8:
     "Zo langzaam bewegen of praten dat anderen het zouden hebben opgemerkt?",
   phq9Q9: "Gedachten dat je beter af zou zijn dood, of van jezelf te kwetsen?",
-    phq9I1: "Minimale depressie",
-  
-    phq9I2: "Milde depressie",
-  
-    phq9I3: "Matige depressie",
-  
-    phq9I4: "Matig-ernstig",
-  
-    phq9I5: "Ernstige depressie",
-  
+  phq9I1: "Minimale depressie",
+  phq9I2: "Milde depressie",
+  phq9I3: "Matige depressie",
+  phq9I4: "Matig-ernstig",
+  phq9I5: "Ernstige depressie",
   auditTitle: "AUDIT",
   auditSubtitle: "Alcohol-screening",
   auditQ1: "Hoe vaak drink je een alcoholische drank?",
@@ -5809,14 +5177,10 @@ const nl = {
     "Hoe vaak het afgelopen jaar kon je je niets herinneren door drinken?",
   auditQ9: "Bent jij of iemand anders gewond geraakt door jouw drinkgedrag?",
   auditQ10: "Heeft een arts aangeraden minder te drinken?",
-    auditI1: "Laag risico",
-  
-    auditI2: "Riskant gebruik",
-  
-    auditI3: "Schadelijk gebruik",
-  
-    auditI4: "Waarschijnlijk afhankelijk",
-  
+  auditI1: "Laag risico",
+  auditI2: "Riskant gebruik",
+  auditI3: "Schadelijk gebruik",
+  auditI4: "Waarschijnlijk afhankelijk",
   dast10Title: "DAST-10",
   dast10Subtitle: "Drugs-screening (afgelopen 12 maanden)",
   dast10Q1: "Heb je drugs gebruikt zonder medische reden?",
@@ -5829,28 +5193,20 @@ const nl = {
   dast10Q8: "Heb je illegale activiteiten ondernomen om drugs te verkrijgen?",
   dast10Q9: "Heb je onthoudingsverschijnselen gehad bij het stoppen?",
   dast10Q10: "Heb je medische problemen gehad door drugsgebruik?",
-    dast10I1: "Geen probleem",
-  
-    dast10I2: "Laag niveau",
-  
-    dast10I3: "Matig",
-  
-    dast10I4: "Substantieel",
-  
-    dast10I5: "Ernstig",
-  
+  dast10I1: "Geen probleem",
+  dast10I2: "Laag niveau",
+  dast10I3: "Matig",
+  dast10I4: "Substantieel",
+  dast10I5: "Ernstig",
   cageTitle: "CAGE",
   cageSubtitle: "Snelle alcohol-screening",
   cageQ1: "Heb je ooit gedacht dat je minder zou moeten drinken?",
   cageQ2: "Hebben mensen je geïrriteerd door kritiek op je drinkgedrag?",
   cageQ3: "Heb je je ooit slecht of schuldig gevoeld over je drinkgedrag?",
   cageQ4: "Heb je ooit als eerste ding 's ochtends alcohol gedronken?",
-    cageI1: "Waarschijnlijk niet afhankelijk",
-  
-    cageI2: "Mogelijk alcoholprobleem",
-  
-    cageI3: "Waarschijnlijk alcoholafhankelijkheid",
-  
+  cageI1: "Waarschijnlijk niet afhankelijk",
+  cageI2: "Mogelijk alcoholprobleem",
+  cageI3: "Waarschijnlijk alcoholafhankelijkheid",
   readinessTitle: "Veranderingsbereidheid",
   readinessSubtitle: "Motivatie voor herstel",
   readinessQ1: "Ik heb een probleem met mijn middelengebruik",
@@ -5859,12 +5215,9 @@ const nl = {
   readinessQ4: "Ik ben gemotiveerd om te stoppen",
   readinessQ5: "Ik geloof dat ik mijn gebruik kan veranderen",
   readinessQ6: "Ik ben klaar om het veranderingsproces te starten",
-    readinessI1: "Niet klaar",
-  
-    readinessI2: "Overweegt verandering",
-  
-    readinessI3: "Klaar voor verandering",
-  
+  readinessI1: "Niet klaar",
+  readinessI2: "Overweegt verandering",
+  readinessI3: "Klaar voor verandering",
 
   // Questionnaire intro screens
   introWhatIsIt: "Wat is het?",
@@ -5999,57 +5352,6 @@ const nl = {
   terms7Body: "Qup DA behoudt zich het recht voor deze voorwaarden te updaten.",
   terms8Title: "8. Contact",
   terms8Body: "Qup DA\nE-mail: support@qupda.com\nWebsite: www.qupda.com",
-
-  calendar: "Kalender",
-  diary: "Dagboek",
-  monthSummary: "Maandoverzicht",
-  missing: "Ontbreekt",
-  cravingBreakdown: "Cravings-overzicht",
-  scoreNone: "Geen cravings",
-  scoreLow: "Laag",
-  scoreModerate: "Matig",
-  scoreHigh: "Hoog",
-  scoreVeryHigh: "Zeer hoog",
-  scoreSevere: "Sterke craving",
-  months: ["Jan", "Feb", "Mrt", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
-  weekdays: ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"],
-  editLog: "Log bewerken",
-  deleteLog: "Log verwijderen",
-  deleteLogConfirm: "Weet je zeker dat je deze registratie wilt verwijderen?",
-  delete: "Verwijderen",
-  error: "Fout",
-  next: "Volgende",
-
-  recoveryProfileTitle: "Herstelprofiel",
-  recoveryProfileSub: "Hoger = beter op alle assen",
-  substanceProfileTitle: "Gebruiksprofiel",
-  substanceProfileSub: "Dagen gebruikt (blauw) · Gem. hoeveelheid (roze)",
-  questionnaireRadarTitle: "Vragenlijst-radar",
-  questionnaireRadarSub: "% van maximale score per vragenlijst",
-  axisMood: "Stemming",
-  axisWellbeing: "Welzijn",
-  axisLowCraving: "Weinig cravings",
-  axisLowAmount: "Lage hoeveelheid",
-  axisSober: "Nuchter",
-  legendDaysUsed: "Dagen gebruikt",
-  legendAvgAmount: "Gem. hoeveelheid",
-  qcMinimal: "Minimaal",
-  qcMild: "Mild",
-  qcModerate: "Matig",
-  qcSevere: "Ernstig",
-  qcModSevere: "Mat-ernstig",
-  qcLowRisk: "Laag risico",
-  qcHazardous: "Riskant",
-  qcHarmful: "Schadelijk",
-  qcLikelyDep: "Waarsch. afh.",
-  qcNone: "Geen",
-  qcLow: "Laag",
-  qcSubstantial: "Substantieel",
-  qcUnlikely: "Onwaarsch.",
-  qcPossible: "Mogelijk",
-  qcNotReady: "Niet klaar",
-  qcConsidering: "Overweegt",
-  qcReady: "Klaar",
 };
 
 const pl = {
@@ -6355,14 +5657,10 @@ const pl = {
   gad7Q5: "Być tak niespokojnym, że trudno usiedzieć w miejscu?",
   gad7Q6: "Łatwo się denerwować lub być drażliwym?",
   gad7Q7: "Czuć się przestraszonym, jakby coś strasznego mogło się wydarzyć?",
-    gad7I1: "Minimalny lęk",
-  
-    gad7I2: "Łagodny lęk",
-  
-    gad7I3: "Umiarkowany lęk",
-  
-    gad7I4: "Ciężki lęk",
-  
+  gad7I1: "Minimalny lęk",
+  gad7I2: "Łagodny lęk",
+  gad7I3: "Umiarkowany lęk",
+  gad7I4: "Ciężki lęk",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Badanie przesiewowe depresji (ostatnie 2 tygodnie)",
   phq9Q1: "Małe zainteresowanie lub przyjemność z robienia rzeczy?",
@@ -6374,16 +5672,11 @@ const pl = {
   phq9Q7: "Trudności z koncentracją?",
   phq9Q8: "Poruszać się lub mówić tak wolno, że inni mogli to zauważyć?",
   phq9Q9: "Myśli o tym, że lepiej byłoby nie żyć, lub o skrzywdzeniu siebie?",
-    phq9I1: "Minimalna depresja",
-  
-    phq9I2: "Łagodna depresja",
-  
-    phq9I3: "Umiarkowana depresja",
-  
-    phq9I4: "Umiarkowanie ciężka",
-  
-    phq9I5: "Ciężka depresja",
-  
+  phq9I1: "Minimalna depresja",
+  phq9I2: "Łagodna depresja",
+  phq9I3: "Umiarkowana depresja",
+  phq9I4: "Umiarkowanie ciężka",
+  phq9I5: "Ciężka depresja",
   auditTitle: "AUDIT",
   auditSubtitle: "Badanie przesiewowe alkoholu",
   auditQ1: "Jak często pijesz napój alkoholowy?",
@@ -6397,14 +5690,10 @@ const pl = {
     "Jak często w ubiegłym roku nie pamiętałeś co się stało przez picie?",
   auditQ9: "Czy ty lub ktoś inny zostałeś skrzywdzony z powodu twojego picia?",
   auditQ10: "Czy lekarz zasugerował ograniczenie spożycia alkoholu?",
-    auditI1: "Niskie ryzyko",
-  
-    auditI2: "Ryzykowne używanie",
-  
-    auditI3: "Szkodliwe używanie",
-  
-    auditI4: "Prawdopodobnie uzależniony",
-  
+  auditI1: "Niskie ryzyko",
+  auditI2: "Ryzykowne używanie",
+  auditI3: "Szkodliwe używanie",
+  auditI4: "Prawdopodobnie uzależniony",
   dast10Title: "DAST-10",
   dast10Subtitle: "Badanie przesiewowe narkotyków (ostatnie 12 miesięcy)",
   dast10Q1: "Czy używałeś narkotyków bez uzasadnienia medycznego?",
@@ -6418,28 +5707,20 @@ const pl = {
   dast10Q8: "Czy dopuściłeś się nielegalnych działań, aby zdobyć narkotyki?",
   dast10Q9: "Czy miałeś objawy odstawienia przy zaprzestaniu używania?",
   dast10Q10: "Czy miałeś problemy zdrowotne z powodu używania narkotyków?",
-    dast10I1: "Brak problemu",
-  
-    dast10I2: "Niski poziom",
-  
-    dast10I3: "Umiarkowany",
-  
-    dast10I4: "Znaczny",
-  
-    dast10I5: "Ciężki",
-  
+  dast10I1: "Brak problemu",
+  dast10I2: "Niski poziom",
+  dast10I3: "Umiarkowany",
+  dast10I4: "Znaczny",
+  dast10I5: "Ciężki",
   cageTitle: "CAGE",
   cageSubtitle: "Szybkie badanie przesiewowe alkoholu",
   cageQ1: "Czy kiedykolwiek czułeś, że powinieneś ograniczyć picie?",
   cageQ2: "Czy irytowało cię, gdy ktoś krytykował twoje picie?",
   cageQ3: "Czy kiedykolwiek czułeś się źle lub winny z powodu picia?",
   cageQ4: "Czy kiedykolwiek piłeś alkohol jako pierwszą rzecz rano?",
-    cageI1: "Prawdopodobnie nie uzależniony",
-  
-    cageI2: "Możliwy problem alkoholowy",
-  
-    cageI3: "Prawdopodobna zależność od alkoholu",
-  
+  cageI1: "Prawdopodobnie nie uzależniony",
+  cageI2: "Możliwy problem alkoholowy",
+  cageI3: "Prawdopodobna zależność od alkoholu",
   readinessTitle: "Gotowość do zmiany",
   readinessSubtitle: "Motywacja do zdrowienia",
   readinessQ1: "Mam problem z używaniem substancji",
@@ -6448,12 +5729,9 @@ const pl = {
   readinessQ4: "Jestem zmotywowany do zaprzestania",
   readinessQ5: "Wierzę, że mogę zmienić swoje używanie",
   readinessQ6: "Jestem gotowy rozpocząć proces zmiany",
-    readinessI1: "Nie gotowy",
-  
-    readinessI2: "Rozważa zmianę",
-  
-    readinessI3: "Gotowy do zmiany",
-  
+  readinessI1: "Nie gotowy",
+  readinessI2: "Rozważa zmianę",
+  readinessI3: "Gotowy do zmiany",
 
   // Questionnaire intro screens
   introWhatIsIt: "Co to jest?",
@@ -6588,57 +5866,6 @@ const pl = {
   terms7Body: "Qup DA zastrzega sobie prawo do aktualizacji tych warunków.",
   terms8Title: "8. Kontakt",
   terms8Body: "Qup DA\nE-mail: support@qupda.com\nStrona: www.qupda.com",
-
-  calendar: "Kalendarz",
-  diary: "Dziennik",
-  monthSummary: "Podsumowanie miesiąca",
-  missing: "Brak",
-  cravingBreakdown: "Rozkład głodu",
-  scoreNone: "Brak głodu",
-  scoreLow: "Niski",
-  scoreModerate: "Umiarkowany",
-  scoreHigh: "Wysoki",
-  scoreVeryHigh: "Bardzo wysoki",
-  scoreSevere: "Silny głód",
-  months: ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"],
-  weekdays: ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"],
-  editLog: "Edytuj wpis",
-  deleteLog: "Usuń wpis",
-  deleteLogConfirm: "Czy na pewno chcesz usunąć ten wpis?",
-  delete: "Usuń",
-  error: "Błąd",
-  next: "Dalej",
-
-  recoveryProfileTitle: "Profil zdrowienia",
-  recoveryProfileSub: "Wyżej = lepiej na wszystkich osiach",
-  substanceProfileTitle: "Profil używania",
-  substanceProfileSub: "Dni używania (niebieski) · Śr. ilość (różowy)",
-  questionnaireRadarTitle: "Radar kwestionariuszy",
-  questionnaireRadarSub: "% maksymalnego wyniku na test",
-  axisMood: "Nastrój",
-  axisWellbeing: "Samopoczucie",
-  axisLowCraving: "Mały głód",
-  axisLowAmount: "Mała ilość",
-  axisSober: "Trzeźwy",
-  legendDaysUsed: "Dni używania",
-  legendAvgAmount: "Śr. ilość",
-  qcMinimal: "Minimalny",
-  qcMild: "Łagodny",
-  qcModerate: "Umiark.",
-  qcSevere: "Ciężki",
-  qcModSevere: "Umiark-ciężki",
-  qcLowRisk: "Niskie ryzyko",
-  qcHazardous: "Ryzykowne",
-  qcHarmful: "Szkodliwe",
-  qcLikelyDep: "Prawd. uzal.",
-  qcNone: "Brak",
-  qcLow: "Niski",
-  qcSubstantial: "Znaczny",
-  qcUnlikely: "Nieprawdop.",
-  qcPossible: "Możliwy",
-  qcNotReady: "Nie gotowy",
-  qcConsidering: "Rozważa",
-  qcReady: "Gotowy",
 };
 
 const pt = {
@@ -6947,14 +6174,10 @@ const pt = {
   gad7Q5: "Tão inquieto que é difícil ficar parado?",
   gad7Q6: "Facilmente irritado ou irritável?",
   gad7Q7: "Sentir medo, como se algo terrível pudesse acontecer?",
-    gad7I1: "Ansiedade mínima",
-  
-    gad7I2: "Ansiedade leve",
-  
-    gad7I3: "Ansiedade moderada",
-  
-    gad7I4: "Ansiedade grave",
-  
+  gad7I1: "Ansiedade mínima",
+  gad7I2: "Ansiedade leve",
+  gad7I3: "Ansiedade moderada",
+  gad7I4: "Ansiedade grave",
   phq9Title: "PHQ-9",
   phq9Subtitle: "Triagem de depressão (últimas 2 semanas)",
   phq9Q1: "Pouco interesse ou prazer em fazer as coisas?",
@@ -6966,16 +6189,11 @@ const pt = {
   phq9Q7: "Dificuldade de concentração?",
   phq9Q8: "Mover-se ou falar tão devagar que outros poderiam ter notado?",
   phq9Q9: "Pensamentos de que seria melhor estar morto, ou de se machucar?",
-    phq9I1: "Depressão mínima",
-  
-    phq9I2: "Depressão leve",
-  
-    phq9I3: "Depressão moderada",
-  
-    phq9I4: "Moderada-grave",
-  
-    phq9I5: "Depressão grave",
-  
+  phq9I1: "Depressão mínima",
+  phq9I2: "Depressão leve",
+  phq9I3: "Depressão moderada",
+  phq9I4: "Moderada-grave",
+  phq9I5: "Depressão grave",
   auditTitle: "AUDIT",
   auditSubtitle: "Triagem de álcool",
   auditQ1: "Com que frequência você bebe uma bebida alcoólica?",
@@ -6991,14 +6209,10 @@ const pt = {
     "Com que frequência no último ano não conseguiu lembrar por causa da bebida?",
   auditQ9: "Você ou outra pessoa se machucou por causa do seu consumo?",
   auditQ10: "Um médico sugeriu que você reduzisse o consumo de álcool?",
-    auditI1: "Baixo risco",
-  
-    auditI2: "Uso de risco",
-  
-    auditI3: "Uso prejudicial",
-  
-    auditI4: "Provavelmente dependente",
-  
+  auditI1: "Baixo risco",
+  auditI2: "Uso de risco",
+  auditI3: "Uso prejudicial",
+  auditI4: "Provavelmente dependente",
   dast10Title: "DAST-10",
   dast10Subtitle: "Triagem de drogas (últimos 12 meses)",
   dast10Q1: "Você usou drogas por razões não médicas?",
@@ -7011,28 +6225,20 @@ const pt = {
   dast10Q8: "Você se envolveu em atividades ilegais para obter drogas?",
   dast10Q9: "Você teve sintomas de abstinência ao parar de usar drogas?",
   dast10Q10: "Você teve problemas médicos por causa do uso de drogas?",
-    dast10I1: "Sem problema",
-  
-    dast10I2: "Nível baixo",
-  
-    dast10I3: "Moderado",
-  
-    dast10I4: "Substancial",
-  
-    dast10I5: "Grave",
-  
+  dast10I1: "Sem problema",
+  dast10I2: "Nível baixo",
+  dast10I3: "Moderado",
+  dast10I4: "Substancial",
+  dast10I5: "Grave",
   cageTitle: "CAGE",
   cageSubtitle: "Triagem rápida de álcool",
   cageQ1: "Você já sentiu que deveria reduzir o consumo de álcool?",
   cageQ2: "As pessoas já te irritaram criticando seu consumo?",
   cageQ3: "Você já se sentiu mal ou culpado pelo seu consumo?",
   cageQ4: "Você já bebeu álcool logo de manhã?",
-    cageI1: "Provavelmente não dependente",
-  
-    cageI2: "Possível problema com álcool",
-  
-    cageI3: "Provável dependência de álcool",
-  
+  cageI1: "Provavelmente não dependente",
+  cageI2: "Possível problema com álcool",
+  cageI3: "Provável dependência de álcool",
   readinessTitle: "Disposição para mudança",
   readinessSubtitle: "Motivação para recuperação",
   readinessQ1: "Tenho um problema com o meu uso de substâncias",
@@ -7041,12 +6247,9 @@ const pt = {
   readinessQ4: "Estou motivado para parar",
   readinessQ5: "Acredito que posso mudar o meu uso",
   readinessQ6: "Estou pronto para iniciar o processo de mudança",
-    readinessI1: "Não preparado",
-  
-    readinessI2: "Considerando mudança",
-  
-    readinessI3: "Pronto para mudar",
-  
+  readinessI1: "Não preparado",
+  readinessI2: "Considerando mudança",
+  readinessI3: "Pronto para mudar",
 
   // Questionnaire intro screens
   introWhatIsIt: "O que é?",
@@ -7180,57 +6383,6 @@ const pt = {
   terms7Body: "Qup DA reserva-se o direito de atualizar estes termos.",
   terms8Title: "8. Contato",
   terms8Body: "Qup DA\nEmail: support@qupda.com\nSite: www.qupda.com",
-
-  calendar: "Calendário",
-  diary: "Diário",
-  monthSummary: "Resumo do mês",
-  missing: "Em falta",
-  cravingBreakdown: "Detalhe das fissuras",
-  scoreNone: "Sem fissura",
-  scoreLow: "Baixo",
-  scoreModerate: "Moderado",
-  scoreHigh: "Alto",
-  scoreVeryHigh: "Muito alto",
-  scoreSevere: "Fissura intensa",
-  months: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-  weekdays: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
-  editLog: "Editar registro",
-  deleteLog: "Excluir registro",
-  deleteLogConfirm: "Tem certeza que deseja excluir esta entrada?",
-  delete: "Excluir",
-  error: "Erro",
-  next: "Próximo",
-
-  recoveryProfileTitle: "Perfil de recuperação",
-  recoveryProfileSub: "Maior = melhor em todos os eixos",
-  substanceProfileTitle: "Perfil de substâncias",
-  substanceProfileSub: "Dias de uso (azul) · Qtd. média (rosa)",
-  questionnaireRadarTitle: "Radar de questionários",
-  questionnaireRadarSub: "% da pontuação máxima por avaliação",
-  axisMood: "Humor",
-  axisWellbeing: "Bem-estar",
-  axisLowCraving: "Pouca fissura",
-  axisLowAmount: "Pouca quantidade",
-  axisSober: "Sóbrio",
-  legendDaysUsed: "Dias de uso",
-  legendAvgAmount: "Qtd. média",
-  qcMinimal: "Mínimo",
-  qcMild: "Leve",
-  qcModerate: "Moderado",
-  qcSevere: "Grave",
-  qcModSevere: "Mod-grave",
-  qcLowRisk: "Baixo risco",
-  qcHazardous: "De risco",
-  qcHarmful: "Prejudicial",
-  qcLikelyDep: "Prov. dep.",
-  qcNone: "Nenhum",
-  qcLow: "Baixo",
-  qcSubstantial: "Substancial",
-  qcUnlikely: "Improvável",
-  qcPossible: "Possível",
-  qcNotReady: "Não pronto",
-  qcConsidering: "Considera",
-  qcReady: "Pronto",
 };
 
 const map = { en, no, de, da, sv, fi, fr, es, it, nl, pl, pt };
