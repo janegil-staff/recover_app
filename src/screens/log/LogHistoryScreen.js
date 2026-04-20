@@ -79,15 +79,7 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
     const s = avgScore(log);
     if (s != null) scoreMap[log.date] = s;
   });
-const langCtx = useLang();
-console.log('LANG CONTEXT:', langCtx);
-console.log('DIARY T:', {
-  calendar: t.calendar,
-  diary: t.diary,
-  myDiary: t.myDiary,
-  scoreNone: t.scoreNone,
-  monthSummary: t.monthSummary,
-});
+
   const goBack = () => {
     if (month === 0) {
       setYear((y) => y - 1);
