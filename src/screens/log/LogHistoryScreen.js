@@ -79,7 +79,15 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
     const s = avgScore(log);
     if (s != null) scoreMap[log.date] = s;
   });
-
+const langCtx = useLang();
+console.log('LANG CONTEXT:', langCtx);
+console.log('DIARY T:', {
+  calendar: t.calendar,
+  diary: t.diary,
+  myDiary: t.myDiary,
+  scoreNone: t.scoreNone,
+  monthSummary: t.monthSummary,
+});
   const goBack = () => {
     if (month === 0) {
       setYear((y) => y - 1);
@@ -102,6 +110,7 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
   for (let d = 1; d <= totalDays; d++) cells.push(d);
 
   const monthLogs = logs.filter((l) => {
+    if (!l.date) return false; // ← add this
     const [ly, lm] = l.date.split("-").map(Number);
     return ly === year && lm === month + 1;
   });
@@ -482,6 +491,7 @@ function MonthSummaryView({ logs, t, theme }) {
 
   const grouped = {};
   logs.forEach((log) => {
+    if (!log.date) return; // ← add this
     const key = log.date.slice(0, 7);
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(log);

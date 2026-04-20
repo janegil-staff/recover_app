@@ -2,7 +2,7 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "https://monkfish-app-qjb62.ondigitalocean.app/";
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "https://monkfish-app-qjb62.ondigitalocean.app";
 
 async function getToken() {
   return SecureStore.getItemAsync("token");
