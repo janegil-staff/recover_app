@@ -2,7 +2,7 @@
   "expo": {
     "name": "recover",
     "slug": "recover",
-    "version": "1.0.6",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/images/focus_logo.png",
     "userInterfaceStyle": "light",
@@ -25,7 +25,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.qup.recover"
+      "package": "com.qupda.recover"
     },
     "web": {
       "favicon": "./assets/favicon.ico"
