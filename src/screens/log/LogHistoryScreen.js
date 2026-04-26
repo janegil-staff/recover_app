@@ -100,6 +100,7 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
   const cells = [];
   for (let i = 0; i < startOffset; i++) cells.push(null);
   for (let d = 1; d <= totalDays; d++) cells.push(d);
+  while (cells.length % 7 !== 0) cells.push(null); // pad final partial week
 
   const monthLogs = logs.filter((l) => {
     if (!l.date) return false; // ← add this
