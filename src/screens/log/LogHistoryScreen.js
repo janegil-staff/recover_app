@@ -189,8 +189,10 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
         {loading ? (
           <ActivityIndicator color={PRIMARY} style={{ marginVertical: 24 }} />
         ) : (
-          <View style={cal.grid}>
-            {cells.map((day, i) => {
+          <View>
+            {Array.from({ length: Math.ceil(cells.length / 7) }).map((_, weekIdx) => (
+              <View key={`week-${weekIdx}`} style={cal.weekRow}>
+                {cells.slice(weekIdx * 7, weekIdx * 7 + 7).map((day, i) => {
               if (!day) return <View key={`e-${i}`} style={cal.cell} />;
               const dateStr = toDateStr(year, month, day);
               const score = scoreMap[dateStr];
@@ -273,7 +275,9 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
                   </View>
                 </TouchableOpacity>
               );
-            })}
+                })}
+              </View>
+            ))}
           </View>
         )}
       </View>
@@ -411,11 +415,12 @@ const cal = StyleSheet.create({
   },
   grid: { flexDirection: "row", flexWrap: "wrap" },
   cell: {
-    width: `${100 / 7}%`,
+    flex: 1,
     aspectRatio: 1,
     paddingHorizontal: 7,
     paddingVertical: 5,
   },
+  weekRow: { flexDirection: "row" },
   cellInner: {
     flex: 1,
     width: "100%",
