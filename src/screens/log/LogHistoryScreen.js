@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  Modal,
+  Pressable,
+  ScrollView,
 } from "react-native";
 import {
   SafeAreaView,
@@ -20,8 +23,7 @@ import { useTheme } from "../../context/ThemeContext";
 import { useLang } from "../../context/LangContext";
 import { FontSize, Spacing, Radius } from "../../constants/theme";
 
-// Score colors stay hardcoded — they're semantic (green=good, red=severe)
-// and should look the same in both modes.
+// Score colors stay hardcoded — they're semantic (green=good, red=severe).
 const SCORE_COLORS = {
   0: "#22C55E",
   1: "#7AABDB",
@@ -67,13 +69,390 @@ function toDateStr(y, m, d) {
   return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
+function formatLongDate(dateStr, t) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  const months = t.months ?? [
+    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
+    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
+  ];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+// ── Action Sheet ──────────────────────────────────────────────────────────────
+function ActionSheet({ visible, onEdit, onPreview, onClose, theme, t }) {
+  const TEXT = theme?.text ?? "#1a2c3d";
+  const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
+  const CARD_BG = theme?.card ?? "#fff";
+  const ACCENT = theme?.accent ?? "#4A7AB5";
+  const BORDER = theme?.border ?? "#e8eef5";
+
+  return (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+    >
+      <Pressable style={sheet.backdrop} onPress={onClose}>
+        <Pressable
+          style={[sheet.sheet, { backgroundColor: CARD_BG }]}
+          onPress={(e) => e.stopPropagation()}
+        >
+          <View style={[sheet.handle, { backgroundColor: BORDER }]} />
+
+          <Text style={[sheet.title, { color: TEXT }]}>
+            {t.entryActionsTitle ?? "What would you like to do?"}
+          </Text>
+
+          <TouchableOpacity
+            style={[sheet.btn, { backgroundColor: ACCENT }]}
+            onPress={onEdit}
+            activeOpacity={0.85}
+          >
+            <Svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <Path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <Path
+                d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </Svg>
+            <Text style={sheet.btnTextPrimary}>
+              {t.editEntry ?? "Edit"}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              sheet.btn,
+              {
+                backgroundColor: "transparent",
+                borderColor: ACCENT,
+                borderWidth: 1.5,
+              },
+            ]}
+            onPress={onPreview}
+            activeOpacity={0.85}
+          >
+            <Svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <Path
+                d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                fill="none"
+                stroke={ACCENT}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <Circle
+                cx="12" cy="12" r="3"
+                fill="none"
+                stroke={ACCENT}
+                strokeWidth="2"
+              />
+            </Svg>
+            <Text style={[sheet.btnTextSecondary, { color: ACCENT }]}>
+              {t.previewEntry ?? "Preview"}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={sheet.cancelBtn}
+            onPress={onClose}
+            activeOpacity={0.7}
+          >
+            <Text style={[sheet.cancelText, { color: TEXT_MUTED }]}>
+              {t.cancel ?? "Cancel"}
+            </Text>
+          </TouchableOpacity>
+        </Pressable>
+      </Pressable>
+    </Modal>
+  );
+}
+
+const sheet = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  sheet: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 12,
+    paddingHorizontal: 20,
+    paddingBottom: 32,
+  },
+  handle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    alignSelf: "center",
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 16,
+  },
+  btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    paddingVertical: 14,
+    borderRadius: 14,
+    marginBottom: 10,
+  },
+  btnTextPrimary: {
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  btnTextSecondary: {
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  cancelBtn: {
+    paddingVertical: 14,
+    alignItems: "center",
+    marginTop: 4,
+  },
+  cancelText: {
+    fontSize: 15,
+    fontWeight: "600",
+  },
+});
+
+// ── Preview Modal ─────────────────────────────────────────────────────────────
+function PreviewModal({ visible, log, onClose, theme, t }) {
+  if (!log) return null;
+  const TEXT = theme?.text ?? "#1a2c3d";
+  const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
+  const SUBTLE = theme?.textSubtle ?? "#444";
+  const CARD_BG = theme?.card ?? "#fff";
+  const ACCENT = theme?.accent ?? "#4A7AB5";
+  const BORDER = theme?.border ?? "#e8eef5";
+  const BG = theme?.bgSecondary ?? theme?.bg ?? "#F0F4F8";
+
+  const score = avgScore(log);
+  const dotColor = score != null ? scoreColor(score) : "#b3cde8";
+
+  const Row = ({ label, value }) => {
+    if (value == null || value === "" || (Array.isArray(value) && !value.length)) return null;
+    return (
+      <View style={preview.row}>
+        <Text style={[preview.rowLabel, { color: TEXT_MUTED }]}>{label}</Text>
+        <Text style={[preview.rowValue, { color: TEXT }]}>{value}</Text>
+      </View>
+    );
+  };
+
+  return (
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+    >
+      <Pressable style={preview.backdrop} onPress={onClose}>
+        <Pressable
+          style={[preview.modal, { backgroundColor: BG }]}
+          onPress={(e) => e.stopPropagation()}
+        >
+          {/* Header strip */}
+          <View
+            style={[
+              preview.header,
+              { backgroundColor: dotColor, borderColor: dotColor },
+            ]}
+          >
+            <Text style={preview.headerDate}>
+              {formatLongDate(log.date, t)}
+            </Text>
+            {!!log.note?.trim() && (
+              <View style={preview.noteBadge}>
+                <Svg width="14" height="14" viewBox="0 0 24 24">
+                  <Path
+                    d="M7 8 Q7 6 9 6 L15 6 Q17 6 17 8 L17 14 Q17 16 15 16 L13.5 16 L15.5 19.5 L11.5 16 L9 16 Q7 16 7 14 Z"
+                    fill="#fff"
+                  />
+                </Svg>
+              </View>
+            )}
+          </View>
+
+          {/* Body */}
+          <ScrollView
+            style={preview.body}
+            contentContainerStyle={{ padding: 20 }}
+            showsVerticalScrollIndicator={false}
+          >
+            <Row
+              label={t.substancesUsed ?? "Substances"}
+              value={log.substances?.length
+                ? log.substances.map((s) => t[s] ?? s).join(", ")
+                : null}
+            />
+            <Row
+              label={t.cravings ?? "Cravings"}
+              value={log.cravings != null ? `${log.cravings}/5` : null}
+            />
+            <Row
+              label={t.mood ?? "Mood"}
+              value={log.mood != null ? `${log.mood}/5` : null}
+            />
+            <Row
+              label={t.wellbeing ?? "Wellbeing"}
+              value={log.wellbeing != null ? `${log.wellbeing}/5` : null}
+            />
+            <Row
+              label={t.amount ?? "Amount"}
+              value={log.amount != null ? `${log.amount}/10` : null}
+            />
+            <Row
+              label={t.frequency ?? "Frequency"}
+              value={log.frequency && log.frequency !== "none"
+                ? (t[log.frequency] ?? log.frequency)
+                : null}
+            />
+            <Row
+              label={t.myMedications ?? "Medications"}
+              value={log.medicationsTaken?.length
+                ? log.medicationsTaken
+                    .map((m) => (m.dosage ? `${m.name} ${m.dosage}` : m.name))
+                    .join(", ")
+                : null}
+            />
+            {log.note?.trim() && (
+              <View style={preview.noteSection}>
+                <Text style={[preview.rowLabel, { color: TEXT_MUTED, marginBottom: 6 }]}>
+                  {t.note ?? "Note"}
+                </Text>
+                <View
+                  style={[
+                    preview.noteBox,
+                    { backgroundColor: CARD_BG, borderColor: BORDER },
+                  ]}
+                >
+                  <Text style={{ color: SUBTLE, fontSize: 14, lineHeight: 20 }}>
+                    {log.note}
+                  </Text>
+                </View>
+              </View>
+            )}
+          </ScrollView>
+
+          {/* Close button */}
+          <View style={[preview.footer, { borderColor: BORDER, backgroundColor: CARD_BG }]}>
+            <TouchableOpacity
+              style={[preview.closeBtn, { backgroundColor: ACCENT }]}
+              onPress={onClose}
+              activeOpacity={0.85}
+            >
+              <Text style={preview.closeText}>{t.close ?? "Close"}</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Pressable>
+    </Modal>
+  );
+}
+
+const preview = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+  },
+  modal: {
+    borderRadius: 20,
+    overflow: "hidden",
+    maxHeight: "85%",
+  },
+  header: {
+    paddingVertical: 18,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  headerDate: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  noteBadge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "rgba(255,255,255,0.25)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  body: {
+    flexGrow: 0,
+  },
+  row: {
+    paddingVertical: 10,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(127,127,127,0.2)",
+  },
+  rowLabel: {
+    fontSize: 11,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    marginBottom: 4,
+  },
+  rowValue: {
+    fontSize: 15,
+    fontWeight: "500",
+  },
+  noteSection: {
+    marginTop: 14,
+  },
+  noteBox: {
+    borderRadius: 12,
+    padding: 14,
+    borderWidth: 1,
+  },
+  footer: {
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    borderTopWidth: 1,
+  },
+  closeBtn: {
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  closeText: {
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "700",
+  },
+});
+
 // ── Calendar tab ──────────────────────────────────────────────────────────────
-function CalendarTab({ logs, loading, navigation, t, theme }) {
+function CalendarTab({ logs, loading, onCellPress, t, theme }) {
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
 
-  // All chrome colors come from theme so dark mode is automatic
   const PRIMARY = theme?.accent ?? "#4A7AB5";
   const TEXT = theme?.text ?? "#1a2c3d";
   const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
@@ -203,18 +582,15 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
                         key={dateStr}
                         style={cal.cell}
                         activeOpacity={isFuture ? 1 : 0.7}
-                        onPress={() =>
-                          !isFuture &&
-                          navigation.navigate("LogEntry", {
-                            date: dateStr,
-                            log: existing,
-                          })
-                        }
+                        onPress={() => {
+                          if (isFuture) return;
+                          onCellPress(dateStr, existing);
+                        }}
                       >
                         <View
                           style={[
                             cal.cellInner,
-                            { borderColor: TEXT_MUTED }, // default neutral border
+                            { borderColor: TEXT_MUTED },
                             isFuture && { borderWidth: 0 },
                             !isFuture &&
                               score == null && {
@@ -285,10 +661,7 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
 
       {/* Legend */}
       <View
-        style={[
-          cal.card,
-          { backgroundColor: CARD_BG, paddingVertical: 10 },
-        ]}
+        style={[cal.card, { backgroundColor: CARD_BG, paddingVertical: 10 }]}
       >
         <View
           style={{
@@ -419,7 +792,6 @@ const cal = StyleSheet.create({
     fontSize: 11,
     fontWeight: "700",
   },
-  grid: { flexDirection: "row", flexWrap: "wrap" },
   cell: {
     flex: 1,
     aspectRatio: 1,
@@ -559,11 +931,7 @@ function MonthSummaryView({ logs, t, theme }) {
               }}
             >
               <Text
-                style={{
-                  color: TEXT,
-                  fontSize: FontSize.md,
-                  fontWeight: "700",
-                }}
+                style={{ color: TEXT, fontSize: FontSize.md, fontWeight: "700" }}
               >
                 {(months[item.month] ?? "").toUpperCase()} {item.year}
               </Text>
@@ -640,7 +1008,8 @@ function DiaryView({ logs, navigation, t, theme }) {
   const CARD_BG = theme?.card ?? theme?.bg ?? "#fff";
   const TEXT = theme?.text ?? "#1a2c3d";
   const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
-  const SUBTLE = theme?.textSubtle ?? "#444";
+  const isDark = theme?.mode === "dark";
+  const SUBTLE = theme?.textSubtle ?? (isDark ? "#cbd5e1" : "#444");
 
   const months = t.months ?? [
     "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
@@ -775,9 +1144,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                       shadowOffset: { width: 0, height: 2 },
                       elevation: 2,
                     }}
-                    onPress={() =>
-                      navigation.navigate("LogEntry", { date: log.date, log })
-                    }
+                    onPress={() => onEntryPress(log.date, log)}
                     activeOpacity={0.75}
                   >
                     <View
@@ -855,11 +1222,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                     <View style={{ flex: 1 }}>
                       {log.substances?.length > 0 && (
                         <Text
-                          style={{
-                            color: SUBTLE,
-                            fontSize: 13,
-                            marginBottom: 2,
-                          }}
+                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.substancesUsed ?? "Substances"}:{" "}
@@ -869,11 +1232,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.cravings != null && (
                         <Text
-                          style={{
-                            color: SUBTLE,
-                            fontSize: 13,
-                            marginBottom: 2,
-                          }}
+                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.cravings ?? "Cravings"}:{" "}
@@ -883,11 +1242,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.mood != null && (
                         <Text
-                          style={{
-                            color: SUBTLE,
-                            fontSize: 13,
-                            marginBottom: 2,
-                          }}
+                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.mood ?? "Mood"}:{" "}
@@ -897,11 +1252,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.wellbeing != null && (
                         <Text
-                          style={{
-                            color: SUBTLE,
-                            fontSize: 13,
-                            marginBottom: 2,
-                          }}
+                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.wellbeing ?? "Wellbeing"}:{" "}
@@ -911,11 +1262,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.amount != null && (
                         <Text
-                          style={{
-                            color: SUBTLE,
-                            fontSize: 13,
-                            marginBottom: 2,
-                          }}
+                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.amount ?? "Amount"}:{" "}
@@ -925,11 +1272,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.frequency && log.frequency !== "none" && (
                         <Text
-                          style={{
-                            color: SUBTLE,
-                            fontSize: 13,
-                            marginBottom: 2,
-                          }}
+                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.frequency ?? "Frequency"}:{" "}
@@ -939,11 +1282,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.medicationsTaken?.length > 0 && (
                         <Text
-                          style={{
-                            color: SUBTLE,
-                            fontSize: 13,
-                            marginBottom: 2,
-                          }}
+                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.myMedications ?? "Medications"}:{" "}
@@ -984,39 +1323,6 @@ function DiaryView({ logs, navigation, t, theme }) {
                       >
                         {shortDate(log.date)}
                       </Text>
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate("LogEntry", {
-                            date: log.date,
-                            log,
-                          })
-                        }
-                        style={{ marginTop: 8 }}
-                      >
-                        <Svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <Path
-                            d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"
-                            fill="none"
-                            stroke={PRIMARY}
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <Path
-                            d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                            fill="none"
-                            stroke={PRIMARY}
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </Svg>
-                      </TouchableOpacity>
                     </View>
                   </TouchableOpacity>
                 );
@@ -1034,11 +1340,22 @@ export default function LogHistoryScreen({ navigation, route }) {
     route?.params?.initialTab ?? "calendar",
   );
   const [diaryView, setDiaryView] = useState("day");
-  const { logs, loading, fetchLogs, sobrietyStreak } = useLogs();
+  const { logs, loading, fetchLogs } = useLogs();
   const { theme } = useTheme();
   const { t } = useLang();
   const insets = useSafeAreaInsets();
   const PRIMARY = theme?.accent ?? "#4A7AB5";
+
+  // Modal state
+  const [actionSheet, setActionSheet] = useState({
+    visible: false,
+    date: null,
+    log: null,
+  });
+  const [previewModal, setPreviewModal] = useState({
+    visible: false,
+    log: null,
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -1048,11 +1365,41 @@ export default function LogHistoryScreen({ navigation, route }) {
 
   const s = makeStyles(theme, insets);
 
-  // Theme-aware values for the diary view-toggle pill
   const TOGGLE_BG = theme?.cardElevated ?? "#dde8f0";
   const TOGGLE_ACTIVE_BG = theme?.card ?? "#fff";
   const TOGGLE_INACTIVE_TEXT = theme?.textMuted ?? "#6b8aaa";
   const TOGGLE_ACTIVE_TEXT = theme?.text ?? "#4a6a8a";
+
+  // Unified handler for both calendar and diary entry taps
+  const handleEntryPress = (date, log) => {
+    if (!log) {
+      // No existing log on that day → straight to creating a new entry
+      navigation.navigate("LogEntry", { date, log: null });
+      return;
+    }
+    setActionSheet({ visible: true, date, log });
+  };
+
+  const handleEdit = () => {
+    const { date, log } = actionSheet;
+    setActionSheet({ visible: false, date: null, log: null });
+    setTimeout(() => {
+      navigation.navigate("LogEntry", { date, log });
+    }, 100);
+  };
+
+  const handlePreview = () => {
+    const { log } = actionSheet;
+    setActionSheet({ visible: false, date: null, log: null });
+    setTimeout(() => {
+      setPreviewModal({ visible: true, log });
+    }, 200);
+  };
+
+  const closeActionSheet = () =>
+    setActionSheet({ visible: false, date: null, log: null });
+  const closePreview = () =>
+    setPreviewModal({ visible: false, log: null });
 
   return (
     <View
@@ -1115,7 +1462,7 @@ export default function LogHistoryScreen({ navigation, route }) {
             <CalendarTab
               logs={logs}
               loading={loading}
-              navigation={navigation}
+              onCellPress={handleEntryPress}
               t={t}
               theme={theme}
             />
@@ -1182,7 +1529,7 @@ export default function LogHistoryScreen({ navigation, route }) {
           {diaryView === "day" ? (
             <DiaryView
               logs={logs}
-              navigation={navigation}
+              onEntryPress={handleEntryPress}
               t={t}
               theme={theme}
             />
@@ -1191,6 +1538,23 @@ export default function LogHistoryScreen({ navigation, route }) {
           )}
         </View>
       )}
+
+      <ActionSheet
+        visible={actionSheet.visible}
+        onEdit={handleEdit}
+        onPreview={handlePreview}
+        onClose={closeActionSheet}
+        theme={theme}
+        t={t}
+      />
+
+      <PreviewModal
+        visible={previewModal.visible}
+        log={previewModal.log}
+        onClose={closePreview}
+        theme={theme}
+        t={t}
+      />
     </View>
   );
 }
