@@ -9,16 +9,18 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import Svg, { Path } from 'react-native-svg';
 import { useTheme } from '../../context/ThemeContext';
 import { useLang } from '../../context/LangContext';
+import { useLogs } from '../../context/PatientContext';
 import { FontSize, Spacing, Radius } from '../../constants/theme';
 
 function buildQuestionnaires(t) {
   const RARELY = [
-    { label: t.ansNotAtAll,    value: 0 },
-    { label: t.ansSomeDays,    value: 1 },
-    { label: t.ansMoreThanHalf,value: 2 },
-    { label: t.ansNearlyEvery, value: 3 },
+    { label: t.ansNotAtAll,     value: 0 },
+    { label: t.ansSomeDays,     value: 1 },
+    { label: t.ansMoreThanHalf, value: 2 },
+    { label: t.ansNearlyEvery,  value: 3 },
   ];
 
   return {
@@ -50,18 +52,6 @@ function buildQuestionnaires(t) {
       maxScore: 40,
       interpret: s => s <= 7 ? t.auditI1 : s <= 15 ? t.auditI2 : s <= 19 ? t.auditI3 : t.auditI4,
       questions: [t.auditQ1,t.auditQ2,t.auditQ3,t.auditQ4,t.auditQ5,t.auditQ6,t.auditQ7,t.auditQ8,t.auditQ9,t.auditQ10],
-      options: [
-        [{ label: t.ansNever,value:0 },{ label: t.ansMonthlyOrLess,value:1 },{ label: t.ans2to4Monthly,value:2 },{ label: t.ans2to3Weekly,value:3 },{ label: t.ans4PlusWeekly,value:4 }],
-        [{ label: t.ans1to2,value:0 },{ label: t.ans3to4,value:1 },{ label: t.ans5to6,value:2 },{ label: t.ans7to9,value:3 },{ label: t.ans10plus,value:4 }],
-        [{ label: t.ansNever,value:0 },{ label: t.ansLessThanMonthly,value:1 },{ label: t.ansMonthly,value:2 },{ label: t.ansWeekly,value:3 },{ label: t.ansDailyAlmost,value:4 }],
-        null, null, null, null, null,
-        [{ label: t.ansNo,value:0 },{ label: t.ansNoNotLastYear,value:2 },{ label: t.ansYesLastYear,value:4 }],
-        [{ label: t.ansNo,value:0 },{ label: t.ansNoNotLastYear,value:2 },{ label: t.ansYesLastYear,value:4 }],
-      ],
-      defaultOptions: [
-        { label: t.ansNever,value:0 },{ label: t.ansLessThanMonthly,value:1 },
-        { label: t.ansMonthly,value:2 },{ label: t.ansWeekly,value:3 },{ label: t.ansDailyAlmost,value:4 },
-      ],
     },
     dast10: {
       title:    t.dast10Title,
@@ -70,9 +60,6 @@ function buildQuestionnaires(t) {
       scoreKey: 'latestDast10',
       maxScore: 10,
       interpret: s => s === 0 ? t.dast10I1 : s <= 2 ? t.dast10I2 : s <= 5 ? t.dast10I3 : s <= 8 ? t.dast10I4 : t.dast10I5,
-      yesNo: true,
-      questions: [t.dast10Q1,t.dast10Q2,t.dast10Q3,t.dast10Q4,t.dast10Q5,t.dast10Q6,t.dast10Q7,t.dast10Q8,t.dast10Q9,t.dast10Q10],
-      reverse: [2],
     },
     cage: {
       title:    t.cageTitle,
@@ -81,8 +68,6 @@ function buildQuestionnaires(t) {
       scoreKey: 'latestCage',
       maxScore: 4,
       interpret: s => s <= 1 ? t.cageI1 : s <= 2 ? t.cageI2 : t.cageI3,
-      yesNo: true,
-      questions: [t.cageQ1,t.cageQ2,t.cageQ3,t.cageQ4],
     },
     readiness: {
       title:    t.readinessTitle,
@@ -91,28 +76,73 @@ function buildQuestionnaires(t) {
       scoreKey: 'latestReadiness',
       maxScore: 30,
       interpret: s => s <= 10 ? t.readinessI1 : s <= 20 ? t.readinessI2 : t.readinessI3,
-      questions: [t.readinessQ1,t.readinessQ2,t.readinessQ3,t.readinessQ4,t.readinessQ5,t.readinessQ6],
-      options: [
-        { label: t.ansStronglyDisagree, value: 1 },
-        { label: t.ansDisagree,         value: 2 },
-        { label: t.ansNeutral,          value: 3 },
-        { label: t.ansAgree,            value: 4 },
-        { label: t.ansStronglyAgree,    value: 5 },
-      ],
     },
   };
 }
 
-function QCard({ config, latestScore, onPress, theme }) {
-  const total = latestScore != null
-    ? Object.values(latestScore).reduce(
-        (a, b) => (typeof b === 'number' ? a + b : a),
-        0,
-      )
-    : null;
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function computeTotal(raw) {
+  if (!raw || typeof raw !== 'object') return null;
+  return Object.entries(raw).reduce(
+    (sum, [k, v]) => (k !== 'completedAt' && typeof v === 'number' ? sum + v : sum),
+    0,
+  );
+}
+
+function formatCompletion(completedAt, t) {
+  if (!completedAt) return null;
+  const completed = new Date(completedAt);
+  if (isNaN(completed.getTime())) return null;
+
+  const now = new Date();
+  const diffMs = now - completed;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) {
+    return { text: t.completedToday ?? 'Completed today', stale: false };
+  }
+  if (diffDays === 1) {
+    return { text: t.completedYesterday ?? 'Completed yesterday', stale: false };
+  }
+  if (diffDays < 7) {
+    return {
+      text: `${t.completed ?? 'Completed'} ${diffDays} ${t.daysAgo ?? 'days ago'}`,
+      stale: false,
+    };
+  }
+  if (diffDays < 30) {
+    const weeks = Math.floor(diffDays / 7);
+    return {
+      text: `${t.completed ?? 'Completed'} ${weeks} ${weeks === 1 ? (t.weekAgo ?? 'week ago') : (t.weeksAgo ?? 'weeks ago')}`,
+      stale: false,
+    };
+  }
+  // Older than 30 days — show date and mark stale if 90+
+  const months = t.months ?? [
+    'Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des',
+  ];
+  const dateStr = `${completed.getDate()} ${months[completed.getMonth()]} ${completed.getFullYear()}`;
+  return {
+    text: `${t.completed ?? 'Completed'} ${dateStr}`,
+    stale: diffDays >= 90,
+  };
+}
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+function QCard({ config, latestScore, onPress, theme, t }) {
+  const total = computeTotal(latestScore);
   const interp = total != null ? config.interpret(total) : null;
+  const completion = formatCompletion(latestScore?.completedAt, t);
+
   const CARD_BG = theme?.card ?? '#fff';
   const BORDER = theme?.border ?? '#e8eef5';
+  const TEXT = theme?.text ?? '#1a2c3d';
+  const TEXT_MUTED = theme?.textMuted ?? '#7a9ab8';
+  const STALE_COLOR = theme?.highlight ?? '#f4a261';
+  const SUCCESS_COLOR = '#22C55E';
+
+  const isCompleted = total != null;
 
   return (
     <TouchableOpacity
@@ -130,38 +160,85 @@ function QCard({ config, latestScore, onPress, theme }) {
       activeOpacity={0.8}
     >
       <View style={{ flex: 1 }}>
-        <Text style={[s.qTitle, { color: theme.text }]}>{config.title}</Text>
-        <Text style={[s.qSubtitle, { color: theme.textMuted }]}>
+        <Text style={[s.qTitle, { color: TEXT }]}>{config.title}</Text>
+        <Text style={[s.qSubtitle, { color: TEXT_MUTED }]}>
           {config.subtitle}
         </Text>
-        {interp && (
-          <View
-            style={[
-              s.qBadge,
-              { backgroundColor: config.color + '20' },
-            ]}
-          >
-            <Text style={[s.qBadgeText, { color: config.color }]}>
-              {total} / {config.maxScore} — {interp}
+
+        {isCompleted ? (
+          <>
+            <View
+              style={[
+                s.qBadge,
+                { backgroundColor: config.color + '20' },
+              ]}
+            >
+              <Text style={[s.qBadgeText, { color: config.color }]}>
+                {total} / {config.maxScore} — {interp}
+              </Text>
+            </View>
+            {completion && (
+              <View style={s.completionRow}>
+                {completion.stale ? (
+                  <Text style={{ fontSize: 11 }}>⚠</Text>
+                ) : (
+                  <Svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <Path
+                      d="M5 12l5 5L20 7"
+                      stroke={SUCCESS_COLOR}
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </Svg>
+                )}
+                <Text
+                  style={[
+                    s.completionText,
+                    {
+                      color: completion.stale ? STALE_COLOR : TEXT_MUTED,
+                      fontWeight: completion.stale ? '600' : '500',
+                    },
+                  ]}
+                >
+                  {completion.text}
+                  {completion.stale &&
+                    ` — ${t.considerRetaking ?? 'consider retaking'}`}
+                </Text>
+              </View>
+            )}
+          </>
+        ) : (
+          <View style={s.notCompletedRow}>
+            <View
+              style={[
+                s.notCompletedDot,
+                { borderColor: TEXT_MUTED },
+              ]}
+            />
+            <Text style={[s.notCompletedText, { color: TEXT_MUTED }]}>
+              {t.notCompletedYet ?? 'Not completed yet'}
             </Text>
           </View>
         )}
       </View>
-      <Text style={[s.qArrow, { color: theme.textMuted }]}>›</Text>
+      <Text style={[s.qArrow, { color: TEXT_MUTED }]}>›</Text>
     </TouchableOpacity>
   );
 }
 
+// ── Screen ────────────────────────────────────────────────────────────────────
 export default function QuestionnaireScreen({ navigation }) {
   const { theme } = useTheme();
   const { t }     = useLang();
   const insets    = useSafeAreaInsets();
+  const { patient } = useLogs();
 
-  const QUESTIONNAIRES = buildQuestionnaires(t);
+  const QUESTIONNAIRES = useMemo(() => buildQuestionnaires(t), [t]);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.bgSecondary ?? theme.bg }}>
-      {/* Header — same gradient as other Share tabs for visual consistency */}
+      {/* Header — gradient matches other Share tabs */}
       <LinearGradient
         colors={[theme.accent, theme.accentDark ?? '#2d4a6e']}
         start={{ x: 0, y: 0.5 }}
@@ -169,7 +246,7 @@ export default function QuestionnaireScreen({ navigation }) {
         style={[s.header, { paddingTop: insets.top + 8 }]}
       >
         <TouchableOpacity
-          onPress={() => navigation.getParent()?.goBack()}
+          onPress={() => navigation.getParent()?.goBack() ?? navigation.goBack()}
           style={s.backBtn}
         >
           <Text style={s.backArrow}>‹</Text>
@@ -189,8 +266,9 @@ export default function QuestionnaireScreen({ navigation }) {
           <QCard
             key={id}
             config={config}
-            latestScore={null}
+            latestScore={patient?.[config.scoreKey] ?? null}
             theme={theme}
+            t={t}
             onPress={() => navigation.navigate('QuestionnaireIntro', { id })}
           />
         ))}
@@ -239,7 +317,33 @@ const s = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: Radius.full,
+    marginBottom: 6,
   },
   qBadgeText: { fontSize: FontSize.xs, fontWeight: '700' },
   qArrow:     { fontSize: 24, marginLeft: Spacing.sm },
+  completionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    marginTop: 2,
+  },
+  completionText: {
+    fontSize: FontSize.xs,
+  },
+  notCompletedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 2,
+  },
+  notCompletedDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    borderWidth: 1.5,
+  },
+  notCompletedText: {
+    fontSize: FontSize.xs,
+    fontStyle: 'italic',
+  },
 });

@@ -7,11 +7,10 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme }    from '../../context/ThemeContext';
 import { useLang }     from '../../context/LangContext';
+import { useLogs }     from '../../context/PatientContext';
 import { patientApi }  from '../../services/api';
 import { FontSize, Spacing, Radius } from '../../constants/theme';
 
-// ── Re-use buildQuestionnaires from the shared helper ─────────────────────────
-// (copy the same function here, or import from a shared file)
 function buildQuestionnaires(t) {
   const RARELY = [
     { label: t.ansNotAtAll,     value: 0 },
@@ -102,12 +101,12 @@ function buildQuestionnaires(t) {
   };
 }
 
-// ── Screen ────────────────────────────────────────────────────────────────────
 export default function QuestionnaireFormScreen({ route, navigation }) {
   const { id } = route.params;
   const { theme } = useTheme();
   const { t }     = useLang();
   const insets    = useSafeAreaInsets();
+  const { fetchPatient } = useLogs();
 
   const QUESTIONNAIRES = buildQuestionnaires(t);
   const config         = QUESTIONNAIRES[id];
@@ -136,7 +135,18 @@ export default function QuestionnaireFormScreen({ route, navigation }) {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await patientApi.updateQuestionnaire(config.scoreKey, answers);
+      // Add a completion timestamp alongside the answers so we can show
+      // "Last completed N days ago" on the questionnaire list.
+      const payload = {
+        ...answers,
+        completedAt: new Date().toISOString(),
+      };
+      await patientApi.updateQuestionnaire(config.scoreKey, payload);
+      // Refresh patient context if available, so the list reflects this
+      // submission immediately.
+      if (typeof fetchPatient === 'function') {
+        try { await fetchPatient(); } catch {}
+      }
       navigation.goBack();
       navigation.goBack(); // back past intro too
     } catch (e) {
@@ -148,7 +158,6 @@ export default function QuestionnaireFormScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.bg }} edges={['bottom']}>
-
       {/* Header */}
       <View style={[s.header, { backgroundColor: color, paddingTop: insets.top + 8 }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
@@ -175,7 +184,7 @@ export default function QuestionnaireFormScreen({ route, navigation }) {
         showsVerticalScrollIndicator={false}
       >
         {config.questions.map((q, i) => {
-          const opts   = getOptions(i);
+          const opts = getOptions(i);
           return (
             <View key={i} style={[s.qBlock, { borderBottomColor: theme.border }]}>
               <Text style={[s.qNum,  { color }]}>{i + 1}.</Text>
@@ -227,7 +236,6 @@ export default function QuestionnaireFormScreen({ route, navigation }) {
           }
         </TouchableOpacity>
       </View>
-
     </SafeAreaView>
   );
 }

@@ -7,6 +7,7 @@ const LogsContext = createContext(null);
 
 export function LogsProvider({ children }) {
   const [logs,    setLogs]    = useState([]);
+  const [patient, setPatient] = useState(null);
   const [summary, setSummary] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -14,16 +15,32 @@ export function LogsProvider({ children }) {
     setLoading(true);
     try {
       const data = await patientApi.get();
-      // Sort descending (newest first)
-      const records = (data?.records ?? []).filter(r => r?.date).slice().sort((a, b) => b.date.localeCompare(a.date));
+
+      // Store the full patient object so questionnaire results
+      // (latestGad7, latestPhq9, etc.) are available throughout the app.
+      setPatient(data ?? null);
+
+      // Sort records descending (newest first)
+      const records = (data?.records ?? [])
+        .filter((r) => r?.date)
+        .slice()
+        .sort((a, b) => b.date.localeCompare(a.date));
       setLogs(records);
+
       // Build summary from records
       const count = records.length;
       if (count > 0) {
         const avgCravings  = records.reduce((s, r) => s + (r.cravings  ?? 0), 0) / count;
         const avgMood      = records.reduce((s, r) => s + (r.mood      ?? 0), 0) / count;
         const avgWellbeing = records.reduce((s, r) => s + (r.wellbeing ?? 0), 0) / count;
-        setSummary({ count, averages: { cravings: avgCravings, mood: avgMood, wellbeing: avgWellbeing } });
+        setSummary({
+          count,
+          averages: {
+            cravings:  avgCravings,
+            mood:      avgMood,
+            wellbeing: avgWellbeing,
+          },
+        });
       } else {
         setSummary({ count: 0, averages: {} });
       }
@@ -32,7 +49,13 @@ export function LogsProvider({ children }) {
   }, []);
 
   // alias for FocusApp compatibility
-  const fetchSummary = useCallback(async () => { await fetchLogs(); }, [fetchLogs]);
+  const fetchSummary = useCallback(
+    async () => { await fetchLogs(); },
+    [fetchLogs],
+  );
+
+  // alias used by some screens that want to refresh just the patient
+  const fetchPatient = fetchLogs;
 
   const saveLog = async (log) => {
     const saved = await patientApi.addRecord(log);
@@ -40,9 +63,13 @@ export function LogsProvider({ children }) {
       const idx = prev.findIndex((l) => l.date === log.date);
       const updated = saved ?? log;
       if (idx >= 0) {
-        const next = [...prev]; next[idx] = updated; return next;
+        const next = [...prev];
+        next[idx] = updated;
+        return next;
       }
-      return [updated, ...prev].filter(r => r?.date).sort((a, b) => b.date.localeCompare(a.date));
+      return [updated, ...prev]
+        .filter((r) => r?.date)
+        .sort((a, b) => b.date.localeCompare(a.date));
     });
     return saved;
   };
@@ -57,11 +84,15 @@ export function LogsProvider({ children }) {
   // Sobriety streak — consecutive days with substances=[] or frequency='none'
   const sobrietyStreak = (() => {
     if (!logs.length) return 0;
-    const sorted = [...logs].filter(l => l?.date).sort((a, b) => b.date.localeCompare(a.date));
+    const sorted = [...logs]
+      .filter((l) => l?.date)
+      .sort((a, b) => b.date.localeCompare(a.date));
     let streak = 0;
-    let prev   = null;
+    let prev = null;
     for (const log of sorted) {
-      const clean = (!log.substances || log.substances.length === 0) && log.frequency === 'none';
+      const clean =
+        (!log.substances || log.substances.length === 0) &&
+        log.frequency === 'none';
       if (!clean) break;
       if (prev) {
         const d1 = new Date(prev);
@@ -81,12 +112,22 @@ export function LogsProvider({ children }) {
   };
 
   return (
-    <LogsContext.Provider value={{
-      logs, summary, loading,
-      fetchLogs, fetchSummary,
-      saveLog, deleteLog, getLogForDate,
-      sobrietyStreak, saveQuestionnaire,
-    }}>
+    <LogsContext.Provider
+      value={{
+        logs,
+        patient,
+        summary,
+        loading,
+        fetchLogs,
+        fetchSummary,
+        fetchPatient,
+        saveLog,
+        deleteLog,
+        getLogForDate,
+        sobrietyStreak,
+        saveQuestionnaire,
+      }}
+    >
       {children}
     </LogsContext.Provider>
   );
