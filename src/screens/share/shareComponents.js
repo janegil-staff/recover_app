@@ -6,17 +6,18 @@ import { TOTAL_SECONDS } from './shareStyles';
 export function useTabColors(theme) {
   return {
     PRIMARY: theme?.accent ?? '#4A7AB5',
-    NAVY:    '#1a2c3d',
-    MUTED:   '#7a9ab8',
+    NAVY:    theme?.text ?? '#1a2c3d',
+    MUTED:   theme?.textMuted ?? '#7a9ab8',
   };
 }
 
 // ── Arc timer ──────────────────────────────────────────────────────────────────
-export function ArcTimer({ secondsLeft, total = TOTAL_SECONDS, color }) {
+export function ArcTimer({ secondsLeft, total = TOTAL_SECONDS, color, theme }) {
   const SIZE = 200, STROKE = 10;
   const R = (SIZE - STROKE) / 2, CX = SIZE / 2, CY = SIZE / 2;
   const START_DEG = 160, SPAN = 220;
   const arcDeg = Math.max(0, secondsLeft / total) * SPAN;
+  const TRACK = theme?.border ?? '#e8eef5';
 
   function polarToXY(deg) {
     const rad = (deg - 90) * (Math.PI / 180);
@@ -36,7 +37,7 @@ export function ArcTimer({ secondsLeft, total = TOTAL_SECONDS, color }) {
   return (
     <View style={{ alignItems: 'center', justifyContent: 'center', width: SIZE, height: SIZE }}>
       <Svg width={SIZE} height={SIZE}>
-        <Path d={bgPath} stroke="#e8eef5" strokeWidth={STROKE} fill="none" strokeLinecap="round" />
+        <Path d={bgPath} stroke={TRACK} strokeWidth={STROKE} fill="none" strokeLinecap="round" />
         {fgPath && <Path d={fgPath} stroke={color} strokeWidth={STROKE} fill="none" strokeLinecap="round" />}
       </Svg>
       <View style={{ position: 'absolute', alignItems: 'center' }}>

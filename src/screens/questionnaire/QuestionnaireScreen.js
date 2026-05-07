@@ -1,13 +1,16 @@
 // src/screens/questionnaire/QuestionnaireScreen.js
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, TouchableOpacity,
-  Alert, ActivityIndicator,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme }  from '../../context/ThemeContext';
-import { useLang }   from '../../context/LangContext';
-import { patientApi } from '../../services/api';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useTheme } from '../../context/ThemeContext';
+import { useLang } from '../../context/LangContext';
 import { FontSize, Spacing, Radius } from '../../constants/theme';
 
 function buildQuestionnaires(t) {
@@ -101,22 +104,43 @@ function buildQuestionnaires(t) {
 }
 
 function QCard({ config, latestScore, onPress, theme }) {
-  const total  = latestScore != null
-    ? Object.values(latestScore).reduce((a, b) => typeof b === 'number' ? a + b : a, 0)
+  const total = latestScore != null
+    ? Object.values(latestScore).reduce(
+        (a, b) => (typeof b === 'number' ? a + b : a),
+        0,
+      )
     : null;
   const interp = total != null ? config.interpret(total) : null;
+  const CARD_BG = theme?.card ?? '#fff';
+  const BORDER = theme?.border ?? '#e8eef5';
 
   return (
     <TouchableOpacity
-      style={[s.qCard, { borderLeftColor: config.color, borderLeftWidth: 4,
-        backgroundColor: theme.surface ?? '#fff' }]}
-      onPress={onPress} activeOpacity={0.8}
+      style={[
+        s.qCard,
+        {
+          borderLeftColor: config.color,
+          borderLeftWidth: 4,
+          backgroundColor: CARD_BG,
+          borderColor: BORDER,
+          borderWidth: 1,
+        },
+      ]}
+      onPress={onPress}
+      activeOpacity={0.8}
     >
       <View style={{ flex: 1 }}>
         <Text style={[s.qTitle, { color: theme.text }]}>{config.title}</Text>
-        <Text style={[s.qSubtitle, { color: theme.textMuted }]}>{config.subtitle}</Text>
+        <Text style={[s.qSubtitle, { color: theme.textMuted }]}>
+          {config.subtitle}
+        </Text>
         {interp && (
-          <View style={[s.qBadge, { backgroundColor: config.color + '20' }]}>
+          <View
+            style={[
+              s.qBadge,
+              { backgroundColor: config.color + '20' },
+            ]}
+          >
             <Text style={[s.qBadgeText, { color: config.color }]}>
               {total} / {config.maxScore} — {interp}
             </Text>
@@ -136,16 +160,28 @@ export default function QuestionnaireScreen({ navigation }) {
   const QUESTIONNAIRES = buildQuestionnaires(t);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.bg }} edges={['bottom']}>
-      <View style={[s.header, { backgroundColor: theme.accent, paddingTop: insets.top + 10 }]}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
+    <View style={{ flex: 1, backgroundColor: theme.bgSecondary ?? theme.bg }}>
+      {/* Header — same gradient as other Share tabs for visual consistency */}
+      <LinearGradient
+        colors={[theme.accent, theme.accentDark ?? '#2d4a6e']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={[s.header, { paddingTop: insets.top + 8 }]}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.getParent()?.goBack()}
+          style={s.backBtn}
+        >
           <Text style={s.backArrow}>‹</Text>
         </TouchableOpacity>
         <Text style={s.headerTitle}>{t.questionnaires}</Text>
         <View style={{ width: 40 }} />
-      </View>
+      </LinearGradient>
 
-      <ScrollView contentContainerStyle={{ padding: Spacing.lg, paddingBottom: 40 }}>
+      <ScrollView
+        contentContainerStyle={{ padding: Spacing.lg, paddingBottom: 40 }}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={[s.intro, { color: theme.textMuted }]}>
           {t.questionnairesIntro}
         </Text>
@@ -159,28 +195,51 @@ export default function QuestionnaireScreen({ navigation }) {
           />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const s = StyleSheet.create({
-  header:      { flexDirection: 'row', alignItems: 'center',
-                 paddingHorizontal: Spacing.lg, paddingBottom: Spacing.md },
-  backBtn:     { width: 40 },
-  backArrow:   { color: '#fff', fontSize: 30 },
-  headerTitle: { flex: 1, color: '#fff', fontSize: FontSize.md,
-                 fontWeight: '600', textAlign: 'center' },
-  intro:       { fontSize: FontSize.sm, lineHeight: 20, marginBottom: Spacing.lg },
-  qCard: {
-    borderRadius: Radius.lg, padding: Spacing.lg, marginBottom: Spacing.md,
-    flexDirection: 'row', alignItems: 'center',
-    shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 8,
-    shadowOffset: { width: 0, height: 2 }, elevation: 2,
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: Spacing.lg,
+    paddingBottom: Spacing.md,
   },
-  qTitle:     { fontSize: FontSize.lg, fontWeight: '700' },
-  qSubtitle:  { fontSize: FontSize.sm, marginTop: 2, marginBottom: Spacing.sm },
-  qBadge:     { alignSelf: 'flex-start', paddingHorizontal: 10,
-                paddingVertical: 4, borderRadius: Radius.full },
+  backBtn:   { width: 40 },
+  backArrow: { color: '#fff', fontSize: 30 },
+  headerTitle: {
+    flex: 1,
+    color: '#fff',
+    fontSize: FontSize.md,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  intro: {
+    fontSize: FontSize.sm,
+    lineHeight: 20,
+    marginBottom: Spacing.lg,
+  },
+  qCard: {
+    borderRadius: Radius.lg,
+    padding: Spacing.lg,
+    marginBottom: Spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  qTitle:    { fontSize: FontSize.lg, fontWeight: '700' },
+  qSubtitle: { fontSize: FontSize.sm, marginTop: 2, marginBottom: Spacing.sm },
+  qBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: Radius.full,
+  },
   qBadgeText: { fontSize: FontSize.xs, fontWeight: '700' },
   qArrow:     { fontSize: 24, marginLeft: Spacing.sm },
 });

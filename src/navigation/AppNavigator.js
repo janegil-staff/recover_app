@@ -18,11 +18,9 @@ import HomeScreen from "../screens/home/HomeScreen";
 import LogEntryScreen from "../screens/log/LogEntryScreen";
 import LogHistoryScreen from "../screens/log/LogHistoryScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
-import QuestionnaireScreen from "../screens/questionnaire/QuestionnaireScreen";
 import QuestionnaireIntroScreen from "../screens/questionnaire/QuestionnaireIntroScreen";
 import QuestionnaireFormScreen from "../screens/questionnaire/QuestionnaireFormScreen";
-import ShareScreen from "../screens/share/ShareScreen";
-import RecoveryStudiesScreen from "../screens/share/RecoveryStudiesScreen";
+import ShareTabsNavigator from "./ShareTabsNavigator";
 import PersonalSettingsScreen from "../screens/settings/PersonalSettingsScreen";
 import LanguageScreen from "../screens/settings/LanguageScreen";
 import MedicationsScreen from "../screens/medications/MedicationsScreen";
@@ -47,7 +45,14 @@ export default function AppNavigator() {
 
   if (loading || onboardingDone === null) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: theme.bg }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: theme.bg,
+        }}
+      >
         <ActivityIndicator size="large" color={theme.accent} />
       </View>
     );
@@ -57,9 +62,17 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!onboardingDone || isNewUser ? (
-          <Stack.Screen name="Onboarding" children={() => (
-            <OnboardingScreen onDone={() => { setOnboardingDone(true); setIsNewUser(false); }} />
-          )} />
+          <Stack.Screen
+            name="Onboarding"
+            children={() => (
+              <OnboardingScreen
+                onDone={() => {
+                  setOnboardingDone(true);
+                  setIsNewUser(false);
+                }}
+              />
+            )}
+          />
         ) : !user ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
@@ -67,7 +80,10 @@ export default function AppNavigator() {
             <Stack.Screen name="PinSetup" component={PinSetupScreen} />
             <Stack.Screen name="PinConfirm" component={PinConfirmScreen} />
             <Stack.Screen name="Terms" component={TermsScreen} />
-            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+            <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPasswordScreen}
+            />
           </>
         ) : !pinVerified ? (
           <>
@@ -84,13 +100,37 @@ export default function AppNavigator() {
             <Stack.Screen name="LogEntry" component={LogEntryScreen} />
             <Stack.Screen name="History" component={LogHistoryScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
-            <Stack.Screen name="Questionnaire" component={QuestionnaireScreen} />
-            <Stack.Screen name="QuestionnaireIntro" component={QuestionnaireIntroScreen} />
-            <Stack.Screen name="QuestionnaireForm" component={QuestionnaireFormScreen} />
+
+            {/* Share section — bottom tab navigator wrapping
+                Code / Questionnaire / Studies */}
+            <Stack.Screen name="Share" component={ShareTabsNavigator} />
+            <Stack.Screen
+              name="Questionnaire"
+              component={ShareTabsNavigator}
+              initialParams={{ screen: "ShareQuestionnaire" }}
+            />
+            <Stack.Screen
+              name="RecoveryStudies"
+              component={ShareTabsNavigator}
+              initialParams={{ screen: "ShareStudies" }}
+            />
+
+            {/* Multi-step questionnaire flow remains separate — fullscreen,
+                no tab bar */}
+            <Stack.Screen
+              name="QuestionnaireIntro"
+              component={QuestionnaireIntroScreen}
+            />
+            <Stack.Screen
+              name="QuestionnaireForm"
+              component={QuestionnaireFormScreen}
+            />
+
             <Stack.Screen name="Medications" component={MedicationsScreen} />
-            <Stack.Screen name="Share" component={ShareScreen} />
-            <Stack.Screen name="RecoveryStudies" component={RecoveryStudiesScreen} />
-            <Stack.Screen name="PersonalSettings" component={PersonalSettingsScreen} />
+            <Stack.Screen
+              name="PersonalSettings"
+              component={PersonalSettingsScreen}
+            />
             <Stack.Screen name="Language" component={LanguageScreen} />
             <Stack.Screen name="ChangeEmail" component={ChangeEmailScreen} />
             <Stack.Screen name="PinSetup" component={PinSetupScreen} />

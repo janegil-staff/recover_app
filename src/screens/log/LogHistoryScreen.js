@@ -20,6 +20,8 @@ import { useTheme } from "../../context/ThemeContext";
 import { useLang } from "../../context/LangContext";
 import { FontSize, Spacing, Radius } from "../../constants/theme";
 
+// Score colors stay hardcoded — they're semantic (green=good, red=severe)
+// and should look the same in both modes.
 const SCORE_COLORS = {
   0: "#22C55E",
   1: "#7AABDB",
@@ -70,9 +72,14 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
+
+  // All chrome colors come from theme so dark mode is automatic
   const PRIMARY = theme?.accent ?? "#4A7AB5";
-  const NAVY = "#1a2c3d";
-  const MUTED = "#7a9ab8";
+  const TEXT = theme?.text ?? "#1a2c3d";
+  const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
+  const CARD_BG = theme?.card ?? theme?.bg ?? "#fff";
+  const DIVIDER = theme?.border ?? "#e8eef5";
+  const EMPTY_BORDER = theme?.cardBorder ?? "#a0b8d0";
 
   const scoreMap = {};
   logs.forEach((log) => {
@@ -100,10 +107,10 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
   const cells = [];
   for (let i = 0; i < startOffset; i++) cells.push(null);
   for (let d = 1; d <= totalDays; d++) cells.push(d);
-  while (cells.length % 7 !== 0) cells.push(null); // pad final partial week
+  while (cells.length % 7 !== 0) cells.push(null);
 
   const monthLogs = logs.filter((l) => {
-    if (!l.date) return false; // ← add this
+    if (!l.date) return false;
     const [ly, lm] = l.date.split("-").map(Number);
     return ly === year && lm === month + 1;
   });
@@ -116,27 +123,11 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
 
   const today = toDateStr(now.getFullYear(), now.getMonth(), now.getDate());
   const months = t.months ?? [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Okt",
-    "Nov",
-    "Des",
+    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
+    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
   ];
   const weekdays = t.weekdays ?? [
-    "Man",
-    "Tir",
-    "Ons",
-    "Tor",
-    "Fre",
-    "Lør",
-    "Søn",
+    "Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn",
   ];
 
   const scoreLabels = [
@@ -159,9 +150,9 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
     <View style={{ flex: 1 }}>
       <View style={cal.monthNav}>
         <TouchableOpacity onPress={goBack} style={cal.navBtn}>
-          <Text style={[cal.navArrow, { color: NAVY }]}>‹</Text>
+          <Text style={[cal.navArrow, { color: TEXT }]}>‹</Text>
         </TouchableOpacity>
-        <Text style={[cal.monthTitle, { color: NAVY }]}>
+        <Text style={[cal.monthTitle, { color: TEXT }]}>
           {(months[month] ?? "").toUpperCase()}
           {"  "}
           {year}
@@ -172,17 +163,20 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
           disabled={isCurrentMonth}
         >
           <Text
-            style={[cal.navArrow, { color: isCurrentMonth ? "#ccc" : NAVY }]}
+            style={[
+              cal.navArrow,
+              { color: isCurrentMonth ? TEXT_MUTED : TEXT },
+            ]}
           >
             ›
           </Text>
         </TouchableOpacity>
       </View>
 
-      <View style={[cal.card, { backgroundColor: "#fff" }]}>
+      <View style={[cal.card, { backgroundColor: CARD_BG }]}>
         <View style={cal.weekdayRow}>
           {weekdays.map((d, i) => (
-            <Text key={i} style={[cal.weekdayLabel, { color: MUTED }]}>
+            <Text key={i} style={[cal.weekdayLabel, { color: TEXT_MUTED }]}>
               {d}
             </Text>
           ))}
@@ -191,101 +185,110 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
           <ActivityIndicator color={PRIMARY} style={{ marginVertical: 24 }} />
         ) : (
           <View>
-            {Array.from({ length: Math.ceil(cells.length / 7) }).map((_, weekIdx) => (
-              <View key={`week-${weekIdx}`} style={cal.weekRow}>
-                {cells.slice(weekIdx * 7, weekIdx * 7 + 7).map((day, i) => {
-              if (!day) return <View key={`e-${i}`} style={cal.cell} />;
-              const dateStr = toDateStr(year, month, day);
-              const score = scoreMap[dateStr];
-              const isToday = dateStr === today;
-              const isFuture = dateStr > today;
-              const existing = logs.find((l) => l.date === dateStr) ?? null;
-              const bg = score != null ? scoreColor(score) : undefined;
-              const highCravings = existing?.cravings >= 4;
-              return (
-                <TouchableOpacity
-                  key={dateStr}
-                  style={cal.cell}
-                  activeOpacity={isFuture ? 1 : 0.7}
-                  onPress={() =>
-                    !isFuture &&
-                    navigation.navigate("LogEntry", {
-                      date: dateStr,
-                      log: existing,
-                    })
-                  }
-                >
-                  <View
-                    style={[
-                      cal.cellInner,
-                      isFuture && { borderWidth: 0 },
-                      !isFuture &&
-                        score == null && {
-                          borderColor: "#a0b8d0",
-                          borderWidth: 2,
-                        },
-                      bg && { backgroundColor: bg, borderColor: bg },
-                      isToday &&
-                        score == null && {
-                          borderColor: PRIMARY,
-                          borderWidth: 2,
-                        },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        cal.cellText,
-                        { color: score != null ? "#fff" : NAVY },
-                        isToday &&
-                          score == null && {
-                            color: PRIMARY,
-                            fontWeight: "800",
-                          },
-                      ]}
-                    >
-                      {day}
-                    </Text>
-                    {!!existing?.note?.trim() && (
-                      <View style={cal.noteIcon}>
-                        <Svg width="18" height="18" viewBox="0 0 24 24">
-                          <Circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            fill="none"
-                            stroke="#4A7AB5"
-                            strokeWidth="2.5"
-                          />
-                          <Path
-                            d="M7 8 Q7 6 9 6 L15 6 Q17 6 17 8 L17 14 Q17 16 15 16 L13.5 16 L15.5 19.5 L11.5 16 L9 16 Q7 16 7 14 Z"
-                            fill="#4A7AB5"
-                          />
-                        </Svg>
-                      </View>
-                    )}
-                    {!!existing?.medicationsTaken?.length && (
-                      <View style={cal.medIcon}>
-                        <Image
-                          source={require("../../../assets/images/ico_medicine.png")}
-                          style={{ width: 16, height: 16 }}
-                          resizeMode="contain"
-                        />
-                      </View>
-                    )}
-                    {highCravings && <Text style={cal.cravingsIcon}>🔥</Text>}
-                  </View>
-                </TouchableOpacity>
-              );
-                })}
-              </View>
-            ))}
+            {Array.from({ length: Math.ceil(cells.length / 7) }).map(
+              (_, weekIdx) => (
+                <View key={`week-${weekIdx}`} style={cal.weekRow}>
+                  {cells.slice(weekIdx * 7, weekIdx * 7 + 7).map((day, i) => {
+                    if (!day) return <View key={`e-${i}`} style={cal.cell} />;
+                    const dateStr = toDateStr(year, month, day);
+                    const score = scoreMap[dateStr];
+                    const isToday = dateStr === today;
+                    const isFuture = dateStr > today;
+                    const existing =
+                      logs.find((l) => l.date === dateStr) ?? null;
+                    const bg = score != null ? scoreColor(score) : undefined;
+                    const highCravings = existing?.cravings >= 4;
+                    return (
+                      <TouchableOpacity
+                        key={dateStr}
+                        style={cal.cell}
+                        activeOpacity={isFuture ? 1 : 0.7}
+                        onPress={() =>
+                          !isFuture &&
+                          navigation.navigate("LogEntry", {
+                            date: dateStr,
+                            log: existing,
+                          })
+                        }
+                      >
+                        <View
+                          style={[
+                            cal.cellInner,
+                            { borderColor: TEXT_MUTED }, // default neutral border
+                            isFuture && { borderWidth: 0 },
+                            !isFuture &&
+                              score == null && {
+                                borderColor: EMPTY_BORDER,
+                                borderWidth: 2,
+                              },
+                            bg && { backgroundColor: bg, borderColor: bg },
+                            isToday &&
+                              score == null && {
+                                borderColor: PRIMARY,
+                                borderWidth: 2,
+                              },
+                          ]}
+                        >
+                          <Text
+                            style={[
+                              cal.cellText,
+                              { color: score != null ? "#fff" : TEXT },
+                              isToday &&
+                                score == null && {
+                                  color: PRIMARY,
+                                  fontWeight: "800",
+                                },
+                            ]}
+                          >
+                            {day}
+                          </Text>
+                          {!!existing?.note?.trim() && (
+                            <View style={cal.noteIcon}>
+                              <Svg width="18" height="18" viewBox="0 0 24 24">
+                                <Circle
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  fill="none"
+                                  stroke={PRIMARY}
+                                  strokeWidth="2.5"
+                                />
+                                <Path
+                                  d="M7 8 Q7 6 9 6 L15 6 Q17 6 17 8 L17 14 Q17 16 15 16 L13.5 16 L15.5 19.5 L11.5 16 L9 16 Q7 16 7 14 Z"
+                                  fill={PRIMARY}
+                                />
+                              </Svg>
+                            </View>
+                          )}
+                          {!!existing?.medicationsTaken?.length && (
+                            <View style={cal.medIcon}>
+                              <Image
+                                source={require("../../../assets/images/ico_medicine.png")}
+                                style={{ width: 16, height: 16 }}
+                                resizeMode="contain"
+                              />
+                            </View>
+                          )}
+                          {highCravings && (
+                            <Text style={cal.cravingsIcon}>🔥</Text>
+                          )}
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              ),
+            )}
           </View>
         )}
       </View>
 
       {/* Legend */}
       <View
-        style={[cal.card, { backgroundColor: "#fff", paddingVertical: 10 }]}
+        style={[
+          cal.card,
+          { backgroundColor: CARD_BG, paddingVertical: 10 },
+        ]}
       >
         <View
           style={{
@@ -308,7 +311,7 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
                   backgroundColor: scoreColor(s),
                 }}
               />
-              <Text style={{ fontSize: 10, color: MUTED }}>
+              <Text style={{ fontSize: 10, color: TEXT_MUTED }}>
                 {scoreLabels[s]}
               </Text>
             </View>
@@ -316,8 +319,8 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
         </View>
       </View>
 
-      <View style={[cal.card, { backgroundColor: "#fff" }]}>
-        <Text style={[cal.sectionTitle, { color: NAVY }]}>
+      <View style={[cal.card, { backgroundColor: CARD_BG }]}>
+        <Text style={[cal.sectionTitle, { color: TEXT }]}>
           {t.monthSummary ?? "Månedsoversikt"}
         </Text>
         <View style={cal.summaryRow}>
@@ -325,45 +328,45 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
             <Text style={[cal.summaryValue, { color: PRIMARY }]}>
               {totalLogged}
             </Text>
-            <Text style={[cal.summarySubLabel, { color: MUTED }]}>
+            <Text style={[cal.summarySubLabel, { color: TEXT_MUTED }]}>
               {t.daysLogged ?? "Dager logget"}
             </Text>
           </View>
-          <View style={[cal.divider, { backgroundColor: "#e8eef5" }]} />
+          <View style={[cal.divider, { backgroundColor: DIVIDER }]} />
           <View style={cal.summaryItem}>
             <Text
               style={[
                 cal.summaryValue,
-                { color: avgAll != null ? scoreColor(avgAll) : MUTED },
+                { color: avgAll != null ? scoreColor(avgAll) : TEXT_MUTED },
               ]}
             >
               {avgAll != null ? scoreLabels[avgAll] : "—"}
             </Text>
-            <Text style={[cal.summarySubLabel, { color: MUTED }]}>
+            <Text style={[cal.summarySubLabel, { color: TEXT_MUTED }]}>
               {t.avgScore ?? "Avg. score"}
             </Text>
           </View>
-          <View style={[cal.divider, { backgroundColor: "#e8eef5" }]} />
+          <View style={[cal.divider, { backgroundColor: DIVIDER }]} />
           <View style={cal.summaryItem}>
             <Text style={[cal.summaryValue, { color: PRIMARY }]}>
               {totalDays - totalLogged}
             </Text>
-            <Text style={[cal.summarySubLabel, { color: MUTED }]}>
+            <Text style={[cal.summarySubLabel, { color: TEXT_MUTED }]}>
               {t.missing ?? "Mangler"}
             </Text>
           </View>
         </View>
       </View>
 
-      <View style={[cal.card, { backgroundColor: "#fff", marginBottom: 40 }]}>
-        <Text style={[cal.sectionTitle, { color: NAVY }]}>
+      <View style={[cal.card, { backgroundColor: CARD_BG, marginBottom: 40 }]}>
+        <Text style={[cal.sectionTitle, { color: TEXT }]}>
           {t.cravingBreakdown ?? "Score-oversikt"}
         </Text>
         {countByScore.map(({ score, count, label, color }) => (
           <View key={score} style={cal.breakdownRow}>
             <View style={[cal.breakdownDot, { backgroundColor: color }]} />
-            <Text style={[cal.breakdownLabel, { color: NAVY }]}>{label}</Text>
-            <View style={[cal.breakdownBarBg, { backgroundColor: "#e8eef5" }]}>
+            <Text style={[cal.breakdownLabel, { color: TEXT }]}>{label}</Text>
+            <View style={[cal.breakdownBarBg, { backgroundColor: DIVIDER }]}>
               <View
                 style={[
                   cal.breakdownBar,
@@ -376,7 +379,9 @@ function CalendarTab({ logs, loading, navigation, t, theme }) {
                 ]}
               />
             </View>
-            <Text style={[cal.breakdownCount, { color: MUTED }]}>{count}</Text>
+            <Text style={[cal.breakdownCount, { color: TEXT_MUTED }]}>
+              {count}
+            </Text>
           </View>
         ))}
       </View>
@@ -429,7 +434,6 @@ const cal = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 12,
     borderWidth: 1.5,
-    borderColor: "#2d4a6e",
     overflow: "visible",
   },
   cellText: { fontSize: 13, fontWeight: "600" },
@@ -472,24 +476,18 @@ const cal = StyleSheet.create({
 // ── Month Summary View ─────────────────────────────────────────────────────────
 function MonthSummaryView({ logs, t, theme }) {
   const PRIMARY = theme?.accent ?? "#4A7AB5";
+  const CARD_BG = theme?.card ?? theme?.bg ?? "#fff";
+  const TEXT = theme?.text ?? "#1a2c3d";
+  const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
+
   const months = t.months ?? [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Okt",
-    "Nov",
-    "Des",
+    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
+    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
   ];
 
   const grouped = {};
   logs.forEach((log) => {
-    if (!log.date) return; // ← add this
+    if (!log.date) return;
     const key = log.date.slice(0, 7);
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(log);
@@ -518,7 +516,7 @@ function MonthSummaryView({ logs, t, theme }) {
   if (!sections.length)
     return (
       <View style={{ alignItems: "center", paddingTop: 60 }}>
-        <Text style={{ color: theme.textMuted, fontSize: FontSize.md }}>
+        <Text style={{ color: TEXT_MUTED, fontSize: FontSize.md }}>
           {t.noRecords}
         </Text>
       </View>
@@ -539,7 +537,7 @@ function MonthSummaryView({ logs, t, theme }) {
         return (
           <View
             style={{
-              backgroundColor: theme.bg ?? "#fff",
+              backgroundColor: CARD_BG,
               borderRadius: 12,
               marginBottom: 12,
               padding: 16,
@@ -562,7 +560,7 @@ function MonthSummaryView({ logs, t, theme }) {
             >
               <Text
                 style={{
-                  color: theme.text,
+                  color: TEXT,
                   fontSize: FontSize.md,
                   fontWeight: "700",
                 }}
@@ -572,7 +570,7 @@ function MonthSummaryView({ logs, t, theme }) {
               <View
                 style={{ flexDirection: "row", gap: 8, alignItems: "center" }}
               >
-                <Text style={{ color: theme.textMuted, fontSize: FontSize.sm }}>
+                <Text style={{ color: TEXT_MUTED, fontSize: FontSize.sm }}>
                   {item.logs.length} {t.registrations ?? "entries"}
                 </Text>
                 {item.avg != null && (
@@ -639,21 +637,14 @@ function MonthSummaryView({ logs, t, theme }) {
 // ── Diary View ─────────────────────────────────────────────────────────────────
 function DiaryView({ logs, navigation, t, theme }) {
   const PRIMARY = theme?.accent ?? "#4A7AB5";
-  const NAVY = "#1a2c3d";
-  const MUTED = "#7a9ab8";
+  const CARD_BG = theme?.card ?? theme?.bg ?? "#fff";
+  const TEXT = theme?.text ?? "#1a2c3d";
+  const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
+  const SUBTLE = theme?.textSubtle ?? "#444";
+
   const months = t.months ?? [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Okt",
-    "Nov",
-    "Des",
+    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
+    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
   ];
   const [collapsed, setCollapsed] = useState({});
   const toggle = (key) =>
@@ -704,15 +695,17 @@ function DiaryView({ logs, navigation, t, theme }) {
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={
         <View style={{ alignItems: "center", paddingTop: 60 }}>
-          <Text style={{ color: theme.textMuted, fontSize: FontSize.md }}>
+          <Text style={{ color: TEXT_MUTED, fontSize: FontSize.md }}>
             {t.noRecords}
           </Text>
         </View>
       }
       renderItem={({ item }) => {
         const pillBg =
-          item.avg != null ? scoreColor(item.avg) + "33" : "#e8eef5";
-        const pillText = item.avg != null ? scoreColor(item.avg) : NAVY;
+          item.avg != null
+            ? scoreColor(item.avg) + "33"
+            : (theme?.cardElevated ?? "#e8eef5");
+        const pillText = item.avg != null ? scoreColor(item.avg) : TEXT;
         const isOpen = collapsed[item.key] !== false;
         return (
           <View style={{ marginBottom: 20 }}>
@@ -769,7 +762,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                   <TouchableOpacity
                     key={log.date}
                     style={{
-                      backgroundColor: "#fff",
+                      backgroundColor: CARD_BG,
                       borderRadius: 16,
                       marginBottom: 10,
                       padding: 14,
@@ -822,12 +815,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                               cy="12"
                               r="10"
                               fill="none"
-                              stroke="#4A7AB5"
+                              stroke={PRIMARY}
                               strokeWidth="2.5"
                             />
                             <Path
                               d="M7 8 Q7 6 9 6 L15 6 Q17 6 17 8 L17 14 Q17 16 15 16 L13.5 16 L15.5 19.5 L11.5 16 L9 16 Q7 16 7 14 Z"
-                              fill="#4A7AB5"
+                              fill={PRIMARY}
                             />
                           </Svg>
                         </View>
@@ -863,12 +856,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       {log.substances?.length > 0 && (
                         <Text
                           style={{
-                            color: "#444",
+                            color: SUBTLE,
                             fontSize: 13,
                             marginBottom: 2,
                           }}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.substancesUsed ?? "Substances"}:{" "}
                           </Text>
                           {log.substances.map((s) => t[s] ?? s).join(", ")}
@@ -877,12 +870,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       {log.cravings != null && (
                         <Text
                           style={{
-                            color: "#444",
+                            color: SUBTLE,
                             fontSize: 13,
                             marginBottom: 2,
                           }}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.cravings ?? "Cravings"}:{" "}
                           </Text>
                           {log.cravings}/5
@@ -891,12 +884,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       {log.mood != null && (
                         <Text
                           style={{
-                            color: "#444",
+                            color: SUBTLE,
                             fontSize: 13,
                             marginBottom: 2,
                           }}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.mood ?? "Mood"}:{" "}
                           </Text>
                           {log.mood}/5
@@ -905,12 +898,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       {log.wellbeing != null && (
                         <Text
                           style={{
-                            color: "#444",
+                            color: SUBTLE,
                             fontSize: 13,
                             marginBottom: 2,
                           }}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.wellbeing ?? "Wellbeing"}:{" "}
                           </Text>
                           {log.wellbeing}/5
@@ -919,12 +912,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       {log.amount != null && (
                         <Text
                           style={{
-                            color: "#444",
+                            color: SUBTLE,
                             fontSize: 13,
                             marginBottom: 2,
                           }}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.amount ?? "Amount"}:{" "}
                           </Text>
                           {log.amount}/10
@@ -933,12 +926,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       {log.frequency && log.frequency !== "none" && (
                         <Text
                           style={{
-                            color: "#444",
+                            color: SUBTLE,
                             fontSize: 13,
                             marginBottom: 2,
                           }}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.frequency ?? "Frequency"}:{" "}
                           </Text>
                           {t[log.frequency] ?? log.frequency}
@@ -947,12 +940,12 @@ function DiaryView({ logs, navigation, t, theme }) {
                       {log.medicationsTaken?.length > 0 && (
                         <Text
                           style={{
-                            color: "#444",
+                            color: SUBTLE,
                             fontSize: 13,
                             marginBottom: 2,
                           }}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.myMedications ?? "Medications"}:{" "}
                           </Text>
                           {log.medicationsTaken
@@ -964,10 +957,10 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.note?.trim() && (
                         <Text
-                          style={{ color: "#444", fontSize: 13 }}
+                          style={{ color: SUBTLE, fontSize: 13 }}
                           numberOfLines={2}
                         >
-                          <Text style={{ fontWeight: "700" }}>
+                          <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.note ?? "Note"}:{" "}
                           </Text>
                           {log.note}
@@ -984,7 +977,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                     >
                       <Text
                         style={{
-                          color: MUTED,
+                          color: TEXT_MUTED,
                           fontSize: 12,
                           fontWeight: "500",
                         }}
@@ -1009,7 +1002,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                           <Path
                             d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z"
                             fill="none"
-                            stroke="#4A7AB5"
+                            stroke={PRIMARY}
                             strokeWidth="1.8"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -1017,7 +1010,7 @@ function DiaryView({ logs, navigation, t, theme }) {
                           <Path
                             d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
                             fill="none"
-                            stroke="#4A7AB5"
+                            stroke={PRIMARY}
                             strokeWidth="1.8"
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -1055,8 +1048,19 @@ export default function LogHistoryScreen({ navigation, route }) {
 
   const s = makeStyles(theme, insets);
 
+  // Theme-aware values for the diary view-toggle pill
+  const TOGGLE_BG = theme?.cardElevated ?? "#dde8f0";
+  const TOGGLE_ACTIVE_BG = theme?.card ?? "#fff";
+  const TOGGLE_INACTIVE_TEXT = theme?.textMuted ?? "#6b8aaa";
+  const TOGGLE_ACTIVE_TEXT = theme?.text ?? "#4a6a8a";
+
   return (
-    <View style={[s.root, { backgroundColor: theme.bgSecondary ?? "#F0F4F8" }]}>
+    <View
+      style={[
+        s.root,
+        { backgroundColor: theme?.bgSecondary ?? theme?.bg ?? "#F0F4F8" },
+      ]}
+    >
       <View
         style={[
           s.header,
@@ -1128,7 +1132,7 @@ export default function LogHistoryScreen({ navigation, route }) {
               flexDirection: "row",
               paddingHorizontal: 4,
               paddingVertical: 4,
-              backgroundColor: "#dde8f0",
+              backgroundColor: TOGGLE_BG,
               borderRadius: 10,
               marginHorizontal: 16,
               marginVertical: 10,
@@ -1150,7 +1154,7 @@ export default function LogHistoryScreen({ navigation, route }) {
                     paddingVertical: 10,
                     borderRadius: 8,
                     alignItems: "center",
-                    backgroundColor: active ? "#fff" : "#dde8f0",
+                    backgroundColor: active ? TOGGLE_ACTIVE_BG : TOGGLE_BG,
                     ...(active
                       ? {
                           shadowColor: "#000",
@@ -1166,7 +1170,7 @@ export default function LogHistoryScreen({ navigation, route }) {
                     style={{
                       fontSize: FontSize.sm,
                       fontWeight: active ? "600" : "500",
-                      color: active ? "#4a6a8a" : "#6b8aaa",
+                      color: active ? TOGGLE_ACTIVE_TEXT : TOGGLE_INACTIVE_TEXT,
                     }}
                   >
                     {label}
@@ -1214,18 +1218,18 @@ const makeStyles = (t, insets) =>
       paddingHorizontal: 16,
       paddingVertical: 12,
       gap: 8,
-      backgroundColor: "#fff",
+      backgroundColor: t?.card ?? "#fff",
       borderBottomWidth: 1,
-      borderBottomColor: t.border ?? "#e8eef5",
+      borderBottomColor: t?.border ?? "#e8eef5",
     },
     tab: {
       flex: 1,
       borderRadius: 6,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#fff",
+      backgroundColor: t?.card ?? "#fff",
       borderWidth: 1,
-      borderColor: t.border ?? "#dde5ee",
+      borderColor: t?.border ?? "#dde5ee",
       paddingVertical: 16,
       shadowColor: "#000",
       shadowOpacity: 0.22,
@@ -1240,7 +1244,7 @@ const makeStyles = (t, insets) =>
       paddingVertical: 16,
     },
     tabText: {
-      color: t.textMuted ?? "#8fa8c8",
+      color: t?.textMuted ?? "#8fa8c8",
       fontSize: FontSize.sm,
       fontWeight: "600",
     },
