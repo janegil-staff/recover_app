@@ -61,6 +61,7 @@ const MOOD_COLORS = {
 };
 
 const SUBSTANCES = [
+  "sober",
   "alcohol",
   "cannabis",
   "cocaine",
@@ -86,7 +87,6 @@ const SIDE_EFFECTS = [
   "irritability",
   "depression",
 ];
-
 // ── Illustrations ─────────────────────────────────────────────────────────────
 
 function IllustrationSubstances() {
@@ -684,7 +684,7 @@ function IllustrationWeight() {
 }
 
 // ── Chip selector ─────────────────────────────────────────────────────────────
-function Chips({ options, selected, onToggle, labelFn }) {
+function Chips({ options, selected, onToggle, labelFn, disabledCondition }) {
   return (
     <View
       style={{
@@ -698,10 +698,13 @@ function Chips({ options, selected, onToggle, labelFn }) {
         const active = Array.isArray(selected)
           ? selected.includes(opt)
           : selected === opt;
+        const disabled = disabledCondition?.(opt) ?? false;
         return (
           <TouchableOpacity
             key={opt}
             onPress={() => onToggle(opt)}
+            disabled={disabled}
+            activeOpacity={disabled ? 1 : 0.7}
             style={{
               paddingHorizontal: 18,
               paddingVertical: 10,
@@ -709,6 +712,7 @@ function Chips({ options, selected, onToggle, labelFn }) {
               backgroundColor: active ? ACCENT : BG_SECONDARY,
               borderWidth: 1.5,
               borderColor: active ? ACCENT : BORDER,
+              opacity: disabled ? 0.4 : 1,
             }}
           >
             <Text
@@ -875,6 +879,22 @@ export default function LogEntryScreen({ navigation, route }) {
       prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val],
     );
 
+  const toggleSubstances = (val) => {
+    if (val === "sober") {
+      setSubstances((prev) =>
+        prev.includes("sober") ? [] : ["sober"],
+      );
+      return;
+    }
+
+    setSubstances((prev) => {
+      const withoutSober = prev.filter((s) => s !== "sober");
+      return withoutSober.includes(val)
+        ? withoutSober.filter((s) => s !== val)
+        : [...withoutSober, val];
+    });
+  };
+
   const amountColors = Object.fromEntries(
     Array.from({ length: 11 }, (_, n) => [n, `hsl(${120 - n * 12},65%,45%)`]),
   );
@@ -889,8 +909,11 @@ export default function LogEntryScreen({ navigation, route }) {
         <Chips
           options={SUBSTANCES}
           selected={substances}
-          onToggle={(v) => toggle(setSubstances, v)}
+          onToggle={toggleSubstances}
           labelFn={(v) => t[v] ?? v}
+          disabledCondition={(opt) =>
+            substances.includes("sober") && opt !== "sober"
+          }
         />
       ),
     },
@@ -1165,6 +1188,12 @@ export default function LogEntryScreen({ navigation, route }) {
   const goNext = async () => {
     if (step < totalSteps - 1) {
       Keyboard.dismiss();
+      if (substances.includes("sober")) {
+        if (step === 0) {
+          setStep(3); // Skip to the mood step (index 3)
+          return;
+        }
+      }
       animateSlide(1);
       setStep((s) => s + 1);
     } else {
@@ -1175,6 +1204,12 @@ export default function LogEntryScreen({ navigation, route }) {
   const goBack = () => {
     if (step > 0) {
       Keyboard.dismiss();
+      if (substances.includes("sober")) {
+        if (step === 3) {
+          setStep(0); // Go back to the substances step
+          return;
+        }
+      }
       animateSlide(-1);
       setStep((s) => s - 1);
     } else navigation.goBack();
@@ -1183,11 +1218,10 @@ export default function LogEntryScreen({ navigation, route }) {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await saveLog({
+      const logData = {
         date: today,
         substances,
-        frequency,
-        ...(amount != null ? { amount } : {}),
+        ...(substances.includes("sober") ? {} : { frequency, amount }), // Skip frequency and amount if sober
         ...(cravings != null ? { cravings } : {}),
         ...(mood != null ? { mood } : {}),
         ...(wellbeing != null ? { wellbeing } : {}),
@@ -1195,7 +1229,8 @@ export default function LogEntryScreen({ navigation, route }) {
         medicationsTaken: medsTaken,
         note: note.trim(),
         ...(weight ? { weight: parseFloat(weight) } : {}),
-      });
+      };
+      await saveLog(logData);
       navigation.goBack();
     } catch (e) {
       Alert.alert(t.error, e?.message ?? t.errorSave);

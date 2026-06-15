@@ -219,6 +219,96 @@ const en = {
   few_times: "Few times",
   daily: "Several times",
   multiple_daily: "Many times",
+  sober: "Sober",
+
+  sober: "Rusfri",
+
+
+  sober: "Nüchtern",
+
+
+
+  sober: "Rusfri",
+
+
+
+
+  sober: "Nykter",
+
+
+
+
+
+  sober: "Raitis",
+
+
+
+
+
+
+  sober: "Sobre",
+
+
+
+
+
+
+
+  sober: "Sobrio",
+
+
+
+
+
+
+
+
+  sober: "Sobrio",
+
+
+
+
+
+
+
+
+
+  sober: "Nuchter",
+
+
+
+
+
+
+
+
+
+
+  sober: "Trzeźwy",
+
+
+
+
+
+
+
+
+
+
+
+  sober: "Sóbrio",
+
+
+
+
+
+
+
+
+
+
+
+
   alcohol: "Alcohol",
   cannabis: "Cannabis",
   cocaine: "Cocaine",
@@ -896,6 +986,7 @@ const no = {
   few_times: "Noen ganger",
   daily: "Flere ganger",
   multiple_daily: "Mange ganger",
+  sober: "Rusfri",
   alcohol: "Alkohol",
   cannabis: "Cannabis",
   cocaine: "Kokain",
@@ -1496,6 +1587,7 @@ const de = {
   few_times: "Mehrmals",
   daily: "Mehrmals",
   multiple_daily: "Sehr oft",
+  sober: "Nüchtern",
   alcohol: "Alkohol",
   cannabis: "Cannabis",
   cocaine: "Kokain",
@@ -2083,6 +2175,7 @@ const da = {
   few_times: "Nogle gange",
   daily: "Flere gange",
   multiple_daily: "Mange gange",
+  sober: "Rusfri",
   alcohol: "Alkohol",
   cannabis: "Cannabis",
   cocaine: "Kokain",
@@ -2752,6 +2845,7 @@ const sv = {
   few_times: "Några gånger",
   daily: "Flera gånger",
   multiple_daily: "Många gånger",
+  sober: "Nykter",
   alcohol: "Alkohol",
   cannabis: "Cannabis",
   cocaine: "Kokain",
@@ -3283,6 +3377,7 @@ const fi = {
   few_times: "Muutaman kerran",
   daily: "Useita kertoja",
   multiple_daily: "Monta kertaa",
+  sober: "Raitis",
   alcohol: "Alkoholi",
   cannabis: "Kannabis",
   cocaine: "Kokaiini",
@@ -3882,6 +3977,7 @@ const fr = {
   few_times: "Quelques fois",
   daily: "Plusieurs fois",
   multiple_daily: "Très souvent",
+  sober: "Sobre",
   alcohol: "Alcool",
   cannabis: "Cannabis",
   cocaine: "Cocaïne",
@@ -4486,6 +4582,7 @@ const es = {
   few_times: "Algunas veces",
   daily: "Varias veces",
   multiple_daily: "Muchas veces",
+  sober: "Sobrio",
   alcohol: "Alcohol",
   cannabis: "Cannabis",
   cocaine: "Cocaína",
@@ -5081,6 +5178,7 @@ const it = {
   few_times: "Alcune volte",
   daily: "Più volte",
   multiple_daily: "Molte volte",
+  sober: "Sobrio",
   alcohol: "Alcol",
   cannabis: "Cannabis",
   cocaine: "Cocaina",
@@ -5678,6 +5776,7 @@ const nl = {
   few_times: "Een paar keer",
   daily: "Meerdere keren",
   multiple_daily: "Vele keren",
+  sober: "Nuchter",
   alcohol: "Alcohol",
   cannabis: "Cannabis",
   cocaine: "Cocaïne",
@@ -6268,6 +6367,7 @@ const pl = {
   few_times: "Kilka razy",
   daily: "Kilka razy",
   multiple_daily: "Wiele razy",
+  sober: "Trzeźwy",
   alcohol: "Alkohol",
   cannabis: "Kannabis",
   cocaine: "Kokaina",
@@ -6860,6 +6960,7 @@ const pt = {
   few_times: "Algumas vezes",
   daily: "Várias vezes",
   multiple_daily: "Muitas vezes",
+  sober: "Sóbrio",
   alcohol: "Álcool",
   cannabis: "Cannabis",
   cocaine: "Cocaína",

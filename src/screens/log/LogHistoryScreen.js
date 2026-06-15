@@ -73,8 +73,18 @@ function formatLongDate(dateStr, t) {
   if (!dateStr) return "";
   const d = new Date(dateStr);
   const months = t.months ?? [
-    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
-    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
   ];
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
@@ -128,9 +138,7 @@ function ActionSheet({ visible, onEdit, onPreview, onClose, theme, t }) {
                 strokeLinejoin="round"
               />
             </Svg>
-            <Text style={sheet.btnTextPrimary}>
-              {t.editEntry ?? "Edit"}
-            </Text>
+            <Text style={sheet.btnTextPrimary}>{t.editEntry ?? "Edit"}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -155,7 +163,9 @@ function ActionSheet({ visible, onEdit, onPreview, onClose, theme, t }) {
                 strokeLinejoin="round"
               />
               <Circle
-                cx="12" cy="12" r="3"
+                cx="12"
+                cy="12"
+                r="3"
                 fill="none"
                 stroke={ACCENT}
                 strokeWidth="2"
@@ -251,7 +261,12 @@ function PreviewModal({ visible, log, onClose, theme, t }) {
   const dotColor = score != null ? scoreColor(score) : "#b3cde8";
 
   const Row = ({ label, value }) => {
-    if (value == null || value === "" || (Array.isArray(value) && !value.length)) return null;
+    if (
+      value == null ||
+      value === "" ||
+      (Array.isArray(value) && !value.length)
+    )
+      return null;
     return (
       <View style={preview.row}>
         <Text style={[preview.rowLabel, { color: TEXT_MUTED }]}>{label}</Text>
@@ -302,9 +317,11 @@ function PreviewModal({ visible, log, onClose, theme, t }) {
           >
             <Row
               label={t.substancesUsed ?? "Substances"}
-              value={log.substances?.length
-                ? log.substances.map((s) => t[s] ?? s).join(", ")
-                : null}
+              value={
+                log.substances?.length
+                  ? log.substances.map((s) => t[s] ?? s).join(", ")
+                  : null
+              }
             />
             <Row
               label={t.cravings ?? "Cravings"}
@@ -324,21 +341,30 @@ function PreviewModal({ visible, log, onClose, theme, t }) {
             />
             <Row
               label={t.frequency ?? "Frequency"}
-              value={log.frequency && log.frequency !== "none"
-                ? (t[log.frequency] ?? log.frequency)
-                : null}
+              value={
+                log.frequency && log.frequency !== "none"
+                  ? (t[log.frequency] ?? log.frequency)
+                  : null
+              }
             />
             <Row
               label={t.myMedications ?? "Medications"}
-              value={log.medicationsTaken?.length
-                ? log.medicationsTaken
-                    .map((m) => (m.dosage ? `${m.name} ${m.dosage}` : m.name))
-                    .join(", ")
-                : null}
+              value={
+                log.medicationsTaken?.length
+                  ? log.medicationsTaken
+                      .map((m) => (m.dosage ? `${m.name} ${m.dosage}` : m.name))
+                      .join(", ")
+                  : null
+              }
             />
             {log.note?.trim() && (
               <View style={preview.noteSection}>
-                <Text style={[preview.rowLabel, { color: TEXT_MUTED, marginBottom: 6 }]}>
+                <Text
+                  style={[
+                    preview.rowLabel,
+                    { color: TEXT_MUTED, marginBottom: 6 },
+                  ]}
+                >
                   {t.note ?? "Note"}
                 </Text>
                 <View
@@ -356,7 +382,12 @@ function PreviewModal({ visible, log, onClose, theme, t }) {
           </ScrollView>
 
           {/* Close button */}
-          <View style={[preview.footer, { borderColor: BORDER, backgroundColor: CARD_BG }]}>
+          <View
+            style={[
+              preview.footer,
+              { borderColor: BORDER, backgroundColor: CARD_BG },
+            ]}
+          >
             <TouchableOpacity
               style={[preview.closeBtn, { backgroundColor: ACCENT }]}
               onPress={onClose}
@@ -502,11 +533,27 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
 
   const today = toDateStr(now.getFullYear(), now.getMonth(), now.getDate());
   const months = t.months ?? [
-    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
-    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
   ];
   const weekdays = t.weekdays ?? [
-    "Man", "Tir", "Ons", "Tor", "Fre", "Lør", "Søn",
+    "Man",
+    "Tir",
+    "Ons",
+    "Tor",
+    "Fre",
+    "Lør",
+    "Søn",
   ];
 
   const scoreLabels = [
@@ -577,6 +624,15 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
                       logs.find((l) => l.date === dateStr) ?? null;
                     const bg = score != null ? scoreColor(score) : undefined;
                     const highCravings = existing?.cravings >= 4;
+                    const subs = (existing?.substances ?? []).filter(
+                      (s) => s !== "sober",
+                    );
+                    const isSober =
+                      existing != null &&
+                      (existing.substances?.includes("sober") ||
+                        (subs.length === 0 &&
+                          Array.isArray(existing.substances)) ||
+                        existing.amount === 0);
                     return (
                       <TouchableOpacity
                         key={dateStr}
@@ -597,7 +653,7 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
                                 borderColor: EMPTY_BORDER,
                                 borderWidth: 2,
                               },
-                            bg && { backgroundColor: bg, borderColor: bg },
+                            bg && { backgroundColor: bg, borderWidth: 0 },
                             isToday &&
                               score == null && {
                                 borderColor: PRIMARY,
@@ -618,6 +674,28 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
                           >
                             {day}
                           </Text>
+
+                          {/* ★ top-left — sober/edru star */}
+                          {isSober && (
+                            <Svg
+                              width={13}
+                              height={13}
+                              viewBox="0 0 14 14"
+                              style={{
+                                position: "absolute",
+                                top: -4,
+                                left: -4,
+                              }}
+                            >
+                              <Path
+                                d="M 7 0 L 8.5 5.5 L 14 7 L 8.5 8.5 L 7 14 L 5.5 8.5 L 0 7 L 5.5 5.5 Z"
+                                fill="#d4a017"
+                                stroke="#8a6a0e"
+                                strokeWidth="0.6"
+                              />
+                            </Svg>
+                          )}
+
                           {!!existing?.note?.trim() && (
                             <View style={cal.noteIcon}>
                               <Svg width="18" height="18" viewBox="0 0 24 24">
@@ -853,8 +931,18 @@ function MonthSummaryView({ logs, t, theme }) {
   const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
 
   const months = t.months ?? [
-    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
-    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
   ];
 
   const grouped = {};
@@ -931,7 +1019,11 @@ function MonthSummaryView({ logs, t, theme }) {
               }}
             >
               <Text
-                style={{ color: TEXT, fontSize: FontSize.md, fontWeight: "700" }}
+                style={{
+                  color: TEXT,
+                  fontSize: FontSize.md,
+                  fontWeight: "700",
+                }}
               >
                 {(months[item.month] ?? "").toUpperCase()} {item.year}
               </Text>
@@ -1012,8 +1104,18 @@ function DiaryView({ logs, navigation, t, theme }) {
   const SUBTLE = theme?.textSubtle ?? (isDark ? "#cbd5e1" : "#444");
 
   const months = t.months ?? [
-    "Jan", "Feb", "Mar", "Apr", "Mai", "Jun",
-    "Jul", "Aug", "Sep", "Okt", "Nov", "Des",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des",
   ];
   const [collapsed, setCollapsed] = useState({});
   const toggle = (key) =>
@@ -1222,7 +1324,11 @@ function DiaryView({ logs, navigation, t, theme }) {
                     <View style={{ flex: 1 }}>
                       {log.substances?.length > 0 && (
                         <Text
-                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
+                          style={{
+                            color: SUBTLE,
+                            fontSize: 13,
+                            marginBottom: 2,
+                          }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.substancesUsed ?? "Substances"}:{" "}
@@ -1232,7 +1338,11 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.cravings != null && (
                         <Text
-                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
+                          style={{
+                            color: SUBTLE,
+                            fontSize: 13,
+                            marginBottom: 2,
+                          }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.cravings ?? "Cravings"}:{" "}
@@ -1242,7 +1352,11 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.mood != null && (
                         <Text
-                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
+                          style={{
+                            color: SUBTLE,
+                            fontSize: 13,
+                            marginBottom: 2,
+                          }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.mood ?? "Mood"}:{" "}
@@ -1252,7 +1366,11 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.wellbeing != null && (
                         <Text
-                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
+                          style={{
+                            color: SUBTLE,
+                            fontSize: 13,
+                            marginBottom: 2,
+                          }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.wellbeing ?? "Wellbeing"}:{" "}
@@ -1262,7 +1380,11 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.amount != null && (
                         <Text
-                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
+                          style={{
+                            color: SUBTLE,
+                            fontSize: 13,
+                            marginBottom: 2,
+                          }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.amount ?? "Amount"}:{" "}
@@ -1272,7 +1394,11 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.frequency && log.frequency !== "none" && (
                         <Text
-                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
+                          style={{
+                            color: SUBTLE,
+                            fontSize: 13,
+                            marginBottom: 2,
+                          }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.frequency ?? "Frequency"}:{" "}
@@ -1282,7 +1408,11 @@ function DiaryView({ logs, navigation, t, theme }) {
                       )}
                       {log.medicationsTaken?.length > 0 && (
                         <Text
-                          style={{ color: SUBTLE, fontSize: 13, marginBottom: 2 }}
+                          style={{
+                            color: SUBTLE,
+                            fontSize: 13,
+                            marginBottom: 2,
+                          }}
                         >
                           <Text style={{ fontWeight: "700", color: TEXT }}>
                             {t.myMedications ?? "Medications"}:{" "}
@@ -1398,8 +1528,7 @@ export default function LogHistoryScreen({ navigation, route }) {
 
   const closeActionSheet = () =>
     setActionSheet({ visible: false, date: null, log: null });
-  const closePreview = () =>
-    setPreviewModal({ visible: false, log: null });
+  const closePreview = () => setPreviewModal({ visible: false, log: null });
 
   return (
     <View
