@@ -1095,7 +1095,7 @@ function MonthSummaryView({ logs, t, theme }) {
 }
 
 // ── Diary View ─────────────────────────────────────────────────────────────────
-function DiaryView({ logs, navigation, t, theme }) {
+function DiaryView({ logs, onEntryPress, t, theme }) {
   const PRIMARY = theme?.accent ?? "#4A7AB5";
   const CARD_BG = theme?.card ?? theme?.bg ?? "#fff";
   const TEXT = theme?.text ?? "#1a2c3d";
