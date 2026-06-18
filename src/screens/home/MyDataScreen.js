@@ -36,6 +36,17 @@ const PAD_B = 24;
 const PAD_T = 12;
 const PAD_R = 8;
 
+// SOBER_DAY_SHAPE_2026-06-18 — a sober day is stored as substances: ["sober"]
+// (a literal tag, length 1), NOT an empty array. So a naive `!substances.length`
+// check treats every real sober day as "not sober" and the Rusfri axis collapses
+// to 0. A day counts as sober when there are no substances OR every entry is the
+// "sober" tag.
+function isSoberDay(rec) {
+  const subs = rec?.substances;
+  if (!Array.isArray(subs) || subs.length === 0) return true;
+  return subs.every((s) => s === "sober");
+}
+
 const SC = {
   alcohol: "#7986cb",
   cannabis: "#66bb6a",
@@ -61,7 +72,7 @@ function fmtShort(d) {
   return `${pad(dt.getMonth() + 1)}/${pad(dt.getDate())}`;
 }
 
-// ── SVG Spider / Radar Chart ──────────────────────────────────────────────────
+// -- SVG Spider / Radar Chart ------------------------------------------------
 function SpiderChart({ data, color = "#4a7ab5", fillColor, size = 180 }) {
   if (!data || data.length < 3) return null;
 
@@ -181,7 +192,7 @@ function SpiderChart({ data, color = "#4a7ab5", fillColor, size = 180 }) {
   );
 }
 
-// ── Spider chart card with two overlapping series ─────────────────────────────
+// -- Spider chart card with two overlapping series ---------------------------
 function DualSpiderChart({ data1, color1, data2, color2, size = 180 }) {
   if (!data1 || data1.length < 3) return null;
   const PAD = 36;
@@ -307,7 +318,7 @@ function DualSpiderChart({ data1, color1, data2, color2, size = 180 }) {
   );
 }
 
-// ── Line chart ────────────────────────────────────────────────────────────────
+// -- Line chart --------------------------------------------------------------
 function LineChartSVG({ data, color, yMax = 5, yMin = 0 }) {
   if (!data.length) return null;
   const W = CHART_W - PAD_L - PAD_R;
@@ -371,7 +382,7 @@ function LineChartSVG({ data, color, yMax = 5, yMin = 0 }) {
   );
 }
 
-// ── Bar chart ─────────────────────────────────────────────────────────────────
+// -- Bar chart ---------------------------------------------------------------
 function BarChartSVG({ data, colors }) {
   if (!data.length) return null;
   const W = CHART_W - PAD_L - PAD_R;
@@ -443,7 +454,7 @@ function BarChartSVG({ data, colors }) {
   );
 }
 
-// ── Card wrapper ──────────────────────────────────────────────────────────────
+// -- Card wrapper ------------------------------------------------------------
 function ChartCard({ title, subtitle, theme, children, center }) {
   return (
     <View
@@ -481,7 +492,7 @@ const card = StyleSheet.create({
   sub: { fontSize: FontSize.xs, marginTop: 2 },
 });
 
-// ── Q Score bar ───────────────────────────────────────────────────────────────
+// -- Q Score bar -------------------------------------------------------------
 function QScoreBar({ label, score, max, color, interp }) {
   const pct = score != null ? Math.min(100, (score / max) * 100) : 0;
   return (
@@ -500,10 +511,10 @@ function QScoreBar({ label, score, max, color, interp }) {
         </Text>
         {score != null ? (
           <Text style={{ fontSize: FontSize.xs, color, fontWeight: "700" }}>
-            {score}/{max} — {interp}
+            {score}/{max} {"\u2014"} {interp}
           </Text>
         ) : (
-          <Text style={{ fontSize: FontSize.xs, color: "#7a9ab8" }}>—</Text>
+          <Text style={{ fontSize: FontSize.xs, color: "#7a9ab8" }}>{"\u2014"}</Text>
         )}
       </View>
       <View
@@ -527,7 +538,7 @@ function QScoreBar({ label, score, max, color, interp }) {
   );
 }
 
-// ── Range pill ────────────────────────────────────────────────────────────────
+// -- Range pill --------------------------------------------------------------
 function RangePill({ label, active, onPress, theme }) {
   return (
     <TouchableOpacity
@@ -555,7 +566,7 @@ function RangePill({ label, active, onPress, theme }) {
   );
 }
 
-// ── Main screen ───────────────────────────────────────────────────────────────
+// -- Main screen -------------------------------------------------------------
 export default function MyDataScreen({ navigation }) {
   const { theme } = useTheme();
   const { t } = useLang();
@@ -753,7 +764,7 @@ export default function MyDataScreen({ navigation }) {
     });
   }, [patient, QC]);
 
-  // ── Spider data ───────────────────────────────────────────────────────────
+  // -- Spider data -----------------------------------------------------------
 
   // 1. Recovery Profile
   const recoverySpider = useMemo(() => {
@@ -766,7 +777,10 @@ export default function MyDataScreen({ navigation }) {
     const avgWellbeing = avg("wellbeing");
     const avgCravings = avg("cravings");
     const avgAmount = avg("amount");
-    const soberDays = records.filter((r) => !r.substances?.length).length;
+    // SOBER_DAY_SHAPE_2026-06-18 — count sober days via isSoberDay so that
+    // ["sober"] entries are included. Previously `!r.substances?.length` missed
+    // them and the Rusfri axis always read 0.
+    const soberDays = records.filter(isSoberDay).length;
     const soberPct = (soberDays / records.length) * 5;
     return [
       { label: t.axisMood ?? "Mood", value: avgMood ?? 0, max: 5 },
@@ -860,7 +874,7 @@ export default function MyDataScreen({ navigation }) {
       {/* Header */}
       <View style={[s.header, { paddingTop: insets.top + 8 }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
-          <Text style={s.backArrow}>‹</Text>
+          <Text style={s.backArrow}>{"\u2039"}</Text>
         </TouchableOpacity>
         <Text style={s.headerTitle}>{t.myData ?? "My Data"}</Text>
         <View style={{ width: 40 }} />
@@ -890,14 +904,14 @@ export default function MyDataScreen({ navigation }) {
 
         {noData && (
           <View style={s.empty}>
-            <Text style={s.emptyEmoji}>📭</Text>
+            <Text style={s.emptyEmoji}>{"\uD83D\uDCED"}</Text>
             <Text style={[s.emptyText, { color: theme.textMuted }]}>
               {t.noDataInRange ?? "No entries in this time range"}
             </Text>
           </View>
         )}
 
-        {/* ── Recovery Profile spider ── */}
+        {/* -- Recovery Profile spider -- */}
         {recoverySpider && (
           <ChartCard
             title={t.recoveryProfileTitle ?? "Recovery Profile"}
@@ -913,12 +927,12 @@ export default function MyDataScreen({ navigation }) {
           </ChartCard>
         )}
 
-        {/* ── Substance Profile spider ── */}
+        {/* -- Substance Profile spider -- */}
         {substanceSpider && (
           <ChartCard
             title={t.substanceProfileTitle ?? "Substance Profile"}
             subtitle={
-              t.substanceProfileSub ?? "Days used (blue) · Avg amount (pink)"
+              t.substanceProfileSub ?? "Days used (blue) \u00b7 Avg amount (pink)"
             }
             theme={theme}
             center
@@ -966,7 +980,7 @@ export default function MyDataScreen({ navigation }) {
           </ChartCard>
         )}
 
-        {/* ── Questionnaire spider ── */}
+        {/* -- Questionnaire spider -- */}
         {qSpider && (
           <ChartCard
             title={t.questionnaireRadarTitle ?? "Questionnaire Radar"}
@@ -980,11 +994,11 @@ export default function MyDataScreen({ navigation }) {
           </ChartCard>
         )}
 
-        {/* ── Mood chart ── */}
+        {/* -- Mood chart -- */}
         {moodSeries.length > 1 && (
           <ChartCard
             title={t.moodOverTime ?? "Mood over time"}
-            subtitle={t.scaleOneToFive ?? "Scale 1–5"}
+            subtitle={t.scaleOneToFive ?? "Scale 1-5"}
             theme={theme}
           >
             <LineChartSVG
@@ -996,29 +1010,29 @@ export default function MyDataScreen({ navigation }) {
           </ChartCard>
         )}
 
-        {/* ── Cravings chart ── */}
+        {/* -- Cravings chart -- */}
         {cravSeries.length > 1 && (
           <ChartCard
             title={t.cravingsOverTime ?? "Cravings over time"}
-            subtitle={t.scaleOneToFive ?? "Scale 1–5"}
+            subtitle={t.scaleOneToFive ?? "Scale 1-5"}
             theme={theme}
           >
             <LineChartSVG data={cravSeries} color="#f4a07a" yMin={1} yMax={5} />
           </ChartCard>
         )}
 
-        {/* ── Wellbeing chart ── */}
+        {/* -- Wellbeing chart -- */}
         {wellSeries.length > 1 && (
           <ChartCard
             title={t.wellbeingOverTime ?? "Wellbeing over time"}
-            subtitle={t.scaleOneToFive ?? "Scale 1–5"}
+            subtitle={t.scaleOneToFive ?? "Scale 1-5"}
             theme={theme}
           >
             <LineChartSVG data={wellSeries} color="#9c27b0" yMin={1} yMax={5} />
           </ChartCard>
         )}
 
-        {/* ── Substance use chart ── */}
+        {/* -- Substance use chart -- */}
         {barData.length > 0 && Object.keys(subColors).length > 0 && (
           <ChartCard
             title={t.substanceUse ?? "Substance use"}
@@ -1058,7 +1072,7 @@ export default function MyDataScreen({ navigation }) {
           </ChartCard>
         )}
 
-        {/* ── Weight trend ── */}
+        {/* -- Weight trend -- */}
         {weightSeries.length > 1 && (
           <ChartCard
             title={t.weightTrend ?? "Weight trend"}
@@ -1074,7 +1088,7 @@ export default function MyDataScreen({ navigation }) {
           </ChartCard>
         )}
 
-        {/* ── Questionnaire scores ── */}
+        {/* -- Questionnaire scores -- */}
         {qScores.length > 0 && (
           <ChartCard
             title={t.questionnaireScores ?? "Questionnaire scores"}
