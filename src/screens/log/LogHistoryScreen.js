@@ -89,7 +89,7 @@ function formatLongDate(dateStr, t) {
   return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
-// ── Action Sheet ──────────────────────────────────────────────────────────────
+// -- Action Sheet ------------------------------------------------------------
 function ActionSheet({ visible, onEdit, onPreview, onClose, theme, t }) {
   const TEXT = theme?.text ?? "#1a2c3d";
   const TEXT_MUTED = theme?.textMuted ?? "#7a9ab8";
@@ -246,7 +246,7 @@ const sheet = StyleSheet.create({
   },
 });
 
-// ── Preview Modal ─────────────────────────────────────────────────────────────
+// -- Preview Modal -----------------------------------------------------------
 function PreviewModal({ visible, log, onClose, theme, t }) {
   if (!log) return null;
   const TEXT = theme?.text ?? "#1a2c3d";
@@ -478,7 +478,7 @@ const preview = StyleSheet.create({
   },
 });
 
-// ── Calendar tab ──────────────────────────────────────────────────────────────
+// -- Calendar tab ------------------------------------------------------------
 function CalendarTab({ logs, loading, onCellPress, t, theme }) {
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
@@ -552,16 +552,16 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
     "Ons",
     "Tor",
     "Fre",
-    "Lør",
-    "Søn",
+    "Lor",
+    "Son",
   ];
 
   const scoreLabels = [
     t.scoreNone ?? "Ingen sug",
     t.scoreLow ?? "Lavt",
     t.scoreModerate ?? "Moderat",
-    t.scoreHigh ?? "Høyt",
-    t.scoreVeryHigh ?? "Veldig høyt",
+    t.scoreHigh ?? "Hoyt",
+    t.scoreVeryHigh ?? "Veldig hoyt",
     t.scoreSevere ?? "Kraftig sug",
   ];
 
@@ -576,7 +576,7 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
     <View style={{ flex: 1 }}>
       <View style={cal.monthNav}>
         <TouchableOpacity onPress={goBack} style={cal.navBtn}>
-          <Text style={[cal.navArrow, { color: TEXT }]}>‹</Text>
+          <Text style={[cal.navArrow, { color: TEXT }]}>{"\u2039"}</Text>
         </TouchableOpacity>
         <Text style={[cal.monthTitle, { color: TEXT }]}>
           {(months[month] ?? "").toUpperCase()}
@@ -594,7 +594,7 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
               { color: isCurrentMonth ? TEXT_MUTED : TEXT },
             ]}
           >
-            ›
+            {"\u203a"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -675,7 +675,7 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
                             {day}
                           </Text>
 
-                          {/* ★ top-left — sober/edru star */}
+                          {/* star top-left -- sober/edru */}
                           {isSober && (
                             <Svg
                               width={13}
@@ -724,7 +724,7 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
                             </View>
                           )}
                           {highCravings && (
-                            <Text style={cal.cravingsIcon}>🔥</Text>
+                            <Text style={cal.cravingsIcon}>{"\uD83D\uDD25"}</Text>
                           )}
                         </View>
                       </TouchableOpacity>
@@ -772,7 +772,7 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
 
       <View style={[cal.card, { backgroundColor: CARD_BG }]}>
         <Text style={[cal.sectionTitle, { color: TEXT }]}>
-          {t.monthSummary ?? "Månedsoversikt"}
+          {t.monthSummary ?? "Manedsoversikt"}
         </Text>
         <View style={cal.summaryRow}>
           <View style={cal.summaryItem}>
@@ -791,7 +791,7 @@ function CalendarTab({ logs, loading, onCellPress, t, theme }) {
                 { color: avgAll != null ? scoreColor(avgAll) : TEXT_MUTED },
               ]}
             >
-              {avgAll != null ? scoreLabels[avgAll] : "—"}
+              {avgAll != null ? scoreLabels[avgAll] : "\u2014"}
             </Text>
             <Text style={[cal.summarySubLabel, { color: TEXT_MUTED }]}>
               {t.avgScore ?? "Avg. score"}
@@ -923,7 +923,7 @@ const cal = StyleSheet.create({
   },
 });
 
-// ── Month Summary View ─────────────────────────────────────────────────────────
+// -- Month Summary View ------------------------------------------------------
 function MonthSummaryView({ logs, t, theme }) {
   const PRIMARY = theme?.accent ?? "#4A7AB5";
   const CARD_BG = theme?.card ?? theme?.bg ?? "#fff";
@@ -1081,7 +1081,7 @@ function MonthSummaryView({ logs, t, theme }) {
                         fontWeight: "500",
                       }}
                     >
-                      {s}
+                      {t[s] ?? s}
                     </Text>
                   </View>
                 ))}
@@ -1094,7 +1094,7 @@ function MonthSummaryView({ logs, t, theme }) {
   );
 }
 
-// ── Diary View ─────────────────────────────────────────────────────────────────
+// -- Diary View --------------------------------------------------------------
 function DiaryView({ logs, onEntryPress, t, theme }) {
   const PRIMARY = theme?.accent ?? "#4A7AB5";
   const CARD_BG = theme?.card ?? theme?.bg ?? "#fff";
@@ -1121,9 +1121,15 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
   const toggle = (key) =>
     setCollapsed((prev) => ({ ...prev, [key]: !prev[key] }));
 
+  // SOBER_DATE_GUARD_2026-06-18 — a log may arrive without a top-level `date`
+  // (e.g. a freshly-saved record whose server response omitted it). Falling
+  // back to createdAt and skipping truly dateless entries prevents the
+  // `log.date.slice(0, 7)` crash that white-screened the whole diary.
   const grouped = {};
   logs.forEach((log) => {
-    const key = log.date.slice(0, 7);
+    const raw = log.date ?? log.createdAt;
+    if (!raw) return;
+    const key = String(raw).slice(0, 7);
     if (!grouped[key]) grouped[key] = [];
     grouped[key].push(log);
   });
@@ -1144,8 +1150,8 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
     t.scoreNone ?? "Ingen sug",
     t.scoreLow ?? "Lavt",
     t.scoreModerate ?? "Moderat",
-    t.scoreHigh ?? "Høyt",
-    t.scoreVeryHigh ?? "Veldig høyt",
+    t.scoreHigh ?? "Hoyt",
+    t.scoreVeryHigh ?? "Veldig hoyt",
     t.scoreSevere ?? "Kraftig sug",
   ];
 
@@ -1209,7 +1215,7 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
                   }}
                 >
                   {t.avgScore ?? "Avg. score"}:{" "}
-                  {item.avg != null ? scoreLabels[item.avg] : "—"}
+                  {item.avg != null ? scoreLabels[item.avg] : "\u2014"}
                 </Text>
               </View>
               <Text
@@ -1220,7 +1226,7 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
                   marginLeft: 8,
                 }}
               >
-                {isOpen ? "›" : "‹"}
+                {isOpen ? "\u203a" : "\u2039"}
               </Text>
             </TouchableOpacity>
 
@@ -1229,9 +1235,10 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
                 const score = avgScore(log);
                 const dotColor = score != null ? scoreColor(score) : "#b3cde8";
                 const highCravings = log.cravings >= 4;
+                const logDate = log.date ?? log.createdAt;
                 return (
                   <TouchableOpacity
-                    key={log.date}
+                    key={logDate}
                     style={{
                       backgroundColor: CARD_BG,
                       borderRadius: 16,
@@ -1246,7 +1253,7 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
                       shadowOffset: { width: 0, height: 2 },
                       elevation: 2,
                     }}
-                    onPress={() => onEntryPress(log.date, log)}
+                    onPress={() => onEntryPress(logDate, log)}
                     activeOpacity={0.75}
                   >
                     <View
@@ -1266,7 +1273,7 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
                           fontWeight: "800",
                         }}
                       >
-                        {new Date(log.date).getDate()}
+                        {logDate ? new Date(logDate).getDate() : "?"}
                       </Text>
                       {!!log.note?.trim() && (
                         <View
@@ -1316,7 +1323,7 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
                             fontSize: 13,
                           }}
                         >
-                          🔥
+                          {"\uD83D\uDD25"}
                         </Text>
                       )}
                     </View>
@@ -1451,7 +1458,7 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
                           fontWeight: "500",
                         }}
                       >
-                        {shortDate(log.date)}
+                        {logDate ? shortDate(logDate) : ""}
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -1464,7 +1471,7 @@ function DiaryView({ logs, onEntryPress, t, theme }) {
   );
 }
 
-// ── Main screen ────────────────────────────────────────────────────────────────
+// -- Main screen -------------------------------------------------------------
 export default function LogHistoryScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = useState(
     route?.params?.initialTab ?? "calendar",
@@ -1503,7 +1510,7 @@ export default function LogHistoryScreen({ navigation, route }) {
   // Unified handler for both calendar and diary entry taps
   const handleEntryPress = (date, log) => {
     if (!log) {
-      // No existing log on that day → straight to creating a new entry
+      // No existing log on that day -> straight to creating a new entry
       navigation.navigate("LogEntry", { date, log: null });
       return;
     }
@@ -1544,7 +1551,7 @@ export default function LogHistoryScreen({ navigation, route }) {
         ]}
       >
         <TouchableOpacity onPress={() => navigation.goBack()} style={s.backBtn}>
-          <Text style={s.back}>‹</Text>
+          <Text style={s.back}>{"\u2039"}</Text>
         </TouchableOpacity>
         <Text style={s.headerTitle}>{t.myDiary ?? "My Diary"}</Text>
         <View style={{ width: 40 }} />

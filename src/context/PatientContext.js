@@ -59,9 +59,15 @@ export function LogsProvider({ children }) {
 
   const saveLog = async (log) => {
     const saved = await patientApi.addRecord(log);
+    // SAVELOG_DATE_GUARD_2026-06-18 — the addRecord response may be a wrapper or
+    // a record without a top-level `date`. The submitted `log` always has a
+    // valid `date`, so merge: prefer server fields but never lose the date we
+    // sent. Without this, a dateless entry enters `logs` and crashes
+    // DiaryView's `log.date.slice(0,7)` grouping on the next render.
+    const updated =
+      saved && saved.date ? saved : { ...(saved ?? {}), ...log };
     setLogs((prev) => {
       const idx = prev.findIndex((l) => l.date === log.date);
-      const updated = saved ?? log;
       if (idx >= 0) {
         const next = [...prev];
         next[idx] = updated;
@@ -69,7 +75,7 @@ export function LogsProvider({ children }) {
       }
       return [updated, ...prev]
         .filter((r) => r?.date)
-        .sort((a, b) => b.date.localeCompare(a.date));
+        .sort((a, b) => String(b.date).localeCompare(String(a.date)));
     });
     return saved;
   };
